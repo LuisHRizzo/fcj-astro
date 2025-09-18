@@ -1,0 +1,54 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import Hero from "../../components/Hero.astro";
+import LogosMarquee from "../../components/LogosMarquee.astro";
+import Servicios from "../../components/Servicios.astro";
+import Soluciones from "../../components/Soluciones.astro";
+import Impacto from "../../components/Impacto.astro";
+import Capacitacion from "../../components/Capacitacion.astro";
+import Involucrate from "../../components/Involucrate.astro";
+import Testimonios from "../../components/Testimonios.astro";
+import { loadDict } from "../../i18n/utils";
+export { getStaticLocalePaths as getStaticPaths } from "../../i18n/paths";
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <Hero {lang} {dict} videoSrc="/assets/hero-video.mp4" />
+  <LogosMarquee
+    {lang}
+    {dict}
+    logos={[
+      {
+        src: "/assets/01infinito-logo.png",
+        alt: "01Infinito",
+        class: "h-8 md:h-9 w-auto",
+      },
+      {
+        src: "/assets/assetcobyn.jpg",
+        alt: "AssetCo",
+        class: "h-12 md:h-14 w-auto",
+      },
+      // sumá más acá…
+    ]}
+  />
+  <Servicios
+    {lang}
+    {dict}
+    ctaMoreHref={`/${lang}/soluciones/`}
+    ctaAdviceHref={`/${lang}/contacto/`}
+  />
+  <Soluciones {lang} {dict} />
+  <Impacto
+    {lang}
+    {dict}
+    media={{ src: "/assets/proyectos.gif", alt: "Proyectos en acción" }}
+    ctaMoreHref={`/${lang}/blog/`}
+  />
+  <Capacitacion {lang} {dict} />
+  <Involucrate {lang} {dict} formEndpoint="https://formspree.io/f/xzzapqkw" />
+  <Testimonios {lang} {dict} intervalMs={7000} />
+
+</BaseLayout>

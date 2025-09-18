@@ -1,0 +1,131 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+  titleKey?: string;
+  paragraphsKeys?: string[];
+  paragraphsFallback?: string[];
+  imgSrc?: string;
+  imgAlt?: string;
+  collapseOnMobile?: boolean; // colapsa en < md
+};
+
+const {
+  lang = "es",
+  dict,
+  titleKey = "about.mv.title",
+  paragraphsKeys = ["about.mv.p1","about.mv.p2","about.mv.p3","about.mv.p4"],
+  paragraphsFallback = [
+    "En la Fundación Ciencia y Justicia, nuestra misión es promover la inclusión tecnológica y el desarrollo sostenible a través de la innovación. Creemos firmemente que la tecnología puede ser un motor de cambio social, y trabajamos para garantizar que todos tengan acceso a las herramientas y conocimientos necesarios para prosperar en un mundo digital.",
+    "Apostamos por la educación inclusiva, ofreciendo programas de capacitación accesibles en tecnologías de la información y la comunicación, ciberseguridad y ética digital. Nuestra visión es crear un entorno donde cada persona pueda desarrollar sus habilidades y contribuir al bienestar de su comunidad.",
+    "Además, trabajamos en proyectos de investigación e innovación que fomentan la participación ciudadana y la transparencia pública. Creemos que un gobierno abierto y accesible es fundamental para una democracia saludable y activa.",
+    "Te invitamos a unirte a nosotros en esta misión. Juntos, podemos transformar vidas y construir un futuro más justo y equitativo."
+  ],
+  imgSrc = "/assets/mision-vision.png",
+  imgAlt = "Misión y Visión",
+  collapseOnMobile = true,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+const moreLabel = t("about.mv.more", "Leer más");
+const lessLabel = t("about.mv.less", "Leer menos");
+const paragraphs = paragraphsKeys.map((k, i) => t(k, paragraphsFallback[i] ?? ""));
+---
+
+<section id="mision-vision" class="py-12 md:py-16" data-mv data-collapse={collapseOnMobile ? "true" : "false"}>
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna texto -->
+      <div>
+        <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+          {t(titleKey, "Nuestra Misión y Visión")}
+        </h2>
+
+        <div
+          data-mv-text
+          class="relative mt-6 max-w-[65ch] space-y-4 text-neutral-700 leading-relaxed
+                 data-[collapsed=true]:max-h-56 data-[collapsed=true]:overflow-hidden md:data-[collapsed=true]:max-h-none"
+          data-collapsed="true"
+        >
+          {paragraphs.map((p, i) => (
+            <p class={i > 0 ? "mt-0" : ""}>{p}</p>
+          ))}
+
+          <!-- Fade (visible sólo cuando está colapsado en mobile) -->
+          <div
+            data-mv-fade
+            class="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-white to-transparent hidden"
+          ></div>
+        </div>
+
+        <!-- Botón mobile -->
+        <button
+          data-mv-toggle
+          class="mt-4 inline-flex items-center rounded-full border px-4 py-2 text-sm font-medium md:hidden"
+          aria-expanded="false"
+          data-label-more={moreLabel}
+          data-label-less={lessLabel}
+        >
+          {moreLabel}
+        </button>
+      </div>
+
+      <!-- Columna imagen -->
+      <div class="rounded-2xl border bg-neutral-200 aspect-[1/1] overflow-hidden">
+        <img src={imgSrc} alt={imgAlt} class="h-full w-full object-cover" loading="lazy" />
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript && document.currentScript.closest('[data-mv]');
+      if (!root) return;
+      const text = root.querySelector('[data-mv-text]');
+      const fade = root.querySelector('[data-mv-fade]');
+      const btn  = root.querySelector('[data-mv-toggle]');
+      const collapseFlag = root.getAttribute('data-collapse') === 'true';
+      const mq = window.matchMedia('(min-width: 768px)');
+
+      const updateButtonLabel = (collapsed) => {
+        if (!btn) return;
+        const more = btn.getAttribute('data-label-more') || 'Leer más';
+        const less = btn.getAttribute('data-label-less') || 'Leer menos';
+        btn.textContent = collapsed ? more : less;
+        btn.setAttribute('aria-expanded', String(!collapsed));
+      };
+
+      const setCollapsed = (collapsed) => {
+        if (!text) return;
+        text.setAttribute('data-collapsed', String(collapsed));
+        if (fade) {
+          // Mostrar fade sólo cuando está colapsado y en mobile
+          fade.classList.toggle('hidden', !collapsed || mq.matches);
+        }
+        updateButtonLabel(collapsed);
+      };
+
+      const init = () => {
+        const startCollapsed = collapseFlag && !mq.matches;
+        setCollapsed(startCollapsed);
+        if (btn) btn.style.display = collapseFlag ? '' : 'none';
+      };
+
+      // Toggle manual
+      btn && btn.addEventListener('click', () => {
+        const isCollapsed = text && text.getAttribute('data-collapsed') === 'true';
+        setCollapsed(!isCollapsed);
+      });
+
+      // Reaccionar a cambios de breakpoint
+      mq.addEventListener('change', () => {
+        const shouldCollapse = collapseFlag && !mq.matches;
+        setCollapsed(shouldCollapse);
+      });
+
+      init();
+    })();
+  </script>
+</section>

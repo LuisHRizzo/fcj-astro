@@ -1,0 +1,21 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../i18n/utils";
+import { getStaticLocalePaths } from "../../i18n/paths";
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = 'es' } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <section class="container max-w-7xl px-4 py-10">
+    <h1 class="text-3xl md:text-4xl font-heading font-bold mb-3">
+      {t('solutions.title', 'Soluciones')}
+    </h1>
+    <p class="text-slate-600">
+      {t('solutions.lead', 'Listado y detalle de soluciones y servicios.')}
+    </p>
+  </section>
+</BaseLayout>

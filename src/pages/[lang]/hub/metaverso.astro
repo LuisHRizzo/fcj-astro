@@ -1,0 +1,149 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+import LeadFormImmersive from "../../../components/hub/LeadFormImmersive.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Use cases (podés moverlos a i18n si querés traducir títulos/desc):
+const usecases = (t("hub.immersive.usecases.items") as unknown as any[]) ?? [];
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.immersive.hero.overline"
+    titleKey="hub.immersive.hero.title"
+    subtitleKey="hub.immersive.hero.subtitle"
+    imgSrc="/assets/hero-vr.jpg"
+    imgAltKey="hub.immersive.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.immersive.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/contacto/`, key: "hub.immersive.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.immersive.key.title")}
+    paragraphs={[t("hub.immersive.key.p1"), t("hub.immersive.key.p2")]}
+  />
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.immersive.value.heading")}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {t("hub.immersive.value.items").map((txt: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- VIDEO DEMO (opcional) -->
+  <!-- <section class="pt-0">
+    <video class="block w-full h-auto rounded-xl bg-neutral-800" autoplay muted loop playsinline preload="metadata">
+      <source src="/assets/vr-demo.mp4" type="video/mp4" />
+      Tu navegador no soporta video HTML5.
+    </video>
+  </section> -->
+
+  <!-- CASOS DE USO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.immersive.usecases.heading")}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {usecases.map((it) => (
+          <article class="card p-6">
+            <div class="flex items-start gap-3">
+              <div class="icon-box">
+                {it.icon === "headset" && (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M4 12a8 8 0 0 1 16 0v6a2 2 0 0 1-2 2h-3v-7h5" />
+                    <path d="M8 13v7H6a2 2 0 0 1-2-2v-5" />
+                  </svg>
+                )}
+                {it.icon === "school" && (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 10 12 5l9 5-9 5-9-5z" /><path d="M12 12v7" /><path d="M7 15l10 0" />
+                  </svg>
+                )}
+                {it.icon === "map" && (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 18 3 15V3l6 3 6-3 6 3v12l-6-3-6 3z" />
+                  </svg>
+                )}
+                {it.icon === "people" && (
+                  <svg viewBox="0 0 24 24" class="h-5 w-5" fill="currentColor" aria-hidden="true">
+                    <path d="M12 12a4 4 0 1 0-4-4 4 4 0 0 0 4 4zM2 22a10 10 0 0 1 20 0z" />
+                  </svg>
+                )}
+              </div>
+              <div>
+                <h3 class="text-lg font-bold leading-tight">{it.title}</h3>
+                <p class="mt-1 text-sm text-neutral-600">{it.desc}</p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.immersive.benefits.heading")}</h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {t("hub.immersive.benefits.items").map((txt: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.immersive.resources.repo"), href:`/${lang}/recursos/vr-repo.html` },
+      { title: t("hub.immersive.resources.videos"), href:`/${lang}/recursos/vr-tutoriales.html` },
+      { title: t("hub.immersive.resources.docs"), href:`/${lang}/recursos/vr-buenas-practicas.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormImmersive
+    title={t("hub.immersive.form.title")}
+    lead={t("hub.immersive.form.lead")}
+    labels={{
+      name: t("hub.immersive.form.name"),
+      email: t("hub.immersive.form.email"),
+      org: t("hub.immersive.form.org"),
+      interest: t("hub.immersive.form.interest"),
+      options: t("hub.immersive.form.interest_options"),
+      submit: t("hub.immersive.form.submit")
+    }}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    primaryLabel={t("hub.immersive.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.immersive.ctas.secondary")}
+    secondaryHref={`/${lang}/contacto/`}
+  />
+</BaseLayout>

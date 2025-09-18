@@ -1,0 +1,79 @@
+---
+import { loadDict } from "../../../i18n/utils";
+
+export { getStaticLocalePaths as getStaticPaths } from "../../../i18n/paths";
+
+import fetchApi from "../../../lib/strapi";
+import type { Blog } from "../../../interfaces/blog";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+
+
+const STRAPI_URL = import.meta.env.PUBLIC_STRAPI_URL;
+const { lang } = Astro.params as { lang: string };
+const dict = await loadDict(lang);
+
+// Helpers tolerantes v4/v5
+const withBase = (u?: string | null) =>
+  !u ? null : u.startsWith("http") ? u : `${STRAPI_URL}${u}`;
+
+const toEntity = (item: any) => (item && "attributes" in item ? item.attributes : item);
+
+const getMediaUrl = (m: any): string | null => {
+  if (!m) return null;
+  // v5 (objeto directo)
+  if (m.url) return withBase(m.url);
+  // v4 (relación con data->attributes)
+  if (m.data?.attributes?.url) return withBase(m.data.attributes.url);
+  return null;
+};
+
+let blogs: Blog[] = [];
+try {
+  blogs = await fetchApi<Blog[]>({
+    endpoint: "blogs",
+    wrappedByKey: "data",
+    query: { sort: ["date:desc"], populate: "*" },
+  });
+} catch (e) {
+  console.error("Error fetching blogs:", e);
+}
+---
+<BaseLayout lang={lang} dict={dict}>
+<main class="container mx-auto max-w-7xl px-4 py-10">
+  <section>
+    <h1 class="text-3xl font-extrabold tracking-tight text-center">Blog</h1>
+
+    <div class="mt-8 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {blogs.length > 0 ? blogs.map((post) => {
+        const a = toEntity(post);
+        const img = getMediaUrl(a.photo);
+
+        return (
+          <article class="card overflow-hidden">
+            <a href={`/${lang}/blog/${a.slug}/`}>
+              {img && (
+                <img
+                  src={img}
+                  alt={a.photo?.alternativeText
+                    ?? a.photo?.data?.attributes?.alternativeText
+                    ?? a.title}
+                  class="h-48 w-full object-cover"
+                  loading="lazy"
+                />
+              )}
+              <div class="p-6">
+                {a.category && <p class="text-xs text-neutral-500 uppercase tracking-wide">{a.category}</p>}
+                <h2 class="mt-1 text-xl font-bold text-neutral-900">{a.title}</h2>
+                {a.description && <p class="mt-2 text-neutral-700 text-sm">{a.description}</p>}
+                {a.date && <p class="mt-3 text-xs text-neutral-500">{new Date(a.date).toLocaleDateString()}</p>}
+              </div>
+            </a>
+          </article>
+        );
+      }) : (
+        <p class="text-center text-neutral-500">No hay publicaciones.</p>
+      )}
+    </div>
+  </section>
+</main>
+</BaseLayout>

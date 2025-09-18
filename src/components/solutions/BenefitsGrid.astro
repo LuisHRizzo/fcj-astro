@@ -1,0 +1,19 @@
+---
+type Item = { title: string; desc: string };
+type Props = { lang: string; dict: any; heading: string; lead?: string; items: Item[] };
+const { heading, lead, items } = Astro.props as Props;
+---
+<section class="py-10 md:py-12 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{heading}</h2>
+    {lead && <p class="mt-2 max-w-3xl text-neutral-700">{lead}</p>}
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((it) => (
+        <article class="card p-5">
+          <h3 class="font-bold">{it.title}</h3>
+          <p class="mt-2 text-sm text-neutral-600">{it.desc}</p>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,128 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { loadDict } from "../../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../../i18n/paths";
+
+import SolutionsHero from "../../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../../components/solutions/KeyMessage.astro";
+import BenefitsGrid from "../../../../components/solutions/BenefitsGrid.astro";
+import AudienceBenefits from "../../../../components/solutions/AudienceBenefits.astro";
+import TrustBadges from "../../../../components/solutions/TrustBadges.astro";
+import ResourcesList from "../../../../components/solutions/ResourcesList.astro";
+import LeadForm from "../../../../components/solutions/LeadForm.astro";
+import CTASection from "../../../../components/solutions/CTASection.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overline="Consultoría y Auditoría"
+    title="Lidera la transformación digital con Inteligencia Artificial adaptada"
+    subtitle="Optimiza recursos y servicios, eleva experiencia y seguridad"
+    imgSrc="/assets/hero-consultoria-ia.png"
+    imgAlt="Dashboard de IA y equipo colaborando"
+    primaryCta={{ href: `/${lang}/contacto/`, label: "Solicita demo personalizada" }}
+    secondaryCta={{ href: `/${lang}/contacto/`, label: "Agenda videollamada técnica" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title="IA real y validada para transformar tu institución"
+    paragraphs={[
+      "Lidera la Transformación Digital de tu institución pública, académica o tecnológica con inteligencia artificial real y validada.",
+      "Desarrollamos plataformas IA para automatizar procesos, personalizar servicios y garantizar interoperabilidad, compliance, auditabilidad y escalabilidad."
+    ]}
+  />
+
+  <!-- PROPUESTA DE VALOR / BENEFICIOS CLAVE -->
+  <BenefitsGrid
+    {lang} {dict}
+    heading="Revoluciona tu gestión con IA"
+    lead="La transformación digital exige migrar de sistemas tradicionales a ecosistemas inteligentes y personalizables. La IA automatiza, personaliza y anticipa necesidades, democratizando la tecnología para usuarios no técnicos."
+    items={[
+      { title: "Personalización y automatización", desc: "Personalización sin precedentes y automatización de tareas repetitivas." },
+      { title: "Reducción de costes y barreras",   desc: "Menos fricción técnica en diseño/gestión, mayor eficiencia operativa." },
+      { title: "Mejor UX y conversiones",         desc: "Insights predictivos para experiencias superiores y mayor adopción." },
+      { title: "Automatización predictiva",       desc: "Workflows inteligentes, analítica avanzada y decisiones basadas en datos." },
+      { title: "Compatibilidad regulatoria",      desc: "Alineado con marcos locales e internacionales (AI Act/UE, ISO, ENS, GDPR)." },
+      { title: "Acceso seguro e inclusivo",       desc: "Seguridad, privacidad y accesibilidad desde el diseño." }
+    ]}
+  />
+
+  <!-- BENEFICIOS POR PÚBLICO OBJETIVO -->
+  <AudienceBenefits
+    {lang} {dict}
+    items={[
+      { audience:"Gobiernos y municipios",   benefits:["Optimización de servicios ciudadanos","Integración con sistemas actuales","Dashboards intuitivos"] },
+      { audience:"Ministerios",              benefits:["Escalabilidad nacional","Reporting estratégico","Cumplimiento AI Act (UE)"] },
+      { audience:"Centros tecnológicos",     benefits:["Pilotos IA federados","Transferencia/validación internacional","Aceleración Horizonte Europa"] },
+      { audience:"Universidades",            benefits:["Aprendizaje personalizado","Eficiencia administrativa","Gamificación digital"] },
+      { audience:"Agencias multilaterales",  benefits:["Simulación y monitoreo internacional","Interoperabilidad total","Gobernanza de datos"] }
+    ]}
+  />
+
+  <!-- CERTIFICACIONES / ALIANZAS -->
+  <TrustBadges
+    badges={[
+      { img:"/assets/badges/ai-act.png",  alt:"AI Act" },
+      { img:"/assets/badges/iso.jpg",     alt:"ISO" },
+      { img:"/assets/badges/ens.png",     alt:"ENS" },
+      { img:"/assets/badges/gdpr.png",    alt:"GDPR" }
+    ]}
+    partners={[
+      { img:"/assets/partners/google.png", alt:"Google" },
+      { img:"/assets/partners/ucasal.png", alt:"UCASAL" },
+      { img:"/assets/partners/imtib.png",  alt:"IMTIB" }
+    ]}
+  />
+
+  <!-- TESTIMONIOS (simple, sin flechas/dots) -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Testimonios</h2>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <figure class="card p-6">
+          <blockquote class="text-lg font-semibold leading-relaxed">“La IA nos permitió anticipar demandas y resolver incidentes en tiempo récord.”</blockquote>
+          <figcaption class="mt-4 text-sm text-neutral-600">Agencia de Innovación, EMEA</figcaption>
+        </figure>
+        <figure class="card p-6">
+          <blockquote class="text-lg font-semibold leading-relaxed">“Integramos procesos con trazabilidad y cumplimos normativas con mayor rapidez.”</blockquote>
+          <figcaption class="mt-4 text-sm text-neutral-600">Secretaría de Transformación Digital</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS DESCARGABLES -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title:"Guía: Rol de la IA en modernización pública",  href:`/${lang}/recursos/guia-ia-modernizacion.pdf` },
+      { title:"Infografía: Impacto inmediato de la IA en procesos universitarios", href:`/${lang}/recursos/infografia-ia-universidades.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO (Nombre | Email | Institución | Sector) -->
+  <LeadForm
+    {lang} {dict}
+    formEndpoint="https://formspree.io/f/xxxxxx"        
+    mailtoFallback="info@cienciayjusticia.org"
+    labels={{ name:"Nombre", email:"Email", org:"Institución", sector:"Sector", submit:"Contacta a nuestro equipo" }}
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    {lang} {dict}
+    primaryLabel="Solicita demo personalizada"
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel="Agenda videollamada técnica"
+    secondaryHref={`/${lang}/contacto/`}
+  />
+</BaseLayout>

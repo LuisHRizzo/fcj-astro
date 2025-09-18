@@ -1,0 +1,21 @@
+---
+type Badge = { img: string; alt?: string };
+type Partner = { img: string; alt?: string };
+const { badges = [], partners = [] } = Astro.props as { badges?: Badge[]; partners?: Partner[] };
+---
+<section class="bg-gray-200 py-10 md:py-12">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-8 md:grid-cols-2 items-center">
+      <div class="flex flex-wrap items-center gap-4">
+        {badges.map((b) => (
+          <div class="h-20 rounded  bg-transparent px-3 py-2 flex items-center justify-center ">
+            <img src={b.img} alt={b.alt ?? ""} class="h-20 w-auto" loading="lazy" />
+          </div>
+        ))}
+      </div>
+      <div class="flex flex-wrap justify-end items-center gap-6">
+        {partners.map((p) => <img src={p.img} alt={p.alt ?? ""} class="h-20 w-auto opacity-80" loading="lazy" />)}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,56 @@
+---
+const { dict, email = "info@cienciayjusticia.org", phone = "", officesHref = "#" } = Astro.props as any;
+const t = (k: string, fb: string) => dict?.contact?.quick?.[k] ?? fb ?? "";
+---
+
+<section class="py-12 md:py-16 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-12 md:grid-cols-2 text-center">
+      <!-- Email -->
+      <div>
+        <div class="mx-auto mb-4 h-10 w-10 text-neutral-900">
+          <svg viewBox="0 0 24 24" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 6h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z" />
+            <path d="m4 7 8 6 8-6" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-extrabold">{t("emailTitle", "Correo")}</h3>
+        <p class="mt-2 text-neutral-700 max-w-sm mx-auto">{t("emailDesc", "Envianos tus consultas y comentarios.")}</p>
+        <a href={`mailto:${email}`} class="mt-3 inline-block font-medium underline decoration-neutral-300 hover:decoration-neutral-700">
+          {email}
+        </a>
+      </div>
+
+      <!-- Tel -->
+      <!-- <div>
+        <div class="mx-auto mb-4 h-10 w-10 text-neutral-900">
+          <svg viewBox="0 0 24 24" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M22 16.92v2a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.11 3.18 2 2 0 0 1 4.11 1h2a2 2 0 0 1 2 1.72c.12.9.32 1.78.59 2.63a2 2 0 0 1-.45 2.11L7 8a16 16 0 0 0 6 6l.54-1.25a2 2 0 0 1 2.11-.45c.85.27 1.73.47 2.63.59A2 2 0 0 1 22 16.92Z" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-extrabold">{t("phoneTitle", "Teléfono")}</h3>
+        <p class="mt-2 text-neutral-700 max-w-sm mx-auto">{t("phoneDesc", "Llamanos, estamos para ayudarte.")}</p>
+        {phone && (
+          <a href={`tel:${phone.replace(/\s+/g, '')}`} class="mt-3 inline-block font-medium underline decoration-neutral-300 hover:decoration-neutral-700">
+            {phone}
+          </a>
+        )}
+      </div> -->
+
+      <!-- Offices -->
+      <div>
+        <div class="mx-auto mb-4 h-10 w-10 text-neutral-900">
+          <svg viewBox="0 0 24 24" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 21s-7-5.33-7-11a7 7 0 1 1 14 0c0 5.67-7 11-7 11Z" />
+            <circle cx="12" cy="10" r="2.5" />
+          </svg>
+        </div>
+        <h3 class="text-xl font-extrabold">{t("officesTitle", "Oficinas")}</h3>
+        <p class="mt-2 text-neutral-700 max-w-sm mx-auto">{t("officesDesc", "Presencia en Américas y Europa.")}</p>
+        <a href={officesHref} class="mt-3 inline-block font-medium underline decoration-neutral-300 hover:decoration-neutral-700">
+          {t("officesCta", "Buscar la oficina más cercana")}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

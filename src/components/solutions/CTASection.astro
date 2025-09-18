@@ -1,0 +1,38 @@
+---
+type Props = {
+  primaryHref: string;
+  primaryLabel: string;
+  secondaryHref?: string;
+  secondaryLabel?: string;
+  title?: string;
+  description?: string;
+};
+
+const {
+  primaryHref,
+  primaryLabel,
+  secondaryHref,
+  secondaryLabel,
+  title = "¿Listos para empezar?",
+  description = "Agenda una conversación o solicita una demo personalizada."
+} = Astro.props as Props;
+
+const hasSecondary = Boolean(secondaryHref && secondaryLabel);
+---
+
+<section class="py-12 md:py-16 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="card p-6 sm:p-8 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+      <div>
+        <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight">{title}</h3>
+        <p class="mt-1 text-neutral-600">{description}</p>
+      </div>
+      <div class="flex gap-3">
+        <a href={primaryHref} class="btn btn-primary">{primaryLabel}</a>
+        {hasSecondary && (
+          <a href={secondaryHref!} class="btn btn-outline">{secondaryLabel}</a>
+        )}
+      </div>
+    </div>
+  </div>
+</section>

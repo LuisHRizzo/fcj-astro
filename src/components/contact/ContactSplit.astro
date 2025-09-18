@@ -1,0 +1,81 @@
+---
+const { dict, videoSrc = "/assets/contacto.mp4", mailTo = "info@cienciayjusticia.org" } = Astro.props as any;
+const t = (k1: string, k2: string, fb?: string) => (dict?.contact?.form?.[k1]?.[k2]) ?? dict?.contact?.form?.[k1] ?? fb ?? "";
+---
+
+<section class="py-16 md:py-20 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Media -->
+      <div class="relative bg-neutral-600 rounded-2xl overflow-hidden">
+        <div class="aspect-[16/11] md:aspect-auto md:h-full"></div>
+        <video class="absolute inset-0 h-full w-full object-cover" autoplay muted loop playsinline preload="metadata">
+          <source src={videoSrc} type="video/mp4" />
+          Tu navegador no soporta video HTML5.
+        </video>
+      </div>
+
+      <!-- Form -->
+      <form class="max-w-xl" data-contact-form data-mailto={mailTo} novalidate>
+        <p class="text-sm font-semibold text-neutral-500">{t("overline", "Completa el formulario")}</p>
+        <h2 class="mt-1 text-3xl sm:text-4xl font-extrabold tracking-tight">{t("title", "Contáctanos")}</h2>
+        <p class="mt-2 text-neutral-700">{t("lead", "Estamos aquí para atender tus consultas y sugerencias.")}</p>
+
+        <label class="mt-6 block text-sm font-medium text-neutral-900">{t("name", "Nombre")}</label>
+        <input name="name" type="text" required
+               class="mt-1 w-full border-0 border-b border-neutral-300 focus:border-blue-600 focus:ring-0 px-0 py-2"
+               placeholder={t("namePh", "Tu nombre")} />
+
+        <label class="mt-5 block text-sm font-medium text-neutral-900">{t("email", "Correo")}</label>
+        <input name="email" type="email" required autocomplete="email"
+               class="mt-1 w-full border-0 border-b border-neutral-300 focus:border-blue-600 focus:ring-0 px-0 py-2"
+               placeholder={t("emailPh", "tu@email.com")} />
+
+        <label class="mt-5 block text-sm font-medium text-neutral-900">{t("message", "Mensaje")}</label>
+        <textarea name="message" rows="5" required
+                  class="mt-1 w-full border-0 border-b border-neutral-300 focus:border-blue-600 focus:ring-0 px-0 py-2 resize-y"
+                  placeholder={t("messagePh", "Escribe tu mensaje...")}></textarea>
+
+        <!-- Honeypot -->
+        <input type="text" name="company" class="hidden" tabindex="-1" autocomplete="off" />
+
+        <div class="mt-5 flex items-start gap-2">
+          <input id="contactTerms" type="checkbox" class="mt-1 h-4 w-4 rounded border-neutral-300 text-blue-600 focus:ring-blue-600" required />
+          <label for="contactTerms" class="text-sm text-neutral-700">
+            {t("terms", "Acepto los")} <a href="/terminos" class="underline decoration-neutral-300 hover:decoration-neutral-700">{t("termsLink", "Términos")}</a>
+          </label>
+        </div>
+
+        <p class="mt-3 text-xs text-neutral-500" data-msg aria-live="polite"></p>
+
+        <button type="submit" class="mt-3 inline-flex items-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none">
+          {t("submit", "Enviar")}
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const section = document.currentScript && document.currentScript.closest('section');
+      const form = section && section.querySelector('[data-contact-form]');
+      if (!form) return;
+      const mailto = form.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
+      const msg = form.querySelector('[data-msg]');
+      const hp = form.querySelector('input[name="company"]');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (hp && hp.value) return; // bot
+        const data = Object.fromEntries(new FormData(form).entries());
+        const subject = 'Contacto web — FCJ';
+        const body =
+          `Nombre: ${data.name || ''}\n` +
+          `Email: ${data.email || ''}\n` +
+          `Mensaje:\n${data.message || ''}`;
+        window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        if (msg) msg.textContent = 'Abriendo tu cliente de correo…';
+      });
+    })();
+  </script>
+</section>

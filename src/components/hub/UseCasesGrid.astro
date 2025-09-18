@@ -1,0 +1,43 @@
+---
+type UseCaseItem = { icon: string; title: string; desc: string; impact?: string };
+const { heading = "", items = [] } = Astro.props as { heading?: string; items: UseCaseItem[] };
+
+function iconSvg(name: string) {
+  const base = 'class="h-5 w-5" aria-hidden="true"';
+  switch (name) {
+    case 'chat':
+      return `<svg viewBox="0 0 24 24" ${base} fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a4 4 0 0 1-4 4H7l-4 4V7a4 4 0 0 1 4-4h10a4 4 0 0 1 4 4v8z"/></svg>`;
+    case 'shield':
+      return `<svg viewBox="0 0 24 24" ${base} fill="currentColor"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/></svg>`;
+    case 'trend':
+      return `<svg viewBox="0 0 24 24" ${base} fill="none" stroke="currentColor" stroke-width="2"><path d="M3 17l6-6 4 4 7-7"/><path d="M14 7h7v7"/></svg>`;
+    case 'user':
+      return `<svg viewBox="0 0 24 24" ${base} fill="currentColor"><path d="M12 12a5 5 0 1 0-5-5 5 5 0 0 0 5 5zM2 22a10 10 0 0 1 20 0z"/></svg>`;
+    case 'translate':
+      return `<svg viewBox="0 0 24 24" ${base} fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h7M7 5c0 7 10 12 10 12M15 12H4M20 20l-3-8-3 8"/></svg>`;
+    default:
+      return `<svg viewBox="0 0 24 24" ${base} fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/></svg>`;
+  }
+}
+---
+
+<section class="py-10 md:py-12 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    {heading && <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{heading}</h2>}
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      {items.map((it) => (
+        <article class="card p-6">
+          <div class="flex items-start gap-3">
+            <!-- INYECTAMOS EL SVG COMO STRING -->
+            <div class="icon-box" set:html={iconSvg(it.icon)} />
+            <div>
+              <h3 class="text-lg font-bold leading-tight">{it.title}</h3>
+              <p class="mt-1 text-sm text-neutral-600">{it.desc}</p>
+              {it.impact && <p class="mt-2 text-xs text-neutral-500">{it.impact}</p>}
+            </div>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,138 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Logo = { src: string; alt?: string; class?: string };
+
+const {
+  lang = "es",
+  dict,
+  taglineKey = "home.logos.tagline",
+  // Pasá tu lista única (sin duplicados)
+  logos = [
+    { src: "/assets/01infinito-logo.png", alt: "01Infinito", class: "h-8 md:h-9 w-auto" },
+    { src: "/assets/assetcobyn.jpg",     alt: "AssetCo",    class: "h-12 md:h-14 w-auto" },
+  ],
+  gapClass = "gap-16",
+  edgeFade = true,
+  speed = "90s", // "20s", "40s", etc.
+} = Astro.props as {
+  lang?: string;
+  dict: any;
+  taglineKey?: string;
+  logos?: Logo[];
+  gapClass?: string;
+  edgeFade?: boolean;
+  speed?: string;
+};
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section class="py-10" data-marquee>
+  <div class="container mx-auto max-w-7xl px-4">
+    <p class="text-center text-sm font-semibold text-neutral-800">
+      {t(taglineKey, "Potenciando juntos el impacto social y tecnológico.")}
+    </p>
+
+    <div class="relative mt-6 overflow-hidden" data-marquee-wrapper>
+      {edgeFade && (
+        <>
+          <div class="pointer-events-none absolute left-0 top-0 h-full w-16 bg-gradient-to-r from-white to-transparent"></div>
+          <div class="pointer-events-none absolute right-0 top-0 h-full w-16 bg-gradient-to-l from-white to-transparent"></div>
+        </>
+      )}
+
+      <!-- La pista ya sale animada; el JS luego la rellena sin huecos -->
+      <div
+        class={`flex w-max items-center ${gapClass} animate-marquee motion-reduce:animate-none`}
+        style={`--animate-marquee: marquee ${speed} linear infinite;`}
+        data-marquee-track
+      >
+        {logos.map((l) => (
+          <img src={l.src} alt={l.alt ?? ""} loading="lazy" class={l.class ?? "h-8 md:h-9 w-auto"} />
+        ))}
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+  (() => {
+    // Tomamos el <section> que contiene este script
+    const root = document.currentScript && document.currentScript.closest('[data-marquee]');
+    if (!root) return;
+    const wrap  = root.querySelector('[data-marquee-wrapper]');
+    const track = root.querySelector('[data-marquee-track]');
+    if (!wrap || !track) return;
+
+    const imgs = Array.from(track.querySelectorAll('img'));
+
+    // Esperar a que las imágenes estén listas para medir
+    const whenReady = Promise.all(
+      imgs.map((img) => {
+        if (img.complete) {
+          return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
+        }
+        return new Promise((res) => {
+          img.addEventListener('load', res, { once: true });
+          img.addEventListener('error', res, { once: true });
+        });
+      })
+    );
+
+    const cloneImgSafe = (node) => {
+      const c = node.cloneNode(true);
+      if (c && c.tagName && c.tagName.toUpperCase() === 'IMG') {
+        c.setAttribute('alt', '');
+        c.setAttribute('aria-hidden', 'true');
+      }
+      return c;
+    };
+
+    const build = () => {
+      // 1) Guardar bloque base original
+      const base = Array.from(track.children).map((n) => n.cloneNode(true));
+
+      // 2) Reset a bloque base
+      track.innerHTML = '';
+      base.forEach((n) => track.appendChild(n.cloneNode(true)));
+
+      // 3) Medir anchos
+      const wrapperW = wrap.clientWidth;
+
+      const temp = document.createElement('div');
+      temp.style.position = 'absolute';
+      temp.style.visibility = 'hidden';
+      temp.style.whiteSpace = 'nowrap';
+      temp.style.left = '-99999px';
+      temp.className = track.className;
+      base.forEach((n) => temp.appendChild(n.cloneNode(true)));
+      document.body.appendChild(temp);
+      const baseW = temp.scrollWidth || 1;
+      document.body.removeChild(temp);
+
+      // 4) Repetir base hasta cubrir el wrapper
+      const repeats = Math.max(2, Math.ceil(wrapperW / baseW));
+      for (let i = 0; i < repeats - 1; i++) {
+        base.forEach((n) => track.appendChild(cloneImgSafe(n)));
+      }
+
+      // 5) Duplicar todo para loop perfecto (-50%)
+      const current = Array.from(track.children);
+      current.forEach((n) => track.appendChild(cloneImgSafe(n)));
+
+      // Asegurar animación aplicada
+      track.classList.add('animate-marquee');
+    };
+
+    whenReady.then(build);
+
+    // Rebuild en resize (debounce)
+    let to;
+    window.addEventListener('resize', () => {
+      clearTimeout(to);
+      to = setTimeout(build, 150);
+    });
+  })();
+</script>
+
+</section>

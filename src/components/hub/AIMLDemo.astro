@@ -1,0 +1,59 @@
+---
+import { getTrans } from "../../i18n/utils";
+const { dict } = Astro.props as any;
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section class="py-10 md:py-12">
+  <div class="container mx-auto max-w-7xl px-4">
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.aiml.demo.heading")}</h2>
+    <p class="mt-2 text-neutral-700">{t("hub.aiml.demo.lead")}</p>
+
+    <div class="mt-6 rounded-2xl border bg-white p-4 sm:p-6">
+      <div id="demoList" class="space-y-3 text-sm" aria-live="polite"></div>
+
+      <form id="demoForm" class="mt-4 flex items-center gap-2" novalidate>
+        <label for="demoInput" class="sr-only">Consulta</label>
+        <input id="demoInput" class="w-full rounded-lg border px-3 py-2 text-sm" placeholder={t("hub.aiml.demo.placeholder")} />
+        <button class="btn btn-primary shrink-0" type="submit">{t("hub.aiml.demo.send")}</button>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const list = document.getElementById('demoList');
+      const form = document.getElementById('demoForm');
+      const input = document.getElementById('demoInput');
+
+      const add = (role, text) => {
+        const el = document.createElement('div');
+        el.className = role === 'user' ? 'text-right' : 'text-left';
+        el.innerHTML = `<div class="inline-block max-w-[90%] rounded-xl border px-3 py-2 ${role==='user'?'bg-indigo-50 border-indigo-100':'bg-neutral-50 border-neutral-200'}">${text}</div>`;
+        list?.appendChild(el);
+        list?.scrollTo({ top: list.scrollHeight, behavior: 'smooth' });
+      };
+
+      const reply = (q) => {
+        const s = q.toLowerCase();
+        if (s.includes('turno')) return 'Podés obtener un turno en 2 pasos: completá el formulario y el sistema te asigna la fecha disponible más cercana.';
+        if (s.includes('pago')) return 'Los pagos pueden realizarse online o en sede. El bot puede recordarte vencimientos y generar comprobantes.';
+        if (s.includes('recole')) return 'La recolección se programa por barrio y día. El bot te indica tu calendario y reporta incidencias.';
+        if (s.includes('beca')) return 'Las becas se priorizan con criterios transparentes. El asistente te guía y verifica requisitos automáticamente.';
+        return 'Este es un demo sin backend. Para un piloto real, conectamos fuentes y definimos KPIs de servicio.';
+      };
+
+      form?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = input?.value?.trim();
+        if (!q) return;
+        add('user', q);
+        input.value = '';
+        setTimeout(() => add('bot', reply(q)), 300);
+      });
+
+      // mensaje inicial
+      add('bot', 'Hola 👋 ¿En qué podemos ayudarte hoy?');
+    })();
+  </script>
+</section>

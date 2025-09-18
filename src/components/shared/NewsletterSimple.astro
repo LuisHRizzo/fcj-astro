@@ -1,0 +1,58 @@
+---
+const { dict, mailTo = "info@cienciayjusticia.org" } = Astro.props as any;
+const t = (k1: string, k2: string, fb?: string) => (dict?.contact?.newsletter?.[k1]?.[k2]) ?? dict?.contact?.newsletter?.[k1] ?? fb ?? "";
+---
+
+<section id="boletin" class="py-12 md:py-16 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16 items-start">
+      <div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+          {t("title", "Suscríbete a nuestro boletín")}
+        </h2>
+      </div>
+
+      <div class="w-full md:justify-self-end max-w-xl">
+        <p class="text-neutral-600 mb-3">{t("lead", "Recibí novedades, proyectos y recursos en tu mail.")}</p>
+
+        <form class="w-full" data-news-form data-mailto={mailTo} novalidate>
+          <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" />
+          <label for="subscribeEmail" class="sr-only">{t("email", "Correo electrónico")}</label>
+          <div class="flex items-center gap-3">
+            <input id="subscribeEmail" name="email" type="email" required
+                   placeholder={t("emailPh", "Ingresa tu correo")}
+                   class="peer w-full bg-transparent border-0 border-b border-neutral-300 focus:border-blue-600 focus:outline-none py-2 text-sm placeholder:text-neutral-400" />
+            <button type="submit"
+                    class="shrink-0 inline-flex items-center justify-center rounded-full bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 disabled:opacity-60">
+              {t("cta", "Suscribirse")}
+            </button>
+          </div>
+          <p class="mt-2 text-xs text-neutral-500" data-msg>
+            {t("terms", "Al suscribirte aceptás nuestros")} <a href="/terminos" class="underline decoration-neutral-300 hover:decoration-neutral-600">{t("termsLink", "Términos y Condiciones")}</a>.
+          </p>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const section = document.currentScript && document.currentScript.closest('section');
+      const form = section && section.querySelector('[data-news-form]');
+      if (!form) return;
+      const mailto = form.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
+      const hp = form.querySelector('input[name="company"]');
+      const msg = form.querySelector('[data-msg]');
+
+      form.addEventListener('submit', (e) => {
+        e.preventDefault();
+        if (hp && hp.value) return;
+        const data = Object.fromEntries(new FormData(form).entries());
+        const subject = 'Suscripción — Boletín FCJ';
+        const body = `Quiero suscribirme al boletín.\nEmail: ${data.email || ''}`;
+        window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        if (msg) msg.textContent = 'Abriendo tu cliente de correo…';
+      });
+    })();
+  </script>
+</section>

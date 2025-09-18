@@ -1,0 +1,56 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../i18n/utils";
+import { getStaticLocalePaths } from "../../i18n/paths";
+
+import ContactHero from "../../components/contact/ContactHero.astro";
+import ContactSplit from "../../components/contact/ContactSplit.astro";
+import ContactQuickInfo from "../../components/contact/ContactQuickInfo.astro";
+import ContactOffices from "../../components/contact/ContactOffices.astro";
+import NewsletterSimple from "../../components/shared/NewsletterSimple.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout {lang} {dict}>
+  <ContactHero {lang} {dict} />
+
+  <ContactSplit
+    {lang} {dict}
+    videoSrc="/assets/contacto.mp4"
+    mailTo="info@cienciayjusticia.org"
+  />
+
+  <ContactQuickInfo
+    {lang} {dict}
+    email="info@cienciayjusticia.org"
+    phone="+54 9 11 6021-8568"
+    officesHref={`/${lang}/contacto/#oficinas`}
+  />
+
+  <ContactOffices
+    {lang} {dict}
+    id="oficinas"
+    offices={[
+      {
+        title: "Buenos Aires (Américas)",
+        address: "Avenida Del Libertador 1000, Vicente López, Argentina",
+        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d4044.688476655138!2d-58.4722805!3d-34.5253927!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bcb6ad10a74e0b%3A0x4c571a086df13afc!2sAv.%20del%20Libertador%201000%2C%20B1638BEV%20Vicente%20L%C3%B3pez%2C%20Provincia%20de%20Buenos%20Aires!5e1!3m2!1ses-419!2sar!4v1756666425282!5m2!1ses-419!2sar",
+        contactHref: `/${lang}/contacto/?office=buenos-aires`
+      },
+      {
+        title: "Barcelona (EMEA)",
+        address: "Carrer de Pallars, 194. Barcelona, España",
+        mapSrc: "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3682.4943908223468!2d2.195541576543469!3d41.40107579514531!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a33dedb23daf%3A0xd560f364b24c27a2!2sCarrer%20de%20Pallars%2C%20194%2C%20Sant%20Mart%C3%AD%2C%2008005%20Barcelona%2C%20Espa%C3%B1a!5e1!3m2!1ses-419!2sar!4v1756666524788!5m2!1ses-419!2sar",
+        contactHref: `/${lang}/contacto/?office=barcelona`
+      }
+    ]}
+  />
+
+  <NewsletterSimple {lang} {dict} mailTo="info@cienciayjusticia.org" />
+</BaseLayout>
+

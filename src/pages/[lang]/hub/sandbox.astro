@@ -1,0 +1,148 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+
+import CalendarList from "../../../components/hub/CalendarList.astro";
+import LeadFormSandbox from "../../../components/hub/LeadFormSandbox.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.sandbox.hero.overline"
+    titleKey="hub.sandbox.hero.title"
+    subtitleKey="hub.sandbox.hero.subtitle"
+    imgSrc="/assets/hero-sandbox.png"
+    imgAltKey="hub.sandbox.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.sandbox.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/recursos/guia-sandbox.pdf`, key: "hub.sandbox.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.sandbox.key.title")}
+    paragraphs={[t("hub.sandbox.key.p1"), t("hub.sandbox.key.p2")]}
+  />
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.sandbox.value.heading")}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {t("hub.sandbox.value.items").map((txt: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- GUÍA DE ACCESO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.sandbox.guide.heading")}</h2>
+      <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+        {t("hub.sandbox.guide.steps").map((s: any, i: number) => (
+          <li class="rounded-2xl border p-5">
+            <div class="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold">{i+1}</div>
+            <div class="mt-3 font-semibold">{s.title}</div>
+            <div class="mt-1 text-sm text-neutral-600">{s.desc}</div>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CASOS DE ÉXITO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.sandbox.cases.heading")}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {t("hub.sandbox.cases.items").map((c: any) => (
+          <article class="card p-6">
+            <div class="text-xs text-neutral-500">{c.metric}</div>
+            <h3 class="mt-1 text-lg font-bold leading-tight">{c.title}</h3>
+            <p class="mt-2 text-sm text-neutral-600">{c.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- SOPORTE JURÍDICO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.sandbox.support.heading")}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {t("hub.sandbox.support.points").map((p: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{p}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CALENDARIO DE CONVOCATORIAS -->
+  <CalendarList
+    heading={t("hub.sandbox.calendar.heading")}
+    areasLabel={t("hub.sandbox.calendar.areasLabel")}
+    applyLabel={t("hub.sandbox.calendar.apply")}
+    pastToggle={t("hub.sandbox.calendar.pastToggle")}
+    items={[
+      { date: "2025-10-01", title: "Apertura Sandbox — IA Responsable", areas: ["IA", "Datos"], href: `/${lang}/contacto/` },
+      { date: "2025-11-15", title: "Convocatoria: Blockchain para Transparencia", areas: ["Blockchain", "Gobierno abierto"], href: `/${lang}/contacto/` },
+      { date: "2025-07-15", title: "Pilotos de Automatización Administrativa", areas: ["Procesos", "Interoperabilidad"], href: `/${lang}/contacto/` }
+    ]}
+  />
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.sandbox.resources.guide"), href:`/${lang}/recursos/guia-sandbox.pdf` },
+      { title: t("hub.sandbox.resources.infographic"), href:`/${lang}/recursos/infografia-sandbox.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormSandbox
+    title={t("hub.sandbox.form.title")}
+    lead={t("hub.sandbox.form.lead")}
+    labels={{
+      name: t("hub.sandbox.form.name"),
+      email: t("hub.sandbox.form.email"),
+      org: t("hub.sandbox.form.org"),
+      type: t("hub.sandbox.form.type"),
+      submit: t("hub.sandbox.form.submit")
+    }}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    primaryLabel={t("hub.sandbox.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.sandbox.ctas.secondary")}
+    secondaryHref={`/${lang}/recursos/guia-sandbox.pdf`}
+  />
+
+  <!-- Botón fijo de asesoría rápida -->
+  <div class="fixed bottom-5 right-4 z-40">
+    <a href={`/${lang}/contacto/`} class="rounded-full bg-indigo-600 text-white text-sm px-4 py-2 shadow hover:bg-indigo-700">
+      {t("hub.sandbox.ctas.quick_help")}
+    </a>
+  </div>
+</BaseLayout>

@@ -1,0 +1,30 @@
+---
+const { dict, offices = [], id = "oficinas" } = Astro.props as any;
+const t = (k: string, fb?: string) => dict?.contact?.offices?.[k] ?? fb ?? "";
+---
+
+<section id={id} class="py-16 md:py-20 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <p class="text-sm font-semibold text-neutral-500 text-center">{t("overline", "Ubicaciones")}</p>
+    <h2 class="mt-1 text-center text-3xl sm:text-4xl font-extrabold tracking-tight">{t("title", "Oficinas")}</h2>
+    <p class="mt-2 text-center text-neutral-600 max-w-2xl mx-auto">{t("lead", "Encontrá nuestra sede más cercana.")}</p>
+
+    <div class="mt-10 grid gap-8 md:grid-cols-2">
+      {offices.map((o: any) => (
+        <article class="rounded-2xl border bg-white overflow-hidden group">
+          <iframe src={o.mapSrc} width="600" height="350" style="border:0;" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"></iframe>
+          <div class="p-5 sm:p-6">
+            <h3 class="text-xl sm:text-2xl font-extrabold">{o.title}</h3>
+            <p class="mt-1 text-sm text-neutral-600">{o.address}</p>
+            <a href={o.contactHref} class="mt-3 inline-flex items-center gap-2 text-sm font-semibold hover:underline">
+              {t("contact", "Contacto")}
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

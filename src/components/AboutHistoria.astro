@@ -1,0 +1,81 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+
+  // a) Título como líneas separadas (para insertar <br> responsivo)
+  titleLines?: string[];
+  // b) O un único título (si no querés cortes manuales)
+  titleKey?: string;
+  titleFallback?: string;
+
+  // Párrafos del cuerpo
+  paragraphs?: string[];               // si lo pasás a mano
+  paragraphKeys?: string[];            // o por i18n (se toma el mismo orden)
+
+  sectionId?: string;
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "nuestra-historia",
+
+  // Por defecto, usamos líneas como en tu HTML
+  titleLines = [
+    "Nuestra historia: un",
+    "compromiso con la tecnología",
+    "y la inclusión social."
+  ],
+  // Si preferís un único título, sobreescribí con titleKey/titleFallback
+  titleKey,
+  titleFallback,
+
+  // Párrafos (fallbacks equivalentes a tu texto)
+  paragraphKeys = ["about.history.p1", "about.history.p2"],
+  paragraphs = [
+    "La Fundación Ciencia y Justicia nació con el propósito de utilizar la tecnología para mejorar la vida de las personas. Nuestra misión es promover la educación inclusiva y el desarrollo sostenible a través de la innovación.",
+    "Creemos en un futuro donde la tecnología sea accesible para todos y fomente la participación ciudadana. Trabajamos junto a gobiernos, ONGs y comunidades para diseñar soluciones transparentes, seguras y con impacto social real."
+  ],
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Resolvemos título: si se pasa titleKey/titleFallback, priorizamos eso;
+// si no, renderizamos titleLines con <br> responsivo entre líneas.
+const resolvedTitle = titleKey ? t(titleKey, titleFallback ?? "") : null;
+
+// Resolvemos párrafos por i18n si hay keys; si no, usamos los fallbacks
+const resolvedParagraphs =
+  paragraphKeys?.length
+    ? paragraphKeys.map((k, i) => t(k, paragraphs[i] ?? ""))
+    : paragraphs;
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-20">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+        {resolvedTitle ? (
+          resolvedTitle
+        ) : (
+          <>
+            {titleLines.map((line: string, i: number) => (
+              <>
+                {line}{i < titleLines.length - 1 && <br class="hidden sm:block" />}
+              </>
+            ))}
+          </>
+        )}
+      </h2>
+
+      <div class="text-neutral-700 text-base sm:text-lg leading-relaxed">
+        {resolvedParagraphs.map((p: string, i: number) => (
+          <p class={i > 0 ? "mt-4" : ""}>{p}</p>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,96 @@
+---
+type Props = {
+  lang: string;
+  dict: any;
+  formEndpoint?: string;
+  mailtoFallback?: string;
+};
+const { formEndpoint = "", mailtoFallback = "info@cienciayjusticia.org" } = Astro.props as Props;
+---
+<section class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="rounded-3xl border p-6 sm:p-8">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Solicita cotización</h2>
+      <p class="mt-2 text-neutral-600">Completa el formulario; te responderemos con una propuesta adaptada.</p>
+
+      <form class="mt-6 grid gap-4 md:grid-cols-2" data-lead-audit data-endpoint={formEndpoint} data-mailto={mailtoFallback} novalidate>
+        <div>
+          <label class="text-sm font-medium">Nombre</label>
+          <input name="name" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Email</label>
+          <input type="email" name="email" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">Tipo de auditoría</label>
+          <select name="audit_type" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm">
+            <option value="">Selecciona una opción</option>
+            <option>GDPR</option>
+            <option>AI Act</option>
+            <option>ENS</option>
+            <option>ISO (27001/27701)</option>
+            <option>Marco local / sectorial</option>
+            <option>Mixta / Multinorma</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-sm font-medium">Organización</label>
+          <input name="org" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+
+        <div class="md:col-span-2">
+          <button type="submit" data-submit class="btn btn-primary">Solicitar cotización personalizada</button>
+          <p class="mt-2 text-xs text-neutral-500" data-msg aria-live="polite"></p>
+        </div>
+
+        <!-- honeypot -->
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" />
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript?.closest('section');
+      const form = root?.querySelector('[data-lead-audit]');
+      if (!form) return;
+
+      const endpoint = form.getAttribute('data-endpoint') || '';
+      const mailto  = form.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
+      const btn     = form.querySelector('[data-submit]');
+      const msg     = form.querySelector('[data-msg]');
+      const hp      = form.querySelector('input[name="company"]');
+
+      const setLoading = (v) => { if (!btn) return; btn.disabled = v; btn.setAttribute('aria-busy', String(v)); };
+      const showMsg = (text, ok) => { if (!msg) return; msg.textContent = text; msg.className = "mt-2 text-xs " + (ok ? "text-green-700" : "text-red-700"); };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (hp && hp.value) return;
+
+        const data = Object.fromEntries(new FormData(form));
+        const payload = {
+          ...data,
+          _subject: "Solicitud de cotización — Auditoría Multinormativa",
+          message: `Nombre: ${data.name}\nEmail: ${data.email}\nTipo: ${data.audit_type}\nOrganización: ${data.org}`
+        };
+
+        if (!endpoint) {
+          const body = `Solicitud de cotización (Auditoría Multinormativa):%0D%0A%0D%0ANombre: ${data.name}%0D%0AEmail: ${data.email}%0D%0ATipo de auditoría: ${data.audit_type}%0D%0AOrganización: ${data.org}`;
+          window.location.href = `mailto:${mailto}?subject=Auditoría multinormativa&body=${body}`;
+          return;
+        }
+
+        try {
+          setLoading(true);
+          const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
+          if (res.ok) { showMsg("¡Gracias! Te contactaremos a la brevedad.", true); (form as any).reset?.(); }
+          else        { showMsg("Hubo un problema al enviar. Intenta nuevamente.", false); }
+        } catch {
+          showMsg("Hubo un problema al enviar. Intenta nuevamente.", false);
+        } finally { setLoading(false); }
+      });
+    })();
+  </script>
+</section>

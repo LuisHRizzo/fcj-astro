@@ -1,0 +1,151 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type FeatureKind = "ai" | "security" | "iot" | "blockchain";
+type Feature = {
+  kind: FeatureKind;
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+};
+
+const defaultFeatures: Feature[] = [
+  {
+    kind: "ai",
+    titleKey: "home.solutions.items.ai.title",
+    titleFallback: "Inteligencia Artificial",
+    descKey: "home.solutions.items.ai.desc",
+    descFallback: "Transformando capacidades del sector público y empoderando a la sociedad civil.",
+  },
+  {
+    kind: "security",
+    titleKey: "home.solutions.items.security.title",
+    titleFallback: "Ciberseguridad",
+    descKey: "home.solutions.items.security.desc",
+    descFallback: "Un escudo que protege derechos y fortalece la confianza ciudadana.",
+  },
+  {
+    kind: "iot",
+    titleKey: "home.solutions.items.iot.title",
+    titleFallback: "IoT Internet de las Cosas",
+    descKey: "home.solutions.items.iot.desc",
+    descFallback: "Conectando soluciones inteligentes para mejorar la calidad de vida.",
+  },
+  {
+    kind: "blockchain",
+    titleKey: "home.solutions.items.blockchain.title",
+    titleFallback: "Blockchain",
+    descKey: "home.solutions.items.blockchain.desc",
+    descFallback: "Transparencia que se convierte en confianza y participación.",
+  },
+];
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaExploreHref?: string;
+  ctaExploreKey?: string;
+  ctaConsultHref?: string;
+  ctaConsultKey?: string;
+  features?: Feature[];
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "soluciones",
+  overlineKey = "home.solutions.overline",
+  titleKey = "home.solutions.title",
+  leadKey = "home.solutions.lead",
+  ctaExploreHref = `/${lang}/soluciones/`,
+  ctaExploreKey = "home.solutions.ctaExplore",
+  ctaConsultHref = `/${lang}/contacto/`,
+  ctaConsultKey = "home.solutions.ctaConsult",
+  features = defaultFeatures,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna izquierda: texto + CTAs -->
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Soluciones con alto impacto")}
+        </p>
+        <h2 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-2xl">
+          {t(titleKey, "Músculo tecnológico al servicio del sector público y la sociedad civil")}
+        </h2>
+        <p class="mt-5 max-w-xl text-neutral-600">
+          {t(
+            leadKey,
+            "Implementamos soluciones de IA, IoT, blockchain y Ciberseguridad para promover la transparencia pública y la seguridad ciudadana. Nuestro enfoque integral busca desarrollar comunidades seguras y empoderadas."
+          )}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={ctaExploreHref} class="btn btn-outline">
+            {t(ctaExploreKey, "Explora")}
+          </a>
+          <a href={ctaConsultHref} class="link-arrow group">
+            {t(ctaConsultKey, "Consultar")}
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna derecha: features -->
+      <div class="grid gap-5">
+        {features.map((f: Feature) => (
+          <article
+            tabindex="0"
+            class="group card p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300"
+          >
+            <div class="flex items-start gap-4">
+              <div class="icon-box">
+                {f.kind === "ai" && (
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 3a7 7 0 0 0-7 7v1a4 4 0 0 0 0 8h2a2 2 0 0 0 2 2h2a3 3 0 0 0 3-3v-1h1a4 4 0 0 0 0-8 5 5 0 0 0-3-6z" />
+                  </svg>
+                )}
+                {f.kind === "security" && (
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z" />
+                  </svg>
+                )}
+                {f.kind === "iot" && (
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M12 7a5 5 0 1 1 0 10A5 5 0 0 1 12 7zm0-5a10 10 0 0 1 10 10h-3a7 7 0 1 0-14 0H2A10 10 0 0 1 12 2z" />
+                  </svg>
+                )}
+                {f.kind === "blockchain" && (
+                  <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                    <path d="M7 2h10v6H7zM3 9h10v6H3zM14 9h7v6h-7zM7 16h10v6H7z" />
+                  </svg>
+                )}
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold">
+                  {t(f.titleKey ?? "", f.titleFallback)}
+                </h3>
+                <p class="mt-2 text-sm text-neutral-600">
+                  {t(f.descKey ?? "", f.descFallback)}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

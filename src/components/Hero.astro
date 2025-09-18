@@ -1,0 +1,97 @@
+---
+import { getTrans } from "../i18n/utils";
+
+const {
+  lang = "es",
+  dict,
+  titleKey = "home.hero.title",
+  leadKey = "home.hero.lead",
+  ctaExploreHref = "#explora",
+  ctaExploreKey = "home.hero.ctaExplore",
+  // contacto: va a la página interna por idioma
+  ctaContactHref = `/${lang}/contacto/`,
+  ctaContactKey = "home.hero.ctaContact",
+  videoSrc = "/assets/hero-video.mp4",
+  poster = undefined, // queda opcional; no lo usamos por ahora
+} = Astro.props as any;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+const uid = Math.random().toString(36).slice(2, 9);
+---
+
+<section class="py-10 md:py-16" data-hero={uid}>
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="rounded-3xl bg-white shadow-sm overflow-hidden">
+      <div class="grid md:grid-cols-2">
+        <!-- Left -->
+        <div class="p-8 sm:p-12 lg:p-16">
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight leading-[1.08]">
+            {t(titleKey, "Innovación tecnológica al servicio de las personas")}
+          </h1>
+          <p class="mt-6 text-neutral-600 text-base sm:text-lg leading-relaxed max-w-xl">
+            {t(
+              leadKey,
+              "Diseñamos herramientas, proyectos y experiencias educativas para impulsar la inclusión, el desarrollo humano y la transparencia pública mediante el uso de tecnología avanzada."
+            )}
+          </p>
+          <div class="mt-8 flex flex-wrap gap-3">
+            <a href={ctaExploreHref} class="btn btn-outline">{t(ctaExploreKey, "Explora")}</a>
+            <a href={ctaContactHref} class="btn btn-primary">{t(ctaContactKey, "Contactanos")}</a>
+          </div>
+        </div>
+
+        <!-- Right (media) -->
+        <div class="relative bg-neutral-600">
+          <div class="aspect-[16/11] md:aspect-auto md:h-full"></div>
+          <video
+            data-video
+            class="absolute inset-0 h-full w-full object-cover"
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            poster={poster}
+          >
+            <source src={videoSrc} type="video/mp4" />
+            {t("home.hero.html5VideoFallback", "Tu navegador no soporta video HTML5.")}
+          </video>
+
+          <button
+            data-play
+            class="absolute inset-0 m-auto grid h-16 w-16 place-items-center rounded-full bg-white/95 shadow transition-opacity"
+            aria-label={t("home.hero.play", "Reproducir video")}
+          >
+            <svg viewBox="0 0 24 24" class="h-6 w-6" aria-hidden="true">
+              <path d="M8 5v14l11-7z" fill="currentColor" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (function () {
+      const root = document.querySelector(`[data-hero="${{uid}}"]`);
+      if (!root) return;
+      const video = root.querySelector('[data-video]');
+      const playBtn = root.querySelector('[data-play]');
+      const hideBtn = () => playBtn && (playBtn.style.opacity = "0", playBtn.style.pointerEvents = "none");
+      const showBtn = () => playBtn && (playBtn.style.opacity = "1", playBtn.style.pointerEvents = "auto");
+      const sync    = () => (video && !video.paused ? hideBtn() : showBtn());
+
+      if (video) {
+        video.addEventListener('play', sync);
+        video.addEventListener('pause', sync);
+        video.addEventListener('ended', sync);
+        if (video.readyState >= 2) sync(); else video.addEventListener('loadeddata', sync, { once: true });
+      }
+      if (playBtn && video) {
+        playBtn.addEventListener('click', async () => {
+          try { await video.play(); } catch {}
+        });
+      }
+    })();
+  </script>
+</section>

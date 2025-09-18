@@ -1,0 +1,35 @@
+---
+import { getTrans } from "../../i18n/utils";
+const { dict } = Astro.props as { dict: any };
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section class="py-12 md:py-16 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <p class="text-sm font-semibold text-neutral-500">{t("solutions.method.overline", "Cómo lo hacemos")}</p>
+    <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold tracking-tight">{t("solutions.method.title", "Método práctico y medible")}</h2>
+
+    <ol class="mt-8 grid gap-6 md:grid-cols-4">
+      <li class="card p-5">
+        <div class="text-xs font-semibold text-neutral-500">01</div>
+        <h3 class="mt-2 font-bold">{t("solutions.method.s1.title", "Relevamiento & mapeo")}</h3>
+        <p class="mt-1 text-sm text-neutral-600">{t("solutions.method.s1.desc", "Entrevistas, inventario de procesos y detección de pain points.")}</p>
+      </li>
+      <li class="card p-5">
+        <div class="text-xs font-semibold text-neutral-500">02</div>
+        <h3 class="mt-2 font-bold">{t("solutions.method.s2.title", "Diseño de soluciones")}</h3>
+        <p class="mt-1 text-sm text-neutral-600">{t("solutions.method.s2.desc", "Arquitecturas modulares, criterios de cumplimiento y KPIs.")}</p>
+      </li>
+      <li class="card p-5">
+        <div class="text-xs font-semibold text-neutral-500">03</div>
+        <h3 class="mt-2 font-bold">{t("solutions.method.s3.title", "Implementación & pilotos")}</h3>
+        <p class="mt-1 text-sm text-neutral-600">{t("solutions.method.s3.desc", "Iteraciones cortas, validación con usuarios y gobernanza de datos.")}</p>
+      </li>
+      <li class="card p-5">
+        <div class="text-xs font-semibold text-neutral-500">04</div>
+        <h3 class="mt-2 font-bold">{t("solutions.method.s4.title", "Soporte continuo")}</h3>
+        <p class="mt-1 text-sm text-neutral-600">{t("solutions.method.s4.desc", "Monitoreo, mejora continua, documentación y transferencia de conocimiento.")}</p>
+      </li>
+    </ol>
+  </div>
+</section>

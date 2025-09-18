@@ -1,0 +1,21 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type Item = { href: string; titleKey: string; descKey: string };
+const { dict, services = [] } = Astro.props as { dict: any; services: Item[] };
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section class="py-12 md:py-16 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("solutions.other.title", "Otros servicios de Consultoría & Auditoría")}</h2>
+    <div class="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      {services.map(s => (
+        <a href={s.href} class="card p-5 hover:shadow-md transition">
+          <h3 class="font-bold">{t(s.titleKey)}</h3>
+          <p class="mt-2 text-sm text-neutral-600">{t(s.descKey)}</p>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

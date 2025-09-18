@@ -1,0 +1,19 @@
+---
+type Stage = { title: string; desc: string };
+const { heading = "", items = [] } = Astro.props as { heading?: string; items: Stage[] };
+---
+
+<section class="py-10 md:py-12 bg-white">
+  <div class="container mx-auto max-w-7xl px-4">
+    {heading && <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{heading}</h2>}
+    <ol class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+      {items.map((s, i) => (
+        <li class="rounded-2xl border p-5">
+          <div class="inline-flex h-8 w-8 items-center justify-center rounded-full border text-xs font-semibold">{i+1}</div>
+          <div class="mt-3 font-semibold">{s.title}</div>
+          <div class="mt-1 text-sm text-neutral-600">{s.desc}</div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>

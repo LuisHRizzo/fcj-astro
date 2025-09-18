@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { loadDict } from "../../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../../i18n/paths";
+
+import SolutionsHero from "../../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../../components/solutions/KeyMessage.astro";
+import BenefitsGrid from "../../../../components/solutions/BenefitsGrid.astro";
+import AudienceBenefits from "../../../../components/solutions/AudienceBenefits.astro";
+import TrustBadges from "../../../../components/solutions/TrustBadges.astro";
+import ResourcesList from "../../../../components/solutions/ResourcesList.astro";
+import LeadFormAudit from "../../../../components/solutions/LeadFormAudit.astro";
+import CTASection from "../../../../components/solutions/CTASection.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+  {lang} {dict}
+  overlineKey="solutions.ca.audit.hero.overline"
+  titleKey="solutions.ca.audit.hero.title"
+  subtitleKey="solutions.ca.audit.hero.subtitle"
+  imgSrc="/assets/hero-auditoria.png"
+  imgAltKey="solutions.ca.audit.hero.imgAlt"
+  primaryCta={{ href: `/${lang}/recursos/checklist-cumplimiento.pdf`, key: "solutions.ca.audit.ctas.primary" }}
+  secondaryCta={{ href: `/${lang}/contacto/`, key: "solutions.ca.audit.ctas.secondary" }}
+/>
+
+
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title="Cumple y audita con automatización y evidencia verificable"
+    paragraphs={[
+      "Cumple y audita en cualquier marco normativo, con automatización de procesos y evidencia sectorial verificable.",
+      "Plataforma automatizada para auditoría GDPR, AI Act, ENS, normas ISO y marcos locales, con reporting y trazabilidad ajustada a gobiernos, centros tecnológicos, universidades y agencias multilaterales."
+    ]}
+  />
+
+  <!-- PROPUESTA DE VALOR / BENEFICIOS CLAVE -->
+  <BenefitsGrid
+    {lang} {dict}
+    heading="Compromiso con cumplimiento global"
+    lead="Integración de plataforma de control, reporting y verificación automática, abarcando normativa local e internacional. Preparación ágil para auditorías internas y externas, con adaptación regional."
+    items={[
+      { title: "Reporting automatizado",         desc: "Informes periódicos, métricas y evidencias generadas sin fricción." },
+      { title: "Interoperabilidad multinivel",  desc: "Integración con sistemas existentes y marcos regulatorios diversos." },
+      { title: "Evidencias auditables",         desc: "Registro exportable, trazable y verificable para auditorías formales." }
+    ]}
+  />
+
+  <!-- BENEFICIOS POR PÚBLICO OBJETIVO -->
+  <AudienceBenefits
+    {lang} {dict}
+    items={[
+      { audience:"Gobiernos y municipios",  benefits:["Auditoría transparente y adaptable","Reducción de costos y tiempos","Trazabilidad ciudadana"] },
+      { audience:"Ministerios",             benefits:["Compliance multinivel","Preparación para auditorías externas","Alineamiento con marcos europeos y locales"] },
+      { audience:"Centros tecnológicos",    benefits:["Certificaciones técnicas avanzadas","Reporting colaborativo para proyectos y pilotos","Gestión documental estandarizada"] },
+      { audience:"Universidades",           benefits:["Protección de datos personales","Adaptación a procesos académicos","Cumplimiento y gobierno de la información"] },
+      { audience:"Agencias multilaterales", benefits:["Reporting multicountry","Evidencias automáticas para auditorías","Interoperabilidad internacional"] }
+    ]}
+  />
+
+  <!-- CERTIFICACIONES / ALIANZAS -->
+  <TrustBadges
+    badges={[
+      { img:"/assets/badges/ai-act.png",  alt:"AI Act" },
+      { img:"/assets/badges/iso.jpg",     alt:"ISO" },
+      { img:"/assets/badges/ens.png",     alt:"ENS" },
+      { img:"/assets/badges/gdpr.png",    alt:"GDPR" }
+    ]}
+    partners={[
+      { img:"/assets/partners/google.png", alt:"Google" },
+      { img:"/assets/partners/ucasal.png", alt:"UCASAL" },
+      { img:"/assets/partners/imtib.png",  alt:"IMTIB" }
+    ]}
+  />
+
+  <!-- TESTIMONIOS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Testimonios</h2>
+      <div class="mt-6 grid gap-6 md:grid-cols-2">
+        <figure class="card p-6">
+          <blockquote class="text-lg font-semibold leading-relaxed">“La automatización multinormativa nos dio tranquilidad frente a auditorías internacionales.”</blockquote>
+          <figcaption class="mt-4 text-sm text-neutral-600">Agencia de Cooperación Europea</figcaption>
+        </figure>
+        <figure class="card p-6">
+          <blockquote class="text-lg font-semibold leading-relaxed">“Centralizamos evidencias y aceleramos el reporting con total trazabilidad.”</blockquote>
+          <figcaption class="mt-4 text-sm text-neutral-600">Dirección de Compliance, Ministerio</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS (E-book + Checklist) -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title:"E-book: Auditoría multinormativa — guía práctica para el sector público", href:`/${lang}/recursos/ebook-auditoria-multinormativa.pdf` },
+      { title:"Checklist de cumplimiento", href:`/${lang}/recursos/checklist-cumplimiento.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO (Nombre | Email | Tipo de auditoría | Organización) -->
+  <LeadFormAudit
+    {lang} {dict}
+    formEndpoint="https://formspree.io/f/xxxxxx"     
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    {lang} {dict}
+    primaryLabel="Descarga checklist de cumplimiento"
+    primaryHref={`/${lang}/recursos/checklist-cumplimiento.pdf`}
+    secondaryLabel="Solicita cotización personalizada"
+    secondaryHref={`/${lang}/contacto/`}
+  />
+</BaseLayout>

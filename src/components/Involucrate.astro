@@ -1,0 +1,149 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  formEndpoint?: string; // ej: "https://formspree.io/f/xxxxxx"
+  termsHref?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaKey?: string;
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "involucrate",
+  formEndpoint, // <- pásala desde index.astro cuando la tengas
+  termsHref = `/${lang}/terminos/`,
+  titleKey = "home.join.title",
+  leadKey = "home.join.lead",
+  ctaKey = "home.join.cta",
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16" data-join-root>
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16 items-start">
+      <div>
+        <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+          {t(titleKey, "¿Quieres colaborar o saber más?")}
+        </h2>
+        <p class="mt-4 text-neutral-600">
+          {t(leadKey, "Estamos aquí para ayudarte y responder tus preguntas.")}
+        </p>
+      </div>
+
+      <form
+        class="w-full md:justify-self-end max-w-xl"
+        data-endpoint={formEndpoint ?? ""}
+        data-join-form
+      >
+        <label for="email" class="sr-only">{t("home.join.emailLabel", "Correo electrónico")}</label>
+        <div class="flex items-center gap-3">
+          <input
+            id="email"
+            name="email"
+            type="email"
+            required
+            placeholder={t("home.join.emailPlaceholder", "Ingresa tu correo")}
+            class="peer w-full bg-transparent border-0 border-b border-neutral-300 focus:border-brand-600 focus:outline-none py-2 text-sm placeholder:text-neutral-400"
+          />
+          <button type="submit" class="btn btn-primary shrink-0" data-submit-btn>
+            {t(ctaKey, "Hablemos")}
+          </button>
+        </div>
+
+        <!-- honeypot anti-spam -->
+        <input type="text" name="website" class="hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <p class="mt-2 text-xs text-neutral-500">
+          {t("home.join.termsPrefix", "Al hacer clic en Hablemos, aceptas nuestros")}{" "}
+          <a href={termsHref} class="underline decoration-neutral-300 hover:decoration-neutral-600">
+            {t("home.join.terms", "Términos y Condiciones")}
+          </a>.
+        </p>
+
+        <!-- feedback -->
+        <p class="mt-2 text-sm text-green-700 hidden" data-success>
+          {t("home.join.success", "¡Listo! Te agregamos al mailer.")}
+        </p>
+        <p class="mt-2 text-sm text-red-700 hidden" data-error>
+          {t("home.join.error", "Hubo un problema al enviar. Intenta de nuevo.")}
+        </p>
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript && document.currentScript.closest('[data-join-root]');
+      if (!root) return;
+      const form = root.querySelector('[data-join-form]');
+      const endpoint = form?.getAttribute('data-endpoint') || '';
+      const success = form?.querySelector('[data-success]');
+      const error = form?.querySelector('[data-error]');
+      const btn = form?.querySelector('[data-submit-btn]');
+      const emailInput = form?.querySelector('input[name="email"]');
+
+      const setState = (state) => {
+        if (!btn) return;
+        if (state === 'loading') {
+          btn.disabled = true;
+          btn.setAttribute('aria-busy', 'true');
+        } else {
+          btn.disabled = false;
+          btn.removeAttribute('aria-busy');
+        }
+      };
+      const show = (el) => el && el.classList.remove('hidden');
+      const hide = (el) => el && el.classList.add('hidden');
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        hide(success); hide(error);
+        if (!emailInput) return;
+
+        const email = (emailInput.value || '').trim();
+        if (!email) return;
+
+        // Si no hay endpoint configurado, fallback a mailto:
+        if (!endpoint) {
+          window.location.href = `mailto:info@cienciayjusticia.org?subject=${encodeURIComponent('Agregar a mailer')}&body=${encodeURIComponent('agregar a mailer: ' + email)}`;
+          return;
+        }
+
+        setState('loading');
+        try {
+          // Enviamos como JSON (Formspree/Web3Forms aceptan JSON con Accept)
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              email,
+              message: `agregar a mailer: ${email}`,
+              _subject: 'Agregar a mailer',
+              _replyto: email
+            })
+          });
+
+          if (res.ok) {
+            show(success);
+            form.reset();
+          } else {
+            show(error);
+          }
+        } catch {
+          show(error);
+        } finally {
+          setState('idle');
+        }
+      });
+    })();
+  </script>
+</section>
+

@@ -1,0 +1,53 @@
+---
+import { SUPPORTED_LOCALES } from "../i18n/config";
+
+const { lang } = Astro.props as { lang: string };
+
+const url = new URL(Astro.request.url);
+const segments = url.pathname.split("/").filter(Boolean);
+const currentLang = segments[0] ?? "es";
+const rest = segments.slice(1).join("/");
+const search = url.search ?? "";
+const hash = url.hash ?? "";
+
+function urlFor(l: string) {
+  return `/${l}/${rest ? rest + "/" : ""}${search}${hash}`;
+}
+
+// Emojis por idioma usando escapes Unicode:
+// ES (España): 🇪🇸 -> \uD83C\uDDEA\uD83C\uDDF8
+// EN (USA):    🇺🇸 -> \uD83C\uDDFA\uD83C\uDDF8
+// AR (Argentina): 🇦🇷 -> \uD83C\uDDE6\uD83C\uDDF7 (si preferís mapear 'es' a AR)
+const EMOJI: Record<string, string> = {
+  es: "\uD83C\uDDE6\uD83C\uDDF7", // 🇦🇷 
+  en: "\uD83C\uDDFA\uD83C\uDDF8", // 🇺🇸
+  pt: "\uD83C\uDDE7\uD83C\uDDF7", // 🇧🇷
+  fr: "\uD83C\uDDEB\uD83C\uDDF7", // 🇫🇷
+};
+const labelFor = (l: string) => `${EMOJI[l] ?? ""} ${l.toUpperCase()}`.trim();
+---
+
+<div class="inline-flex items-center">
+  <span class="sr-only">Seleccionar idioma</span>
+  <select
+    aria-label="Seleccionar idioma"
+    data-lang-switcher
+    class="h-9 rounded-md border border-neutral-300 bg-white px-2.5 text-sm text-neutral-800 shadow-sm
+           focus:outline-none focus:ring-2 focus:ring-indigo-500 font-emoji"
+  >
+    {SUPPORTED_LOCALES.map((l) => (
+      <option value={urlFor(l)} selected={l === currentLang}>
+        {labelFor(l)}
+      </option>
+    ))}
+  </select>
+</div>
+
+<script is:inline>
+  document.querySelectorAll('[data-lang-switcher]').forEach((el) => {
+    el.addEventListener('change', (e) => {
+      const target = e.target;
+      if (target && target.value) window.location.href = target.value;
+    });
+  });
+</script>

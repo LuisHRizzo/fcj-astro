@@ -1,0 +1,109 @@
+---
+const { title, lead, labels, formEndpoint = "", mailtoFallback = "info@cienciayjusticia.org" } = Astro.props as any;
+---
+
+<section class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="rounded-3xl border p-6 sm:p-8">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{title}</h2>
+      <p class="mt-2 text-neutral-600">{lead}</p>
+
+      <form class="mt-6 grid gap-4 md:grid-cols-2" data-lead-sandbox data-endpoint={formEndpoint} data-mailto={mailtoFallback} novalidate>
+        <div>
+          <label class="text-sm font-medium">{labels.name}</label>
+          <input name="name" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">{labels.email}</label>
+          <input type="email" name="email" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">{labels.org}</label>
+          <input name="org" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
+        </div>
+        <div>
+          <label class="text-sm font-medium">{labels.type}</label>
+          <input name="type" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" placeholder="IA, blockchain, automatización..." />
+        </div>
+
+        <div class="md:col-span-2">
+          <button type="submit" data-submit class="btn btn-primary">{labels.submit}</button>
+          <p class="mt-2 text-xs text-neutral-500" data-msg aria-live="polite"></p>
+        </div>
+
+        <!-- honeypot -->
+        <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" />
+      </form>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript && document.currentScript.closest('section');
+      const form = root && root.querySelector('[data-lead-sandbox]');
+      if (!form) return;
+
+      const endpoint = form.getAttribute('data-endpoint') || '';
+      const mailto  = form.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
+      const btn     = form.querySelector('[data-submit]');
+      const msg     = form.querySelector('[data-msg]');
+      const hp      = form.querySelector('input[name="company"]');
+
+      const setLoading = (v) => {
+        if (btn instanceof HTMLButtonElement) {
+          btn.disabled = v;
+          btn.setAttribute('aria-busy', String(v));
+        }
+      };
+      const showMsg = (text, ok) => {
+        if (msg instanceof HTMLElement) {
+          msg.textContent = text;
+          msg.className = "mt-2 text-xs " + (ok ? "text-green-700" : "text-red-700");
+        }
+      };
+
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // honeypot
+        if (hp instanceof HTMLInputElement && hp.value) return;
+
+        if (!(form instanceof HTMLFormElement)) return;
+
+        const data = Object.fromEntries(new FormData(form).entries());
+        const subject = "Sandbox Regulatorio — Solicitud de ingreso";
+        const plain =
+          `Nombre: ${data.name || ''}\n` +
+          `Email: ${data.email || ''}\n` +
+          `Organización: ${data.org || ''}\n` +
+          `Tipo: ${data.type || ''}`;
+
+        // Sin endpoint -> fallback mailto (sin backend)
+        if (!endpoint) {
+          const body = encodeURIComponent(plain);
+          window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${body}`;
+          return;
+        }
+
+        try {
+          setLoading(true);
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ _subject: subject, message: plain, ...data })
+          });
+          if (res.ok) {
+            showMsg("¡Gracias! Te contactaremos a la brevedad.", true);
+            form.reset();
+          } else {
+            showMsg("Hubo un problema al enviar. Intenta nuevamente.", false);
+          }
+        } catch {
+          showMsg("Hubo un problema al enviar. Intenta nuevamente.", false);
+        } finally {
+          setLoading(false);
+        }
+      });
+    })();
+  </script>
+</section>

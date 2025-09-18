@@ -1,0 +1,126 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+
+import MVPStages from "../../../components/hub/MVPStages.astro";
+import FeedbackWall from "../../../components/hub/FeedbackWall.astro";
+import LeadFormMVP from "../../../components/hub/LeadFormMVP.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.mvp.hero.overline"
+    titleKey="hub.mvp.hero.title"
+    subtitleKey="hub.mvp.hero.subtitle"
+    imgSrc="/assets/hero-mvp.png"
+    imgAltKey="hub.mvp.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.mvp.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/recursos/manual-mvp.pdf`, key: "hub.mvp.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.mvp.key.title")}
+    paragraphs={[t("hub.mvp.key.p1"), t("hub.mvp.key.p2")]}
+  />
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.mvp.value.heading")}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {t("hub.mvp.value.items").map((txt: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- ETAPAS -->
+  <MVPStages heading={t("hub.mvp.stages.heading")} items={t("hub.mvp.stages.items")} />
+
+  <!-- CASOS PRÁCTICOS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.mvp.cases.heading")}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {t("hub.mvp.cases.items").map((c: any) => (
+          <article class="card p-6">
+            <div class="text-xs text-neutral-500">{c.metric}</div>
+            <h3 class="mt-1 text-lg font-bold leading-tight">{c.title}</h3>
+            <p class="mt-2 text-sm text-neutral-600">{c.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- HERRAMIENTAS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.mvp.tools.heading")}</h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+        {t("hub.mvp.tools.items").map((txt: string) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.mvp.resources.manual"), href:`/${lang}/recursos/manual-mvp.pdf` },
+      { title: t("hub.mvp.resources.templates"), href:`/${lang}/recursos/pack-plantillas-mvp.zip` },
+      { title: t("hub.mvp.resources.demo"), href:`/${lang}/recursos/demo-tablero-mvp.html` }
+    ]}
+  />
+
+  <!-- PANEL DE FEEDBACK -->
+  <FeedbackWall
+    heading={t("hub.mvp.feedback.heading")}
+    intro={t("hub.mvp.feedback.intro")}
+    placeholder={t("hub.mvp.feedback.placeholder")}
+    nameLabel={t("hub.mvp.feedback.name")}
+    postLabel={t("hub.mvp.feedback.post")}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormMVP
+    title={t("hub.mvp.form.title")}
+    lead={t("hub.mvp.form.lead")}
+    labels={{
+      name: t("hub.mvp.form.name"),
+      email: t("hub.mvp.form.email"),
+      org: t("hub.mvp.form.org"),
+      idea: t("hub.mvp.form.idea"),
+      submit: t("hub.mvp.form.submit")
+    }}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    primaryLabel={t("hub.mvp.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.mvp.ctas.secondary")}
+    secondaryHref={`/${lang}/recursos/manual-mvp.pdf`}
+  />
+</BaseLayout>

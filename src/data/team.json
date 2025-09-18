@@ -1,0 +1,31 @@
+[
+  {
+    "name": "Sebastián Cecconi",
+    "role": "Presidente",
+    "bio": "Conduce la estrategia institucional y la articulación con aliados para impulsar proyectos de innovación social.",
+    "photo": "/assets/autoridades/sebastian-cecconi.jpg",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/scecconi/",
+      "site": "https://www.01infinito.com"
+    }
+  },
+  {
+    "name": "Nicolás Miguel Villani",
+    "role": "Secretario",
+    "bio": "Abogado y responsable de asuntos institucionales y legales, velando por las buenas prácticas de gobierno.",
+    "photo": "/assets/autoridades/nicolas-villani.jpg",
+    "links": {
+      "linkedin": "",
+      "x": ""
+    }
+  },
+  {
+    "name": "Verónica Cecconi",
+    "role": "Tesorera",
+    "bio": "Lidera la administración financiera y la transparencia presupuestaria de los programas y operaciones.",
+    "photo": "/assets/autoridades/veronica-cecconi.jpg",
+    "links": {
+      "linkedin": "https://www.linkedin.com/in/ver%C3%B3nica-cecconi"
+    }
+  }
+]

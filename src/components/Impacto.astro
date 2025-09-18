@@ -1,0 +1,138 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Card = {
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+  icon?: "search" | "clock"; // podés sumar más si querés
+};
+
+type Media = {
+  src: string;   // ej: "/assets/proyectos.gif"
+  alt?: string;  // ej: "Proyectos en acción"
+  class?: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaMoreHref?: string;
+  ctaMoreKey?: string;
+  cards?: Card[];
+  media?: Media;
+};
+
+const defaultCards: Card[] = [
+  {
+    titleKey: "home.impact.cards.featured.title",
+    titleFallback: "Proyectos Destacados",
+    descKey: "home.impact.cards.featured.desc",
+    descFallback:
+      "Plataforma de alertas comunitarias, app de transparencia y formación en ciberseguridad.",
+    icon: "search",
+  },
+  {
+    titleKey: "home.impact.cards.more.title",
+    titleFallback: "Más Proyectos",
+    descKey: "home.impact.cards.more.desc",
+    descFallback:
+      "Explora nuestros proyectos en curso y finalizados que marcan la diferencia.",
+    icon: "clock",
+  },
+];
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "impacto",
+  overlineKey = "home.impact.overline",
+  titleKey = "home.impact.title",
+  leadKey = "home.impact.lead",
+  ctaMoreHref = `/${lang}/blog/`,
+  ctaMoreKey = "home.impact.ctaMore",
+  cards = defaultCards,
+  media = { src: "/assets/proyectos.gif", alt: "Proyectos en acción", class: "rounded-2xl" } as Media,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid items-start gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna izquierda -->
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Impacto")}
+        </p>
+        <h2 class="mt-2 max-w-2xl text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+          {t(titleKey, "Proyectos que transforman comunidades y vidas")}
+        </h2>
+        <p class="mt-5 max-w-xl text-neutral-600">
+          {t(
+            leadKey,
+            "Descubre cómo nuestras iniciativas están cambiando la realidad. Desde alertas comunitarias hasta aplicaciones de transparencia, cada proyecto tiene un impacto significativo."
+          )}
+        </p>
+
+        <div class="mt-8 grid gap-6 sm:grid-cols-2">
+          {cards.map((c: Card) => (
+            <div class="card p-5">
+              <div class="flex items-start gap-4">
+                <div class="icon-box">
+                  {c.icon === "search" && (
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M11 4a7 7 0 1 1 0 14 7 7 0 0 1 0-14Zm8.3 14.9-3.6-3.6a9 9 0 1 0-1.4 1.4l3.6 3.6a1 1 0 0 0 1.4-1.4Z"/>
+                    </svg>
+                  )}
+                  {c.icon === "clock" && (
+                    <svg class="h-6 w-6" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                      <path d="M12 2a10 10 0 1 0 .001 20.001A10 10 0 0 0 12 2Zm1 5h-2v6l5 3 1-1.7-4-2.3V7Z"/>
+                    </svg>
+                  )}
+                </div>
+                <div>
+                  <h3 class="text-lg font-semibold">
+                    {t(c.titleKey ?? "", c.titleFallback)}
+                  </h3>
+                  <p class="mt-2 text-sm text-neutral-600">
+                    {t(c.descKey ?? "", c.descFallback)}
+                  </p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div class="mt-8 flex flex-wrap items-center gap-3">
+          <a href={ctaMoreHref} class="link-arrow group">
+            {t(ctaMoreKey, "Ver más")}
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna derecha (media) -->
+      <div class="relative">
+        <div class="aspect-[4/3]">
+          <img
+            src={media.src}
+            alt={media.alt ?? ""}
+            class={`h-full w-full object-cover ${media.class ?? "rounded-2xl"}`}
+            loading="lazy"
+          />
+        </div>
+        <!-- Si preferís borde suave, cambiá a ring:
+             class="h-full w-full object-cover rounded-2xl ring-1 ring-neutral-200" -->
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,222 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+
+  sectionId?: string;
+
+  // Media
+  videoSrc?: string;
+  poster?: string;
+
+  // Textos
+  titleLines?: string[];              // renderiza con <br> responsivo
+  titleKey?: string;                  // si preferís 1 string i18n
+  titleFallback?: string;
+
+  p1Key?: string;
+  p1Fallback?: string;
+  p2Key?: string;
+  p2Fallback?: string;
+
+  // Links
+  termsHref?: string;
+
+  // Form (sin backend propio)
+  formEndpoint?: string;              // ej: "https://formspree.io/f/xxxxxx"
+  mailtoFallback?: string;            // ej: "info@cienciayjusticia.org"
+  ctaKey?: string;
+  ctaFallback?: string;
+  emailPlaceholderKey?: string;
+  emailPlaceholderFallback?: string;
+};
+
+const {
+  lang = "es",
+  dict,
+
+  sectionId = "discover",
+
+  videoSrc = "/assets/discover.mp4",
+  poster = undefined,
+
+  // título por líneas (como tu maqueta) — si pasás titleKey, se usa ese
+  titleLines = [
+    "Descubre cómo la",
+    "tecnología puede",
+    "cambiar vidas",
+  ],
+  titleKey,
+  titleFallback = "Descubre cómo la tecnología puede cambiar vidas",
+
+  p1Key = "discover.p1",
+  p1Fallback = "En un mundo atravesado por la tecnología, elegimos ponerla al servicio del desarrollo social, la educación inclusiva y la seguridad ciudadana.",
+  p2Key = "discover.p2",
+  p2Fallback = "Visita la sección de recursos y suscríbete a nuestras noticias.",
+
+  termsHref = `/${lang}/terminos/`,
+
+  formEndpoint,                        // pásalo desde la página si usás Formspree/Web3Forms
+  mailtoFallback = "info@cienciayjusticia.org",
+  ctaKey = "discover.cta",
+  ctaFallback = "Me suscribo",
+  emailPlaceholderKey = "discover.emailPlaceholder",
+  emailPlaceholderFallback = "Ingresa tu mail",
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+const resolvedTitle = titleKey ? t(titleKey, titleFallback) : null;
+---
+
+<section id={sectionId} class="pt-0" data-subscribe-root>
+  <!-- Video full-bleed -->
+  <video
+    class="block w-full h-auto rounded-xl bg-neutral-700"
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="metadata"
+    poster={poster}
+  >
+    <source src={videoSrc} type="video/mp4" />
+    {t("discover.html5Fallback", "Tu navegador no soporta video HTML5.")}
+  </video>
+
+  <!-- Copy + form -->
+  <div class="container mx-auto max-w-7xl px-4 py-10 md:py-14">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16 items-start">
+      <h2 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">
+        {resolvedTitle ? (
+          resolvedTitle
+        ) : (
+          <>
+            {titleLines.map((line, i) => (
+              <>
+                {line}
+                {i < titleLines.length - 1 && <br class="hidden sm:block" />}
+              </>
+            ))}
+          </>
+        )}
+      </h2>
+
+      <div>
+        <p class="text-sm text-neutral-700 leading-relaxed">
+          {t(p1Key, p1Fallback)}
+        </p>
+
+        <p class="mt-4 text-sm text-neutral-700 leading-relaxed">
+          {t(p2Key, p2Fallback)}
+        </p>
+
+        <!-- Form de suscripción -->
+        <form data-subscribe-form class="mt-4" novalidate data-endpoint={formEndpoint ?? ""} data-mailto={mailtoFallback}>
+          <div class="flex items-center gap-3">
+            <input
+              name="email"
+              type="email"
+              required
+              placeholder={t(emailPlaceholderKey, emailPlaceholderFallback)}
+              class="w-full bg-transparent border-0 border-b border-neutral-300 focus:border-brand-600 focus:outline-none py-2 text-sm placeholder:text-neutral-400"
+            />
+            <button
+              type="submit"
+              data-submit-btn
+              class="shrink-0 btn btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {t(ctaKey, ctaFallback)}
+            </button>
+          </div>
+
+        <!-- feedback -->
+          <p data-msg class="mt-2 text-xs text-neutral-500" aria-live="polite">
+            {t("discover.termsPrefix", "Al hacer clic en “Me suscribo” aceptas nuestros")}{" "}
+            <a href={termsHref} class="underline decoration-neutral-300 hover:decoration-neutral-600">
+              {t("discover.terms", "Términos y Condiciones")}
+            </a>.
+          </p>
+
+          <!-- honeypot (anti-bots) -->
+          <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" />
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript && document.currentScript.closest('[data-subscribe-root]');
+      if (!root) return;
+
+      const form = root.querySelector('[data-subscribe-form]');
+      const endpoint = form?.getAttribute('data-endpoint') || '';
+      const mailto = form?.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
+      const btn = form?.querySelector('[data-submit-btn]');
+      const msg = form?.querySelector('[data-msg]');
+      const emailInput = form?.querySelector('input[name="email"]');
+      const honeypot = form?.querySelector('input[name="company"]');
+
+      const setState = (state) => {
+        if (!btn) return;
+        if (state === 'loading') {
+          btn.disabled = true;
+          btn.setAttribute('aria-busy', 'true');
+        } else {
+          btn.disabled = false;
+          btn.removeAttribute('aria-busy');
+        }
+      };
+
+      const showMessage = (text, isError = false) => {
+        if (!msg) return;
+        msg.textContent = text;
+        msg.classList.toggle('text-red-700', isError);
+        msg.classList.toggle('text-green-700', !isError);
+      };
+
+      form?.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (!emailInput) return;
+
+        const email = (emailInput.value || '').trim();
+        if (!email || (honeypot && honeypot.value)) return;
+
+        // Si no hay endpoint configurado, fallback a mailto:
+        if (!endpoint) {
+          window.location.href =
+            `mailto:${mailto}?subject=${encodeURIComponent('Suscripción a novedades')}` +
+            `&body=${encodeURIComponent('agregar a mailer: ' + email)}`;
+          return;
+        }
+
+        setState('loading');
+        try {
+          const res = await fetch(endpoint, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+            body: JSON.stringify({
+              email,
+              message: `agregar a mailer: ${email}`,
+              _subject: 'Suscripción a novedades',
+              _replyto: email
+            })
+          });
+
+          if (res.ok) {
+            showMessage('¡Listo! Te agregamos al mailer.');
+            form.reset();
+          } else {
+            showMessage('Hubo un problema al enviar. Intenta de nuevo.', true);
+          }
+        } catch {
+          showMessage('Hubo un problema al enviar. Intenta de nuevo.', true);
+        } finally {
+          setState('idle');
+        }
+      });
+    })();
+  </script>
+</section>

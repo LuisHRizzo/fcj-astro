@@ -1,0 +1,112 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import UseCasesGrid from "../../../components/hub/UseCasesGrid.astro";
+import KpiStats from "../../../components/solutions/KpiStats.astro";
+import FAQAccordion from "../../../components/common/FAQAccordion.astro";
+import AIMLDemo from "../../../components/hub/AIMLDemo.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+import LeadFormAIML from "../../../components/hub/LeadFormAIML.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.aiml.hero.overline"
+    titleKey="hub.aiml.hero.title"
+    subtitleKey="hub.aiml.hero.subtitle"
+    imgSrc="/assets/hero-aiml.jpg"
+    imgAltKey="hub.aiml.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.aiml.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/contacto/`, key: "hub.aiml.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.aiml.key.title")}
+    paragraphs={[t("hub.aiml.key.p1"), t("hub.aiml.key.p2")]}
+  />
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.aiml.value.heading")}</h2>
+      <p class="mt-2 max-w-3xl text-neutral-700">{t("hub.aiml.value.lead")}</p>
+    </div>
+  </section>
+
+  <!-- CATÁLOGO DE CASOS -->
+  <UseCasesGrid
+    heading={t("hub.aiml.usecases.heading")}
+    items={[
+      { icon:'chat',  title:t("hub.aiml.usecases.items.chatbots.title"),       desc:t("hub.aiml.usecases.items.chatbots.desc"),       impact:t("hub.aiml.usecases.items.chatbots.impact") },
+      { icon:'shield',title:t("hub.aiml.usecases.items.fraude.title"),         desc:t("hub.aiml.usecases.items.fraude.desc"),         impact:t("hub.aiml.usecases.items.fraude.impact") },
+      { icon:'trend', title:t("hub.aiml.usecases.items.recursos.title"),       desc:t("hub.aiml.usecases.items.recursos.desc"),       impact:t("hub.aiml.usecases.items.recursos.impact") },
+      { icon:'user',  title:t("hub.aiml.usecases.items.personalizacion.title"),desc:t("hub.aiml.usecases.items.personalizacion.desc"),impact:t("hub.aiml.usecases.items.personalizacion.impact") },
+      { icon:'translate', title:t("hub.aiml.usecases.items.traduccion.title"), desc:t("hub.aiml.usecases.items.traduccion.desc"),     impact:t("hub.aiml.usecases.items.traduccion.impact") }
+    ]}
+  />
+
+  <!-- KPIs + TESTIMONIO -->
+  <KpiStats
+    title={t("hub.aiml.kpi.title")}
+    items={[
+      { value: t("hub.aiml.kpi.k1.value"), label: t("hub.aiml.kpi.k1.label") },
+      { value: t("hub.aiml.kpi.k2.value"), label: t("hub.aiml.kpi.k2.label") },
+      { value: t("hub.aiml.kpi.k3.value"), label: t("hub.aiml.kpi.k3.label") }
+    ]}
+  />
+  <section class="py-6 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <figure class="card p-6">
+        <blockquote class="text-lg font-semibold leading-relaxed">“{t("hub.aiml.testimonials.t1.quote")}”</blockquote>
+        <figcaption class="mt-4 text-sm text-neutral-600">{t("hub.aiml.testimonials.t1.author")}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- DEMO -->
+  <AIMLDemo {dict} />
+
+  <!-- FAQ -->
+  <FAQAccordion
+    heading={t("hub.aiml.faq.heading")}
+    items={[
+      { q: t("hub.aiml.faq.q1.q"), a: t("hub.aiml.faq.q1.a") },
+      { q: t("hub.aiml.faq.q2.q"), a: t("hub.aiml.faq.q2.a") },
+      { q: t("hub.aiml.faq.q3.q"), a: t("hub.aiml.faq.q3.a") },
+      { q: t("hub.aiml.faq.q4.q"), a: t("hub.aiml.faq.q4.a") }
+    ]}
+  />
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.aiml.resources.r1"), href:`/${lang}/recursos/whitepaper-ia-responsable.pdf` },
+      { title: t("hub.aiml.resources.r2"), href:`/${lang}/recursos/guia-10-casos-ia.pdf` }
+    ]}
+  />
+
+  <!-- FORM + CTA -->
+  <LeadFormAIML {dict} formEndpoint="" mailtoFallback="info@cienciayjusticia.org" />
+  <CTASection
+    primaryLabel={t("hub.aiml.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.aiml.ctas.secondary")}
+    secondaryHref={`/${lang}/contacto/`}
+  />
+</BaseLayout>

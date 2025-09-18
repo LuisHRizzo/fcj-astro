@@ -1,0 +1,75 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type CTA = {
+  href: string;
+  label?: string;   // texto directo
+  key?: string;     // clave i18n (p.ej. "solutions.ca.audit.ctas.primary")
+  fallback?: string;
+};
+
+type Props = {
+  lang: string;
+  dict: any;
+
+  // Overline / título / subtítulo: acepta string directo o clave i18n
+  overline?: string;
+  overlineKey?: string;
+
+  title?: string;
+  titleKey?: string;
+
+  subtitle?: string;
+  subtitleKey?: string;
+
+  imgSrc: string;
+  imgAlt?: string;
+  imgAltKey?: string;
+
+  primaryCta?: CTA;
+  secondaryCta?: CTA;
+};
+
+const props = Astro.props as Props;
+const t = (k?: string, fb?: string) => (k ? getTrans(props.dict, k, fb) : (fb ?? ""));
+
+const overlineText = props.overlineKey ? t(props.overlineKey, props.overline) : (props.overline ?? "");
+const titleText    = props.titleKey    ? t(props.titleKey,    props.title)    : (props.title ?? "");
+const subtitleText = props.subtitleKey ? t(props.subtitleKey, props.subtitle) : (props.subtitle ?? "");
+const imgAltText   = props.imgAltKey   ? t(props.imgAltKey,   props.imgAlt)   : (props.imgAlt ?? "");
+
+function ctaLabel(c?: CTA) {
+  if (!c) return "";
+  return c.key ? t(c.key, c.fallback ?? c.label) : (c.label ?? "");
+}
+---
+
+<section class="relative isolate overflow-hidden bg-neutral-50">
+  <div class="container mx-auto max-w-7xl px-4 py-12 md:py-16">
+    <div class="grid gap-10 md:grid-cols-2 md:items-center">
+      <div>
+        {overlineText && <p class="text-sm font-semibold text-neutral-600">{overlineText}</p>}
+        <h1 class="mt-2 text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight">{titleText}</h1>
+        {subtitleText && <p class="mt-5 max-w-xl text-neutral-700">{subtitleText}</p>}
+        <div class="mt-7 flex flex-wrap gap-3">
+          {props.primaryCta && (
+            <a href={props.primaryCta.href} class="btn btn-primary">
+              {ctaLabel(props.primaryCta)}
+            </a>
+          )}
+          {props.secondaryCta && (
+            <a href={props.secondaryCta.href} class="btn btn-outline">
+              {ctaLabel(props.secondaryCta)}
+            </a>
+          )}
+        </div>
+      </div>
+      <div class="rounded-2xl overflow-hidden border bg-white">
+        <div class="aspect-[4/3] w-full">
+          <img src={props.imgSrc} alt={imgAltText} class="h-full w-full object-cover" loading="eager" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="h-px w-full bg-neutral-200"></div>
+</section>

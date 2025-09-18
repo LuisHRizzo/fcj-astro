@@ -1,0 +1,196 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Item = {
+  org: string;              // AssetCo, etc.
+  quote: string;            // “La alfabetización…”
+  name: string;             // Pablo Giuliano
+  role: string;             // Coordinador…
+  avatar?: string;          // /assets/pablo.png
+  iconSvg?: string;         // opcional, si querés otro ícono por slide
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  items?: Item[];
+  intervalMs?: number;      // default 6000
+  showControls?: boolean;   // botones prev/next
+  showDots?: boolean;       // puntos
+};
+
+const defaults: Item[] = [
+  {
+    org: "AssetCo",
+    quote: "La alfabetización digital es justicia social: reduce brechas y multiplica oportunidades.",
+    name: "Pablo Giuliano",
+    role: "Coordinador de operaciones, AssetCo",
+    avatar: "/assets/pablo.png",
+  },
+  {
+    org: "Vicente Lopez",
+    quote: "Las alianzas público-civiles basadas en datos abren caminos reales a la participación ciudadana.",
+    name: "Gabriel Neumann",
+    role: "General Manager de IT, Municipio de Vicente López",
+    avatar: "/assets/Gabriel.jpg",
+  },
+  {
+    org: "EMEGE",
+    quote: "La colaboración entre tecnología y comunidad es la clave para un futuro inclusivo y seguro.",
+    name: "Marcelo Gonzalez",
+    role: "Dueño de EMEGE GROUP S.A.",
+    avatar: "/assets/marcelo.png",
+  },
+  {
+    org: "GoB",
+    quote: "La transparencia con tecnología cercana genera confianza y comunidad.",
+    name: "Alan Cura",
+    role: "CEO, Guardians of the Ball",
+    avatar: "/assets/alan.jpg",
+  },
+];
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "testimonios",
+  items = defaults,
+  intervalMs = 6000,
+  showControls = false,
+  showDots = false,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="w-full py-16 md:py-20 bg-white" data-testimonials data-interval={intervalMs}>
+  <div class="relative min-h-[320px] md:min-h-[360px]">
+    {items.map((it, i) => (
+      <article
+        data-slide
+        aria-hidden={i === 0 ? "false" : "true"}
+        class={`absolute inset-0 transition-opacity duration-700 ease-linear flex items-center justify-center
+               ${i === 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}
+      >
+        <div class="container mx-auto max-w-3xl px-4 text-center">
+          <div class="flex items-center justify-center gap-2 text-sm font-semibold text-neutral-800">
+            {/* icono simple por defecto */}
+            <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 4h16v6H4zM4 14h10v6H4zM16 14h4v6h-4z" />
+            </svg>
+            <span>{it.org}</span>
+          </div>
+
+          <figure class="mt-5">
+            <blockquote class="text-xl sm:text-2xl md:text-3xl font-extrabold leading-relaxed">
+              “{it.quote}”
+            </blockquote>
+            <figcaption class="mt-6 flex flex-col items-center gap-3 text-sm">
+              <div class="h-20 w-20 rounded-full bg-neutral-300/80 flex items-center justify-center">
+                {it.avatar ? (
+                  <img
+                    src={it.avatar}
+                    alt={it.name}
+                    loading="lazy"
+                    class="h-20 w-20 rounded-full object-cover ring-2 ring-white shadow"
+                    onerror="this.classList.add('hidden')"
+                  />
+                ) : null}
+              </div>
+              <div>
+                <div class="font-semibold">{it.name}</div>
+                <div class="text-neutral-500">{it.role}</div>
+              </div>
+            </figcaption>
+          </figure>
+        </div>
+      </article>
+    ))}
+
+    {/* Controles */}
+    {showControls && items.length > 1 && (
+      <div class="pointer-events-none absolute inset-y-0 left-0 right-0 flex items-center justify-between px-2">
+        <button data-prev class="pointer-events-auto inline-flex h-9 w-9 items-center justify-center rounded-full border bg-white/95 shadow hover:bg-white">
+          <span class="sr-only">{t("home.testimonials.prev", "Anterior")}</span>
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m15 19-7-7 7-7" />
+          </svg>
+        </button>
+        <button data-next class="pointer-events-auto inline-flex h-9 w-9 items-center justify-center rounded-full border bg-white/95 shadow hover:bg-white">
+          <span class="sr-only">{t("home.testimonials.next", "Siguiente")}</span>
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m9 5 7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    )}
+
+    {/* Dots */}
+    {showDots && items.length > 1 && (
+      <div class="absolute inset-x-0 bottom-3 flex justify-center gap-2">
+        {items.map((_, i) => (
+          <button
+            data-dot={i}
+            aria-label={`Ir al testimonio ${i + 1}`}
+            aria-current={i === 0 ? "true" : "false"}
+            class={`h-2.5 w-2.5 rounded-full border ${i === 0 ? "bg-neutral-900" : "bg-white"} border-neutral-900/50`}
+          />
+        ))}
+      </div>
+    )}
+  </div>
+
+  <script is:inline>
+    (() => {
+      const root = document.currentScript && document.currentScript.closest('[data-testimonials]');
+      if (!root) return;
+      const slides = Array.from(root.querySelectorAll('[data-slide]'));
+      const prev = root.querySelector('[data-prev]');
+      const next = root.querySelector('[data-next]');
+      const dots = Array.from(root.querySelectorAll('[data-dot]'));
+      const intervalAttr = root.getAttribute('data-interval');
+      const INTERVAL = Math.max(2000, parseInt(intervalAttr || '6000', 10) || 6000);
+
+      let idx = 0;
+      const N = slides.length;
+      let hover = false;
+      let timer;
+
+      const setActive = (i) => {
+        idx = (i % N + N) % N;
+        slides.forEach((el, k) => {
+          const active = k === idx;
+          el.style.opacity = active ? '1' : '0';
+          el.style.pointerEvents = active ? 'auto' : 'none';
+          el.setAttribute('aria-hidden', active ? 'false' : 'true');
+        });
+        dots.forEach((d, k) => d.setAttribute('aria-current', k === idx ? 'true' : 'false'));
+      };
+
+      const start = () => {
+        stop();
+        if (N <= 1) return;
+        timer = setInterval(() => { if (!hover) setActive(idx + 1); }, INTERVAL);
+      };
+      const stop = () => timer && clearInterval(timer);
+
+      root.addEventListener('mouseenter', () => { hover = true; });
+      root.addEventListener('mouseleave', () => { hover = false; });
+
+      prev && prev.addEventListener('click', () => setActive(idx - 1));
+      next && next.addEventListener('click', () => setActive(idx + 1));
+      dots.forEach((d, k) => d.addEventListener('click', () => setActive(k)));
+
+      // Teclado
+      root.tabIndex = 0;
+      root.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowRight') setActive(idx + 1);
+        if (e.key === 'ArrowLeft') setActive(idx - 1);
+      });
+
+      setActive(0);
+      start();
+    })();
+  </script>
+</section>

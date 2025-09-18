@@ -1,0 +1,140 @@
+---
+import BaseLayout from "../../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../../i18n/paths";
+
+import SolutionsHero from "../../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../../components/solutions/KeyMessage.astro";
+import BenefitsGrid from "../../../../components/solutions/BenefitsGrid.astro";
+import AudienceBenefits from "../../../../components/solutions/AudienceBenefits.astro";
+import TrustBadges from "../../../../components/solutions/TrustBadges.astro";
+import ResourcesList from "../../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../../components/solutions/CTASection.astro";
+import KpiStats from "../../../../components/solutions/KpiStats.astro";
+import LeadFormAutomation from "../../../../components/solutions/LeadFormAutomation.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="solutions.ca.rpa.hero.overline"
+    titleKey="solutions.ca.rpa.hero.title"
+    subtitleKey="solutions.ca.rpa.hero.subtitle"
+    imgSrc="/assets/hero-rpa.png"
+    imgAltKey="solutions.ca.rpa.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "solutions.ca.rpa.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/recursos/caso-exito-automatizacion.pdf`, key: "solutions.ca.rpa.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("solutions.ca.rpa.key.title")}
+    paragraphs={[
+      t("solutions.ca.rpa.key.p1"),
+      t("solutions.ca.rpa.key.p2")
+    ]}
+  />
+
+  <!-- PROPUESTA DE VALOR + bullets -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("solutions.ca.rpa.value.heading")}</h2>
+      <p class="mt-2 max-w-3xl text-neutral-700">{t("solutions.ca.rpa.value.lead")}</p>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 text-sm text-neutral-700">
+        <li class="flex items-start gap-2"><span class="icon-box"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4"/></svg></span>{t("solutions.ca.rpa.value.bullets.v1")}</li>
+        <li class="flex items-start gap-2"><span class="icon-box"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4"/></svg></span>{t("solutions.ca.rpa.value.bullets.v2")}</li>
+        <li class="flex items-start gap-2"><span class="icon-box"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4"/></svg></span>{t("solutions.ca.rpa.value.bullets.v3")}</li>
+        <li class="flex items-start gap-2"><span class="icon-box"><svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor"><path d="M9 12l2 2 4-4"/></svg></span>{t("solutions.ca.rpa.value.bullets.v4")}</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- KPIs -->
+  <KpiStats
+    title={t("solutions.ca.rpa.kpi.title")}
+    items={[
+      { value: t("solutions.ca.rpa.kpi.k1.value"), label: t("solutions.ca.rpa.kpi.k1.label") },
+      { value: t("solutions.ca.rpa.kpi.k2.value"), label: t("solutions.ca.rpa.kpi.k2.label") },
+      { value: t("solutions.ca.rpa.kpi.k3.value"), label: t("solutions.ca.rpa.kpi.k3.label") }
+    ]}
+  />
+
+  <!-- BENEFICIOS CLAVE -->
+  <BenefitsGrid
+    {lang} {dict}
+    heading={t("solutions.ca.rpa.value.heading")}
+    items={[
+      { title: t("solutions.ca.rpa.benefits.b1.title"), desc: t("solutions.ca.rpa.benefits.b1.desc") },
+      { title: t("solutions.ca.rpa.benefits.b2.title"), desc: t("solutions.ca.rpa.benefits.b2.desc") },
+      { title: t("solutions.ca.rpa.benefits.b3.title"), desc: t("solutions.ca.rpa.benefits.b3.desc") },
+      { title: t("solutions.ca.rpa.benefits.b4.title"), desc: t("solutions.ca.rpa.benefits.b4.desc") }
+    ]}
+  />
+
+  <!-- BENEFICIOS POR PÚBLICO -->
+  <AudienceBenefits
+    {lang} {dict}
+    items={[
+      { audience: t("solutions.ca.rpa.audience.gov.title"),  benefits:[t("solutions.ca.rpa.audience.gov.li1"), t("solutions.ca.rpa.audience.gov.li2"), t("solutions.ca.rpa.audience.gov.li3")] },
+      { audience: t("solutions.ca.rpa.audience.min.title"),  benefits:[t("solutions.ca.rpa.audience.min.li1"), t("solutions.ca.rpa.audience.min.li2"), t("solutions.ca.rpa.audience.min.li3")] },
+      { audience: t("solutions.ca.rpa.audience.cent.title"), benefits:[t("solutions.ca.rpa.audience.cent.li1"),t("solutions.ca.rpa.audience.cent.li2"),t("solutions.ca.rpa.audience.cent.li3")] },
+      { audience: t("solutions.ca.rpa.audience.uni.title"),  benefits:[t("solutions.ca.rpa.audience.uni.li1"), t("solutions.ca.rpa.audience.uni.li2"), t("solutions.ca.rpa.audience.uni.li3")] },
+      { audience: t("solutions.ca.rpa.audience.intl.title"), benefits:[t("solutions.ca.rpa.audience.intl.li1"),t("solutions.ca.rpa.audience.intl.li2"),t("solutions.ca.rpa.audience.intl.li3")] }
+    ]}
+  />
+
+  <!-- CERTIFICACIONES / RECONOCIMIENTOS -->
+  <TrustBadges
+    badges={[
+      { img:"/assets/badges/innovation.png", alt:t("solutions.ca.rpa.badges.innovation") },
+      { img:"/assets/badges/efficiency.png", alt:t("solutions.ca.rpa.badges.efficiency") },
+      { img:"/assets/badges/quality.png",    alt:t("solutions.ca.rpa.badges.quality") }
+    ]}
+    partners={[]}
+  />
+
+  <!-- TESTIMONIOS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Testimonios</h2>
+      <figure class="mt-6 card p-6">
+        <blockquote class="text-lg font-semibold leading-relaxed">“{t("solutions.ca.rpa.testimonials.t1.quote")}”</blockquote>
+        <figcaption class="mt-4 text-sm text-neutral-600">{t("solutions.ca.rpa.testimonials.t1.author")}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("solutions.ca.rpa.resources.r1"), href:`/${lang}/recursos/caso-exito-automatizacion.pdf` },
+      { title: t("solutions.ca.rpa.resources.r2"), href:`/${lang}/recursos/infografia-procesos.pdf` },
+      { title: t("solutions.ca.rpa.resources.r3"), href:`/${lang}/recursos/checklist-automatizacion.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormAutomation
+    {lang} {dict}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    {lang} {dict}
+    primaryLabel={t("solutions.ca.rpa.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("solutions.ca.rpa.ctas.secondary")}
+    secondaryHref={`/${lang}/recursos/caso-exito-automatizacion.pdf`}
+  />
+</BaseLayout>

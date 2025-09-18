@@ -1,0 +1,154 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+import LeadFormGamification from "../../../components/hub/LeadFormGamification.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Helper para leer arrays/objetos del diccionario
+function pick<T = any>(path: string, fallback: T): T {
+  const segs = path.split('.');
+  let cur: any = dict;
+  for (const s of segs) cur = cur?.[s];
+  return (cur ?? fallback) as T;
+}
+
+const valueItems    = pick<string[]>("hub.gamification.value.items", []);
+const usecases      = pick<Array<{ title: string; desc: string }>>("hub.gamification.usecases.items", []);
+const benefitsItems = pick<string[]>("hub.gamification.benefits.items", []);
+const testiItems    = pick<Array<{ quote: string; who: string }>>("hub.gamification.testimonials.items", []);
+const testiMetrics  = pick<Array<{ k: string; l: string }>>("hub.gamification.testimonials.metrics", []);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.gamification.hero.overline"
+    titleKey="hub.gamification.hero.title"
+    subtitleKey="hub.gamification.hero.subtitle"
+    imgSrc="/assets/gamificacion.jpg"
+    imgAltKey="hub.gamification.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.gamification.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/recursos/guia-dinamicas-gamificadas.pdf`, key: "hub.gamification.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.gamification.key.title")}
+    paragraphs={[t("hub.gamification.key.p1"), t("hub.gamification.key.p2")]}
+  />
+
+  <!-- PROPUESTA DE VALOR -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.gamification.value.heading")}</h2>
+      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {valueItems.map((txt) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- CASOS DE USO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.gamification.usecases.heading")}</h2>
+      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {usecases.map((it) => (
+          <article class="card p-6">
+            <h3 class="text-lg font-bold leading-tight">{it.title}</h3>
+            <p class="mt-1 text-sm text-neutral-600">{it.desc}</p>
+          </article>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.gamification.benefits.heading")}</h2>
+      <ul class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-2">
+        {benefitsItems.map((txt) => (
+          <li class="rounded-xl border p-4 text-sm text-neutral-700">{txt}</li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- TESTIMONIOS + MÉTRICAS -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.gamification.testimonials.heading")}</h2>
+
+      <div class="mt-6 grid gap-6 lg:grid-cols-[2fr_1fr]">
+        <!-- Quotes -->
+        <div class="space-y-4">
+          {testiItems.map((q) => (
+            <figure class="rounded-2xl border p-5">
+              <blockquote class="text-sm sm:text-base text-neutral-800">“{q.quote}”</blockquote>
+              <figcaption class="mt-2 text-xs text-neutral-500">{q.who}</figcaption>
+            </figure>
+          ))}
+        </div>
+
+        <!-- Métricas -->
+        <div class="grid grid-cols-3 gap-3 self-start">
+          {testiMetrics.map(m => (
+            <div class="rounded-2xl border p-4 text-center">
+              <div class="text-2xl font-extrabold">{m.k}</div>
+              <div class="text-xs text-neutral-500">{m.l}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.gamification.resources.repo"),      href:`/${lang}/recursos/gamificacion-plataformas.html` },
+      { title: t("hub.gamification.resources.templates"), href:`/${lang}/recursos/pack-plantillas-gamificacion.zip` },
+      { title: t("hub.gamification.resources.videos"),    href:`/${lang}/recursos/gamificacion-tutoriales.html` }
+    ]}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormGamification
+    title={t("hub.gamification.form.title")}
+    lead={t("hub.gamification.form.lead")}
+    labels={{
+      name: t("hub.gamification.form.name"),
+      email: t("hub.gamification.form.email"),
+      org: t("hub.gamification.form.org"),
+      interest: t("hub.gamification.form.interest"),
+      options: t("hub.gamification.form.interest_options"),
+      submit: t("hub.gamification.form.submit")
+    }}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    primaryLabel={t("hub.gamification.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.gamification.ctas.secondary")}
+    secondaryHref={`/${lang}/recursos/guia-dinamicas-gamificadas.pdf`}
+  />
+</BaseLayout>

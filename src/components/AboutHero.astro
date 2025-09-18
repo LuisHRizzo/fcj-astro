@@ -1,0 +1,65 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+  overlineKey?: string;  // "Historia"
+  titleKey?: string;     // "Quiénes Somos"
+  leadKey?: string;      // "Descubre nuestra trayectoria..."
+  ctaVisionHref?: string;   // "#mision-vision"
+  ctaVisionKey?: string;    // "Nuestra Visión"
+  ctaTeamHref?: string;     // "#equipo"
+  ctaTeamKey?: string;      // "Nuestro Equipo"
+  // Si querés asegurar contraste sobre fondo oscuro en el outline:
+  outlineInvert?: boolean;  // agrega borde/blanco hover sutil
+};
+
+const {
+  lang = "es",
+  dict,
+  overlineKey = "about.hero.overline",
+  titleKey = "about.hero.title",
+  leadKey = "about.hero.lead",
+  ctaVisionHref = "#mision-vision",
+  ctaVisionKey = "about.hero.ctaVision",
+  ctaTeamHref = "#equipo",
+  ctaTeamKey = "about.hero.ctaTeam",
+  outlineInvert = true,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section class="relative isolate overflow-hidden bg-neutral-900 text-white">
+  <div class="container mx-auto max-w-7xl px-4 py-20 sm:py-24 lg:py-28">
+    <p class="text-sm font-semibold text-white/80">
+      {t(overlineKey, "Historia")}
+    </p>
+
+    <h1 class="mt-4 text-5xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight">
+      {t(titleKey, "Quiénes Somos")}
+    </h1>
+
+    <p class="mt-6 max-w-3xl text-lg text-white/85">
+      {t(leadKey, "Descubre nuestra trayectoria, misión y el equipo que impulsa el cambio social.")}
+    </p>
+
+    <div class="mt-8 flex flex-wrap gap-3">
+      <a
+        href={ctaVisionHref}
+        class={`btn btn-outline ${
+          outlineInvert ? "text-white border-white/70 hover:bg-white/10" : ""
+        }`}
+      >
+        {t(ctaVisionKey, "Nuestra Visión")}
+      </a>
+      <a href={ctaTeamHref} class="btn btn-primary">
+        {t(ctaTeamKey, "Nuestro Equipo")}
+      </a>
+    </div>
+  </div>
+
+  <!-- línea separadora inferior -->
+  <div class="h-px w-full bg-neutral-300/60"></div>
+</section>

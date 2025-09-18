@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import AboutHero from "../../components/AboutHero.astro";
+import AboutHistoria from "../../components/AboutHistoria.astro";
+import MisionVision from "../../components/MisionVision.astro";
+import LogosMarquee from "../../components/LogosMarquee.astro";
+import Discover from "../../components/Discover.astro";
+import Equipo from "../../components/Equipo.astro";
+
+import { loadDict, getTrans } from "../../i18n/utils";
+import { getStaticLocalePaths } from "../../i18n/paths";
+export const getStaticPaths = getStaticLocalePaths;
+
+import team from "../../data/team.json" assert { type: "json" };
+
+
+const { lang = 'es' } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <AboutHero lang={lang} dict={dict} />
+  <AboutHistoria lang={lang} dict={dict} />
+  <MisionVision lang={lang} dict={dict} />
+  <Discover {lang} {dict}
+  videoSrc="/assets/discover.mp4"
+  formEndpoint="https://formspree.io/f/xzzapqkw"  
+  mailtoFallback="info@cienciayjusticia.org"
+/>
+  <LogosMarquee lang={lang} dict={dict}/>
+    <Equipo {lang} {dict} team={team} ctaHref={`/${lang}/contacto/`} />
+
+</BaseLayout>

@@ -1,0 +1,109 @@
+---
+import { getTrans } from "../i18n/utils";
+
+type Item = {
+  img: string;
+  alt?: string;
+  titleKey?: string;
+  titleFallback?: string;
+  descKey?: string;
+  descFallback?: string;
+};
+
+const defaultItems: Item[] = [
+  {
+    img: "/assets/consultoria.png",
+    alt: "Consultoría y Soluciones Especializadas",
+    titleKey: "home.services.items.0.title",
+    titleFallback: "Consultoría y Soluciones Especializadas",
+    descKey: "home.services.items.0.desc",
+    descFallback: "Impulsamos la transformación digital en el sector público.",
+  },
+  {
+    img: "/assets/seguridad-digital.png",
+    alt: "Innovación y Seguridad en el Entorno Digital",
+    titleKey: "home.services.items.1.title",
+    titleFallback: "Innovación y Seguridad en el Entorno Digital",
+    descKey: "home.services.items.1.desc",
+    descFallback:
+      "Desarrollamos soluciones de ciberseguridad para proteger a las comunidades.",
+  },
+  {
+    img: "/assets/conexion.png",
+    alt: "Plataformas Ciudadanas para la Participación Activa",
+    titleKey: "home.services.items.2.title",
+    titleFallback: "Plataformas Ciudadanas para la Participación Activa",
+    descKey: "home.services.items.2.desc",
+    descFallback:
+      "Creamos herramientas digitales que fomentan la transparencia y la colaboración.",
+  },
+];
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  items?: Item[];
+  ctaMoreHref?: string;
+  ctaMoreKey?: string;
+  ctaAdviceHref?: string;
+  ctaAdviceKey?: string;
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "servicios",
+  overlineKey = "home.services.overline",
+  titleKey = "home.services.title",
+  leadKey = "home.services.lead",
+  items = defaultItems,
+  ctaMoreHref = "#mas",
+  ctaMoreKey = "home.services.ctaMore",
+  ctaAdviceHref = "#asesoramiento",
+  ctaAdviceKey = "home.services.ctaAdvice",
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <p class="text-sm font-semibold text-neutral-500">Servicios</p>
+    <h2
+      class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-4xl"
+    >
+      Nuestras Soluciones para la inclusión tecnológica
+    </h2>
+    <p class="mt-5 max-w-3xl text-neutral-600">
+      Ofrecemos consultoría y soluciones innovadoras para gobiernos y ONGs.
+      Nuestra experiencia en IA, IoT y ciberseguridad transforma realidades y
+      promueve el desarrollo inclusivo.
+    </p>
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {
+        items.map((it: Item) => (
+          <article class="group card p-5 text-center">
+            <div class="rounded-xl bg-transparent aspect-[16/10] flex items-center justify-center overflow-hidden">
+              <img
+                src={it.img}
+                alt={it.alt ?? ""}
+                class="h-full w-full object-contain"
+                loading="lazy"
+              />
+            </div>
+            <h3 class="mt-6 text-2xl font-bold leading-tight">
+              {t(it.titleKey ?? "", it.titleFallback ?? "")}
+            </h3>
+            <p class="mt-3 text-sm text-neutral-600">
+              {t(it.descKey ?? "", it.descFallback ?? "")}
+            </p>
+          </article>
+        ))
+      }
+    </div>
+  </div>
+</section>

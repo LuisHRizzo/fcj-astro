@@ -1,0 +1,108 @@
+---
+import { getTrans } from "../i18n/utils";
+
+const { lang = 'es', dict } = Astro.props as { lang: string; dict: any };
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+const paths = {
+  home: '',
+  quienes: 'quienes-somos',
+  soluciones: 'soluciones',
+  proyectos: 'proyectos',
+  unete: 'involucrate',
+  blog: 'blog',
+  recursos: 'recursos',
+  eventos: 'eventos',
+  contacto: 'contacto',
+};
+const link = (p: string) => `/${lang}/${p ? p + '/' : ''}`;
+
+const year = new Date().getFullYear();
+const siteName = t('meta.siteName', 'Fundación Ciencia y Justicia');
+const email    = t('org.email', 'contacto@cienciayjusticia.org');
+const address  = t('org.address', 'Avenida Del Libertador 1000, Vicente López, Argentina');
+---
+
+<footer class="bg-white">
+  <div class="container mx-auto max-w-7xl px-4 pt-12">
+    <!-- Top -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10">
+      <!-- Col 1 -->
+      <div class="md:pr-10">
+        <a href={link(paths.home)} class="flex items-center gap-3">
+          <img src="/assets/blanco_background.png" alt={siteName} class="h-14 w-auto" />
+          <span class="sr-only">{siteName}</span>
+        </a>
+
+        <div class="mt-6 space-y-5 text-sm">
+          <div>
+            <div class="font-semibold text-neutral-900">{t('footer.hq', 'Sede Central')}</div>
+            <p class="mt-1 text-neutral-600">{address}</p>
+          </div>
+
+          <div>
+            <div class="font-semibold text-neutral-900">{t('footer.writeUs', 'Escríbenos')}</div>
+            <a href={`mailto:${email}`}
+               class="mt-1 inline-block text-neutral-900 underline decoration-neutral-300 hover:decoration-neutral-700">
+              {email}
+            </a>
+          </div>
+
+          <div class="flex items-center gap-4 pt-2">
+            <a aria-label="Facebook"  href={t('social.facebook', '#')} class="text-neutral-700 hover:text-neutral-900">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M13 10h3l-1 4h-2v8h-4v-8H7v-4h2V8a4 4 0 0 1 4-4h3v4h-3a1 1 0 0 0-1 1v1z"/></svg>
+            </a>
+            <a aria-label="Instagram" href={t('social.instagram', '#')} class="text-neutral-700 hover:text-neutral-900">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm5 5a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm6-1a1 1 0 1 0 0 2 1 1 0 0 0 0-2zM12 9a3 3 0 1 1 0 6 3 3 0 0 1 0-6z"/></svg>
+            </a>
+            <a aria-label="X"         href={t('social.x', '#')} class="text-neutral-700 hover:text-neutral-900">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 3h4.3l4.2 6 4.7-6H21l-7.3 9.2L21 21h-4.3l-4.6-6.4L7 21H3l7.6-9.7z"/></svg>
+            </a>
+            <a aria-label="LinkedIn"  href={t('social.linkedin', '#')} class="text-neutral-700 hover:text-neutral-900">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4 3a2 2 0 1 0 0 4 2 2 0 0 0 0-4zM3 8h3.9v13H3zM14.5 8A5.5 5.5 0 0 1 20 13.5V21h-3.9v-6.2c0-1.7-.9-2.8-2.4-2.8s-2.5 1.1-2.5 2.8V21H7.3V8H11v1.9C11.6 9.2 13 8 14.5 8z"/></svg>
+            </a>
+            <a aria-label="YouTube"   href={t('social.youtube', '#')} class="text-neutral-700 hover:text-neutral-900">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23 12s0-3.4-.4-5a3 3 0 0 0-2-2C18.9 4.3 12 4.3 12 4.3s-6.9 0-8.6.7a3 3 0 0 0-2 2C1 8.6 1 12 1 12s0 3.4.4 5a3 3 0 0 0 2 2c1.7.7 8.6.7 8.6.7s6.9 0 8.6-.7a3 3 0 0 0 2-2c.4-1.6.4-5 .4-5zM10 15.5v-7l6 3.5-6 3.5z"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Col 2 -->
+      <div class="space-y-4 text-sm">
+        <a href={link(paths.quienes)} class="block font-semibold text-neutral-900">
+          {t('footer.links.foundation.title', 'Sobre la Fundación')}
+        </a>
+        <a href={link(paths.soluciones)} class="block hover:underline">
+          {t('footer.links.foundation.whatWeDo', 'Qué hacemos')}
+        </a>
+        <a href={link(paths.proyectos)} class="block hover:underline">
+          {t('footer.links.foundation.projects', 'Proyectos')}
+        </a>
+        <a href={link(paths.unete)} class="block hover:underline">
+          {t('footer.links.foundation.join', 'Únete a la FCJ')}
+        </a>
+      </div>
+
+      <!-- Col 3 -->
+      <div class="space-y-4 text-sm">
+        <a href={link(paths.blog)} class="block font-semibold text-neutral-900">
+          {t('footer.links.news.title', 'Noticias')}
+        </a>
+        <a href={link(paths.recursos)} class="block hover:underline">
+          {t('footer.links.news.resources', 'Recursos y Herramientas')}
+        </a>
+        <a href={link(paths.eventos)} class="block hover:underline">
+          {t('footer.links.news.events', 'Eventos')}
+        </a>
+      </div>
+    </div>
+
+    <!-- Subfooter -->
+    <div class="mt-10 border-t pt-6 pb-12">
+      <div class="flex flex-col gap-4 text-sm text-neutral-600 md:flex-row md:items-center md:justify-between">
+        <p>© {year} {siteName}. {t('footer.rights', 'Todos los derechos reservados.')}</p>
+      </div>
+    </div>
+  </div>
+</footer>

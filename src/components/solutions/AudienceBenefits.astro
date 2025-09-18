@@ -1,0 +1,19 @@
+---
+type Row = { audience: string; benefits: string[] };
+const { items = [] } = Astro.props as { items: Row[] };
+---
+<section class="py-10 md:py-12">
+  <div class="container mx-auto max-w-7xl px-4">
+    <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Beneficios por público objetivo</h2>
+    <div class="mt-6 grid gap-6 md:grid-cols-2">
+      {items.map((row) => (
+        <div class="card p-5">
+          <h3 class="font-semibold">{row.audience}</h3>
+          <ul class="mt-3 list-disc pl-5 text-sm text-neutral-700 space-y-1">
+            {row.benefits.map((b) => <li>{b}</li>)}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

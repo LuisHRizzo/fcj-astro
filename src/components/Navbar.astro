@@ -1,0 +1,558 @@
+---
+import LanguageSwitcher from "./LanguageSwitcher.astro";
+import { getTrans } from "../i18n/utils";
+
+const { lang = "es", dict } = Astro.props as { lang: string; dict: any };
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Slugs base
+const paths = {
+  home: "",
+  quienes: "quienes-somos",
+  soluciones: "soluciones",
+  hub: "hub",
+  blog: "blog",
+  cursos: "cursos", // <-- NUEVO
+  contacto: "contacto",
+};
+
+// Helper de link interno por idioma
+const link = (p: string) => `/${lang}/${p ? p + "/" : ""}`;
+
+// Menú de Soluciones
+const solucionesMenu = {
+  tech: {
+    labelKey: "nav.solutions.group.tech",
+    fallback: "Soluciones tecnológicas",
+    items: [
+      {
+        labelKey: "nav.solutions.obs",
+        fallback: "Plataforma de observabilidad",
+        path: "soluciones/observabilidad",
+      },
+      {
+        labelKey: "nav.solutions.rpa",
+        fallback: "Plataforma de Auditoría Multinormativa",
+        path: "soluciones/auditoria",
+      },
+      {
+        labelKey: "nav.solutions.cyber",
+        fallback: "Plataforma de Gobernanza y Compliance en Ciberseguridad",
+        path: "soluciones/automatizacion",
+      },
+    ],
+  },
+  consult: {
+    labelKey: "nav.solutions.group.consult",
+    fallback: "Consultoría y Auditoría",
+    items: [
+      {
+        labelKey: "nav.solutions.consult.ai",
+        fallback: "Transformación digital potenciada por IA",
+        path: "soluciones/consultoria/transformacion-digital-ia",
+      },
+      {
+        labelKey: "nav.solutions.consult.audit",
+        fallback: "Auditoría Multinormativa",
+        path: "soluciones/consultoria/auditoria-multinormativa",
+      },
+      {
+        labelKey: "nav.solutions.consult.cyber",
+        fallback: "Ciberseguridad",
+        path: "soluciones/consultoria/ciberseguridad",
+      },
+      {
+        labelKey: "nav.solutions.consult.rpa",
+        fallback: "Automatización de procesos",
+        path: "soluciones/consultoria/automatizacion",
+      },
+      {
+        labelKey: "nav.solutions.consult.data",
+        fallback: "Data & analytics",
+        path: "soluciones/consultoria/data-analytics",
+      },
+    ],
+  },
+};
+
+// Menú de Hub
+const hubMenu = [
+  { labelKey: "nav.hub.lab", fallback: "Lab I+D", path: "hub/lab" },
+  {
+    labelKey: "nav.hub.gaming",
+    fallback: "Laboratorio de Gamificación Digital",
+    path: "hub/gaming",
+  },
+  {
+    labelKey: "nav.hub.vr",
+    fallback: "Laboratorio de Experiencias Inmersivas (VR/Metaverso)",
+    path: "hub/metaverso",
+  },
+  {
+    labelKey: "nav.hub.validation",
+    fallback: "MVP Lab: Validación ágil de prototipos y procesos",
+    path: "hub/validation",
+  },
+  {
+    labelKey: "nav.hub.sandbox",
+    fallback: "Sandbox Regulatorio",
+    path: "hub/sandbox",
+  },
+  {
+    labelKey: "nav.hub.mlearning",
+    fallback: "AI & Machine Learning",
+    path: "hub/mlearning",
+  },
+  {
+    labelKey: "nav.hub.transfer",
+    fallback: "Transferencia Tecnológica",
+    path: "hub/transferencia-tecnologica",
+  },
+];
+---
+
+<header
+  class="fixed inset-x-0 top-0 z-50 border-b bg-white/90 backdrop-blur supports-[backdrop-filter]:bg-white/80"
+>
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="flex h-16 items-center justify-between">
+      <!-- Logo -->
+      <a href={link(paths.home)} class="flex items-center gap-3 shrink-0">
+        <img
+          src="/assets/blanco_background.png"
+          alt={t("meta.siteName", "Fundación Ciencia y Justicia")}
+          class="h-9 w-auto"
+        />
+      </a>
+
+      <!-- Desktop nav -->
+      <nav class="hidden md:flex items-center gap-8" aria-label="Principal">
+        <a
+          href={link(paths.home)}
+          class="text-sm text-neutral-800 hover:text-neutral-950 transition"
+        >
+          {t("nav.home", "Home")}
+        </a>
+
+        <a
+          href={link(paths.quienes)}
+          class="text-sm text-neutral-800 hover:text-neutral-950 transition"
+        >
+          {t("nav.about", "Quienes somos")}
+        </a>
+
+        <!-- SOLUCIONES (dropdown) -->
+        <div class="relative" data-menu-root>
+          <button
+            data-menu-btn="sol"
+            class="flex items-center gap-1 text-sm text-neutral-800 hover:text-neutral-950 transition"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="menu-sol"
+            type="button"
+          >
+            {t("nav.solutionsLabel", "Soluciones")}
+            <svg
+              class="h-4 w-4 transition-transform"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+
+          <div
+            id="menu-sol"
+            data-menu="sol"
+            class="invisible absolute left-0 top-full z-20 mt-2 w-[520px] translate-y-1 rounded-xl border bg-white p-3 opacity-0 shadow-lg transition
+                   data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:opacity-100"
+            role="menu"
+          >
+            <div class="grid grid-cols-2 gap-4">
+              <!-- Columna: Soluciones tecnológicas -->
+              <div>
+                <div class="px-2 py-1 text-xs font-semibold text-neutral-500">
+                  {
+                    t(
+                      solucionesMenu.tech.labelKey,
+                      solucionesMenu.tech.fallback
+                    )
+                  }
+                </div>
+                <div class="mt-1 flex flex-col">
+                  {
+                    solucionesMenu.tech.items.map((it) => (
+                      <a
+                        href={link(it.path)}
+                        class="rounded-lg px-2 py-2 text-sm text-neutral-800 hover:bg-neutral-50"
+                        role="menuitem"
+                      >
+                        {t(it.labelKey, it.fallback)}
+                      </a>
+                    ))
+                  }
+                </div>
+              </div>
+
+              <!-- Columna: Consultoría y Auditoría -->
+              <div>
+                <div class="px-2 py-1 text-xs font-semibold text-neutral-500">
+                  {
+                    t(
+                      solucionesMenu.consult.labelKey,
+                      solucionesMenu.consult.fallback
+                    )
+                  }
+                </div>
+                <div class="mt-1 flex flex-col">
+                  {
+                    solucionesMenu.consult.items.map((it) => (
+                      <a
+                        href={link(it.path)}
+                        class="rounded-lg px-2 py-2 text-sm text-neutral-800 hover:bg-neutral-50"
+                        role="menuitem"
+                      >
+                        {t(it.labelKey, it.fallback)}
+                      </a>
+                    ))
+                  }
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HUB (dropdown) -->
+        <div class="relative" data-menu-root>
+          <button
+            data-menu-btn="hub"
+            class="flex items-center gap-1 text-sm text-neutral-800 hover:text-neutral-950 transition"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="menu-hub"
+            type="button"
+          >
+            {t("nav.hubLabel", "Hub de Innovación")}
+            <svg
+              class="h-4 w-4 transition-transform"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+
+          <div
+            id="menu-hub"
+            data-menu="hub"
+            class="invisible absolute left-0 top-full z-20 mt-2 w-64 translate-y-1 rounded-xl border bg-white p-2 opacity-0 shadow-lg transition
+                   data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:opacity-100"
+            role="menu"
+          >
+            {
+              hubMenu.map((it) => (
+                <a
+                  href={link(it.path)}
+                  class="block rounded-lg px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50"
+                  role="menuitem"
+                >
+                  {t(it.labelKey, it.fallback)}
+                </a>
+              ))
+            }
+          </div>
+        </div>
+
+        <!-- RECURSOS (dropdown) -->
+        <div class="relative" data-menu-root>
+          <button
+            data-menu-btn="rec"
+            class="flex items-center gap-1 text-sm text-neutral-800 hover:text-neutral-950 transition"
+            aria-haspopup="true"
+            aria-expanded="false"
+            aria-controls="menu-rec"
+            type="button"
+          >
+            {t("nav.resourcesLabel", "Recursos")}
+            <svg
+              class="h-4 w-4 transition-transform"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M5.23 7.21a.75.75 0 0 1 1.06.02L10 10.94l3.71-3.71a.75.75 0 1 1 1.06 1.06l-4.24 4.24a.75.75 0 0 1-1.06 0L5.25 8.29a.75.75 0 0 1-.02-1.08z"
+                clip-rule="evenodd"></path>
+            </svg>
+          </button>
+
+          <div
+            id="menu-rec"
+            data-menu="rec"
+            class="invisible absolute left-0 top-full z-20 mt-2 w-48 translate-y-1 rounded-xl border bg-white p-2 opacity-0 shadow-lg transition
+           data-[open=true]:visible data-[open=true]:translate-y-0 data-[open=true]:opacity-100"
+            role="menu"
+          >
+            <a
+              href={link(paths.blog)}
+              class="block rounded-lg px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50"
+              role="menuitem"
+            >
+              {t("nav.resources.blog", "Blog")}
+            </a>
+            <a
+              href={link(paths.cursos)}
+              class="block rounded-lg px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50"
+              role="menuitem"
+            >
+              {t("nav.resources.cursos", "Cursos")}
+            </a>
+          </div>
+        </div>
+      </nav>
+
+      <!-- Actions (desktop) -->
+      <div class="hidden md:flex items-center gap-3">
+        <a
+          href="https://academia.cienciayjusticia.org"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="inline-flex items-center justify-center rounded-lg bg-yellow-300 border border-neutral-300 px-3 py-2 text-sm text-neutral-800 hover:bg-yellow-400 transition"
+        >
+          {t("nav.academia", "Academia")}
+        </a>
+
+        <a
+          href={link(paths.contacto)}
+          class="inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+        >
+          {t("nav.contact", "Contacto")}
+        </a>
+
+        <div class="ml-2 hidden lg:block">
+          <LanguageSwitcher {lang} />
+        </div>
+      </div>
+
+      <!-- Mobile toggle -->
+      <button
+        id="mobileToggle"
+        class="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg border"
+        aria-label="Abrir menú"
+        aria-controls="mobileMenu"
+        aria-expanded="false"
+      >
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobileMenu" class="md:hidden hidden border-t">
+    <div class="container mx-auto max-w-7xl px-4 py-3">
+      <nav class="flex flex-col gap-2">
+        <a
+          href={link(paths.home)}
+          class="rounded-lg px-3 py-2 text-sm hover:bg-neutral-50"
+        >
+          {t("nav.home", "Home")}
+        </a>
+        <a
+          href={link(paths.quienes)}
+          class="rounded-lg px-3 py-2 text-sm hover:bg-neutral-50"
+        >
+          {t("nav.about", "Quienes somos")}
+        </a>
+
+        <!-- Soluciones (mobile) -->
+        <details class="rounded-lg px-3 py-2 text-sm open:bg-neutral-50">
+          <summary class="cursor-pointer list-none"
+            >{t("nav.solutionsLabel", "Soluciones")}</summary
+          >
+          <div class="mt-2 ml-2 grid grid-cols-1 gap-3">
+            <div>
+              <div class="text-xs font-semibold text-neutral-500">
+                {t(solucionesMenu.tech.labelKey, solucionesMenu.tech.fallback)}
+              </div>
+              <div class="mt-1 flex flex-col">
+                {
+                  solucionesMenu.tech.items.map((it) => (
+                    <a
+                      href={link(it.path)}
+                      class="rounded px-2 py-1 hover:bg-neutral-100"
+                    >
+                      {t(it.labelKey, it.fallback)}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+            <div>
+              <div class="text-xs font-semibold text-neutral-500">
+                {
+                  t(
+                    solucionesMenu.consult.labelKey,
+                    solucionesMenu.consult.fallback
+                  )
+                }
+              </div>
+              <div class="mt-1 flex flex-col">
+                {
+                  solucionesMenu.consult.items.map((it) => (
+                    <a
+                      href={link(it.path)}
+                      class="rounded px-2 py-1 hover:bg-neutral-100"
+                    >
+                      {t(it.labelKey, it.fallback)}
+                    </a>
+                  ))
+                }
+              </div>
+            </div>
+          </div>
+
+          <!-- Hub (mobile) -->
+          <details class="rounded-lg px-3 py-2 text-sm open:bg-neutral-50">
+            <summary class="cursor-pointer list-none"
+              >{t("nav.hubLabel", "Hub de Innovación")}</summary
+            >
+            <div class="mt-2 ml-2 flex flex-col gap-1">
+              {
+                hubMenu.map((it) => (
+                  <a
+                    href={link(it.path)}
+                    class="rounded px-2 py-1 hover:bg-neutral-100"
+                  >
+                    {t(it.labelKey, it.fallback)}
+                  </a>
+                ))
+              }
+            </div>
+          </details>
+
+          <!-- Recursos (mobile) -->
+          <details class="rounded-lg px-3 py-2 text-sm open:bg-neutral-50">
+            <summary class="cursor-pointer list-none"
+              >{t("nav.resourcesLabel", "Recursos")}</summary
+            >
+            <div class="mt-2 ml-2 flex flex-col gap-1">
+              <a
+                href={link(paths.blog)}
+                class="rounded px-2 py-1 hover:bg-neutral-100"
+                >{t("nav.resources.blog", "Blog")}</a
+              >
+              <a
+                href={link(paths.cursos)}
+                class="rounded px-2 py-1 hover:bg-neutral-100"
+                >{t("nav.resources.cursos", "Cursos")}</a
+              >
+            </div>
+          </details>
+
+          <div class="mt-2 flex items-center gap-2">
+            <a
+              href="https://academia.cienciayjusticia.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex-1 inline-flex items-center justify-center rounded-lg border border-neutral-300 px-3 py-2 text-sm text-neutral-800 hover:bg-neutral-50 transition"
+            >
+              {t("nav.academia", "Academia")}
+            </a>
+            <a
+              href={link(paths.contacto)}
+              class="flex-1 inline-flex items-center justify-center rounded-lg bg-indigo-600 px-3 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+            >
+              {t("nav.contact", "Contacto")}
+            </a>
+          </div>
+
+          <div class="mt-2">
+            <LanguageSwitcher {lang} />
+          </div>
+        </details>
+      </nav>
+    </div>
+
+    <script>
+      (() => {
+        // --- Mobile toggle ---
+        const btn = document.getElementById("mobileToggle");
+        const menu = document.getElementById("mobileMenu");
+        if (btn && menu) {
+          btn.addEventListener("click", () => {
+            const expanded = btn.getAttribute("aria-expanded") === "true";
+            btn.setAttribute("aria-expanded", String(!expanded));
+            menu.classList.toggle("hidden");
+          });
+        }
+
+        // --- Desktop dropdowns ---
+        const roots = Array.from(document.querySelectorAll("[data-menu-root]"));
+        let openKey: any = null;
+
+        function setOpen(key: any, isOpen: boolean) {
+          const btnEl = document.querySelector(`[data-menu-btn="${key}"]`);
+          const menuEl = document.querySelector(`[data-menu="${key}"]`);
+          if (!btnEl || !menuEl) return;
+
+          btnEl.setAttribute("aria-expanded", String(isOpen));
+          menuEl.setAttribute("data-open", String(isOpen));
+
+          const icon = btnEl.querySelector("svg");
+          if (icon) icon.style.transform = isOpen ? "rotate(180deg)" : "";
+        }
+
+        function closeAll() {
+          ["sol", "hub", "rec"].forEach((k) => setOpen(k, false)); // <-- incluye Recursos
+          openKey = null;
+        }
+
+        roots.forEach((root) => {
+          const b = root.querySelector("[data-menu-btn]");
+          if (!b) return;
+          const key = b.getAttribute("data-menu-btn");
+
+          b.addEventListener("click", (e) => {
+            e.stopPropagation();
+            const nextKey = openKey === key ? null : key;
+            closeAll();
+            if (nextKey) {
+              setOpen(nextKey, true);
+              openKey = nextKey;
+            }
+          });
+
+          root.addEventListener("keydown", (e) => {
+            if ("key" in e && e.key === "Escape") {
+              closeAll();
+              if (b && "focus" in b) b.focus();
+            }
+          });
+        });
+
+        document.addEventListener("click", () => closeAll());
+      })();
+    </script>
+  </div>
+</header>

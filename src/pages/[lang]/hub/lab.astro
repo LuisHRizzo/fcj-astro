@@ -1,0 +1,122 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { loadDict, getTrans } from "../../../i18n/utils";
+import { getStaticLocalePaths } from "../../../i18n/paths";
+
+import SolutionsHero from "../../../components/solutions/SolutionsHero.astro";
+import KeyMessage from "../../../components/solutions/KeyMessage.astro";
+import BenefitsGrid from "../../../components/solutions/BenefitsGrid.astro";
+import AudienceBenefits from "../../../components/solutions/AudienceBenefits.astro";
+import TrustBadges from "../../../components/solutions/TrustBadges.astro";
+import ResourcesList from "../../../components/solutions/ResourcesList.astro";
+import CTASection from "../../../components/solutions/CTASection.astro";
+import LeadFormLabs from "../../../components/hub/LeadFormLabs.astro";
+
+export const getStaticPaths = getStaticLocalePaths;
+
+const { lang = "es" } = Astro.params;
+const dict = await loadDict(lang);
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<BaseLayout lang={lang} dict={dict}>
+  <!-- HERO -->
+  <SolutionsHero
+    {lang} {dict}
+    overlineKey="hub.labs.hero.overline"
+    titleKey="hub.labs.hero.title"
+    subtitleKey="hub.labs.hero.subtitle"
+    imgSrc="/assets/hero-labs.jpg"
+    imgAltKey="hub.labs.hero.imgAlt"
+    primaryCta={{ href: `/${lang}/contacto/`, key: "hub.labs.ctas.primary" }}
+    secondaryCta={{ href: `/${lang}/contacto/`, key: "hub.labs.ctas.secondary" }}
+  />
+
+  <!-- MENSAJE CLAVE -->
+  <KeyMessage
+    {lang} {dict}
+    title={t("hub.labs.key.title")}
+    paragraphs={[
+      t("hub.labs.key.p1"),
+      t("hub.labs.key.p2")
+    ]}
+  />
+
+  <!-- PROPUESTA DE VALOR (copete) -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">{t("hub.labs.value.heading")}</h2>
+      <p class="mt-2 max-w-3xl text-neutral-700">{t("hub.labs.value.lead")}</p>
+    </div>
+  </section>
+
+  <!-- BENEFICIOS CLAVE -->
+  <BenefitsGrid
+    {lang} {dict}
+    heading={t("hub.labs.value.heading")}
+    items={[
+      { title: t("hub.labs.benefits.b1.title"), desc: t("hub.labs.benefits.b1.desc") },
+      { title: t("hub.labs.benefits.b2.title"), desc: t("hub.labs.benefits.b2.desc") },
+      { title: t("hub.labs.benefits.b3.title"), desc: t("hub.labs.benefits.b3.desc") },
+      { title: t("hub.labs.benefits.b4.title"), desc: t("hub.labs.benefits.b4.desc") }
+    ]}
+  />
+
+  <!-- BENEFICIOS POR PÚBLICO -->
+  <AudienceBenefits
+    {lang} {dict}
+    items={[
+      { audience: t("hub.labs.audience.ap.title"),  benefits:[t("hub.labs.audience.ap.li1"), t("hub.labs.audience.ap.li2"), t("hub.labs.audience.ap.li3")] },
+      { audience: t("hub.labs.audience.tech.title"),benefits:[t("hub.labs.audience.tech.li1"), t("hub.labs.audience.tech.li2"), t("hub.labs.audience.tech.li3")] },
+      { audience: t("hub.labs.audience.ct.title"),  benefits:[t("hub.labs.audience.ct.li1"),  t("hub.labs.audience.ct.li2"),  t("hub.labs.audience.ct.li3")] },
+      { audience: t("hub.labs.audience.res.title"), benefits:[t("hub.labs.audience.res.li1"), t("hub.labs.audience.res.li2"), t("hub.labs.audience.res.li3")] }
+    ]}
+  />
+
+  <!-- CERTIFICACIONES / ALIANZAS -->
+  <TrustBadges
+    badges={[
+      { img:"/assets/badges/iso-56002.png", alt:t("hub.labs.badges.iso56002") }
+    ]}
+    partners={[
+      { img:"/assets/partners/universities.png", alt:t("hub.labs.partners.universities") },
+      { img:"/assets/partners/admins.png",      alt:t("hub.labs.partners.admins") }
+    ]}
+  />
+
+  <!-- TESTIMONIO -->
+  <section class="py-10 md:py-12 bg-white">
+    <div class="container mx-auto max-w-7xl px-4">
+      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Testimonios</h2>
+      <figure class="mt-6 card p-6">
+        <blockquote class="text-lg font-semibold leading-relaxed">“{t("hub.labs.testimonials.t1.quote")}”</blockquote>
+        <figcaption class="mt-4 text-sm text-neutral-600">{t("hub.labs.testimonials.t1.author")}</figcaption>
+      </figure>
+    </div>
+  </section>
+
+  <!-- RECURSOS -->
+  <ResourcesList
+    {lang} {dict}
+    items={[
+      { title: t("hub.labs.resources.r1"), href:`/${lang}/recursos/guia-labs-id.pdf` },
+      { title: t("hub.labs.resources.r2"), href:`/${lang}/recursos/infografia-sandbox.pdf` }
+    ]}
+  />
+
+  <!-- FORMULARIO -->
+  <LeadFormLabs
+    {lang} {dict}
+    formEndpoint=""
+    mailtoFallback="info@cienciayjusticia.org"
+  />
+
+  <!-- CTA FINAL -->
+  <CTASection
+    {lang} {dict}
+    primaryLabel={t("hub.labs.ctas.primary")}
+    primaryHref={`/${lang}/contacto/`}
+    secondaryLabel={t("hub.labs.ctas.secondary")}
+    secondaryHref={`/${lang}/contacto/`}
+  />
+</BaseLayout>
