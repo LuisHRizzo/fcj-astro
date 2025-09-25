@@ -1,0 +1,207 @@
+---
+interface Logo {
+  src: string;
+  alt?: string;
+  href?: string;
+}
+interface AudienceBlock {
+  title: string;
+  points: string[];
+}
+interface Dict {
+  title?: string;
+  subtitle?: string;
+  summary?: string;
+  bullets?: string[];
+  alliancesTitle?: string;
+  logos?: Logo[];
+  audienceTitle?: string;
+  audience?: {
+    universities?: AudienceBlock;
+    techCenters?: AudienceBlock;
+    publicInstitutions?: AudienceBlock;
+    startups?: AudienceBlock;
+  };
+  resourcesTitle?: string;
+  resources?: string[];
+  stepsTitle?: string;
+  steps?: string[];
+  ctaPrimary?: { label: string; href: string };
+  ctaSecondary?: { label: string; href: string };
+}
+
+interface Props { lang?: string; dict?: Dict }
+const { lang = "es", dict = {} } = Astro.props as Props;
+
+// Prefija rutas internas con /{lang}
+const link = (h?: string) => (!h ? h : h.startsWith("/") ? `/${lang}${h}` : h);
+
+// Textos por defecto (pueden venir sobreescritos por dict)
+const T = {
+  title:    dict.title    ?? "Transferencia tecnológica transatlántica para el desarrollo",
+  subtitle: dict.subtitle ?? "Conecta personas, soluciones y conocimientos entre Europa y Latinoamérica",
+  summary:  dict.summary  ?? "Plataforma que enlaza universidades, centros tech, gobiernos y empresas para alianzas, validación internacional y formación de talento con impacto territorial.",
+  bullets:  dict.bullets ?? [
+    "Networking y circulación de conocimiento",
+    "Validación en contextos reales",
+    "Programas de formación y proyectos conjuntos",
+    "Acceso a fondos y oportunidades de expansión",
+  ],
+
+  alliancesTitle: dict.alliancesTitle ?? "Alianzas y casos (próximamente)",
+  logos: (dict.logos ?? []) as Logo[],
+
+  audienceTitle: dict.audienceTitle ?? "Beneficios por público",
+  audience: {
+    universities: dict.audience?.universities ?? {
+      title: "Universidades",
+      points: [
+        "Investigación aplicada con impacto",
+        "Movilidad académica y co-tutelas",
+        "Spin-offs y transferencia al territorio",
+      ],
+    },
+    techCenters: dict.audience?.techCenters ?? {
+      title: "Centros tecnológicos",
+      points: [
+        "Validación de prototipos en nuevos mercados",
+        "Escalado de soluciones y roadmaps conjuntos",
+        "Match con demanda pública/empresarial",
+      ],
+    },
+    publicInstitutions: dict.audience?.publicInstitutions ?? {
+      title: "Instituciones públicas",
+      points: [
+        "Modernización y buenas prácticas internacionales",
+        "Pilotos con métricas y auditoría",
+        "Compras públicas de innovación",
+      ],
+    },
+    startups: dict.audience?.startups ?? {
+      title: "Startups / Empresas",
+      points: [
+        "Entrada a nuevos mercados",
+        "Partners técnicos y comerciales",
+        "Acceso a fondos y convocatorias",
+      ],
+    },
+  },
+
+  resourcesTitle: dict.resourcesTitle ?? "Recursos de la red",
+  resources: dict.resources ?? [
+    "Guía de participación y contacto sectorial",
+    "Mapa de nodos y áreas de especialidad",
+    "Calendario de oportunidades y convocatorias",
+  ],
+
+  stepsTitle: dict.stepsTitle ?? "Cómo participar",
+  steps: dict.steps ?? [
+    "Exploración: diagnóstico y objetivos de internacionalización",
+    "Matchmaking: identificación de socios y casos piloto",
+    "Validación: plan de trabajo, métricas y gobernanza",
+    "Escalado: financiación, acuerdos y expansión",
+  ],
+
+  ctaPrimary: {
+    label: dict.ctaPrimary?.label ?? "Agendar reunión de networking",
+    href:  link(dict.ctaPrimary?.href ?? "/agenda"),
+  },
+  ctaSecondary: {
+    label: dict.ctaSecondary?.label ?? "Contactar a la red",
+    href:  link(dict.ctaSecondary?.href ?? "/contacto?tema=transferencia"),
+  },
+};
+---
+
+<section class="space-y-10">
+  <!-- Mini hero -->
+  <div class="rounded-2xl border p-6 bg-gradient-to-br from-emerald-50 to-white">
+    <div class="flex items-center gap-3">
+      <div class="text-3xl">🌐</div>
+      <h2 class="text-2xl font-semibold">{T.title}</h2>
+    </div>
+
+    <p class="mt-3 text-neutral-700 max-w-3xl">{T.subtitle}</p>
+    <p class="mt-2 text-neutral-700 max-w-3xl">{T.summary}</p>
+
+    <!-- Bullets clave -->
+    <ul class="mt-4 grid sm:grid-cols-2 md:grid-cols-4 gap-3">
+      {T.bullets.map((b: string) => (
+        <li class="rounded-xl border p-3 text-sm text-neutral-700">{b}</li>
+      ))}
+    </ul>
+
+    <div class="mt-5 flex flex-wrap gap-3">
+      <a href={T.ctaPrimary.href} class="inline-flex items-center px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition">
+        {T.ctaPrimary.label}
+      </a>
+      <a href={T.ctaSecondary.href} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+        {T.ctaSecondary.label}
+      </a>
+    </div>
+  </div>
+
+  <!-- Alianzas (placeholder con logos si se proveen) -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">{T.alliancesTitle}</h3>
+    {T.logos.length > 0 ? (
+      <div class="mt-4 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-4 items-center">
+        {T.logos.map((l: Logo) => (
+          <a href={l.href ?? "#"} class="block p-3 rounded-xl border hover:bg-gray-50 transition text-center">
+            <img src={l.src} alt={l.alt ?? "Logo alianza"} class="mx-auto h-10 object-contain" loading="lazy" />
+          </a>
+        ))}
+      </div>
+    ) : (
+      <p class="mt-3 text-sm text-neutral-600">
+        Próximamente: carrusel de instituciones y pilotos internacionales.
+      </p>
+    )}
+  </div>
+
+  <!-- Beneficios por público -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">{T.audienceTitle}</h3>
+    <div class="mt-4 grid md:grid-cols-2 gap-4">
+      {Object.values(T.audience).map((blk: AudienceBlock) => (
+        <div class="rounded-xl border p-4">
+          <div class="text-base font-semibold text-neutral-800">{blk.title}</div>
+          <ul class="mt-2 space-y-2 list-disc pl-5 text-neutral-700">
+            {blk.points.map((p: string) => (<li>{p}</li>))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </div>
+
+  <!-- Recursos -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">{T.resourcesTitle}</h3>
+    <ul class="mt-3 grid md:grid-cols-3 gap-4 text-neutral-700 list-disc pl-5">
+      {T.resources.map((r: string) => (<li>{r}</li>))}
+    </ul>
+  </div>
+
+  <!-- Pasos / metodología -->
+  <div class="rounded-2xl border p-6 bg-emerald-50">
+    <h3 class="text-xl font-medium">{T.stepsTitle}</h3>
+    <ol class="mt-4 grid md:grid-cols-4 gap-4">
+      {T.steps.map((s: string, i: number) => (
+        <li class="rounded-xl border bg-white p-4">
+          <div class="text-sm font-semibold text-neutral-700">{i + 1}. {s.split(":")[0]}</div>
+          {s.includes(":") && <p class="mt-1 text-sm text-neutral-600">{s.slice(s.indexOf(":") + 1).trim()}</p>}
+        </li>
+      ))}
+    </ol>
+
+    <div class="mt-5 flex flex-wrap gap-3">
+      <a href={T.ctaPrimary.href} class="inline-flex items-center px-4 py-2 rounded-xl bg-emerald-600 text-white hover:bg-emerald-700 transition">
+        {T.ctaPrimary.label}
+      </a>
+      <a href={T.ctaSecondary.href} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+        {T.ctaSecondary.label}
+      </a>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,106 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type DiffIcon = "check" | "shield" | "puzzle";
+type DiffItem = {
+  icon?: DiffIcon;
+  textKey?: string;
+  textFallback: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  items?: DiffItem[];
+};
+
+// Utilidad para leer anidado desde el dict con fallback
+const pick = (path: string, fallback: any, dictObj: any) => {
+  const segs = path.split(".");
+  let cur = dictObj;
+  for (const s of segs) cur = cur?.[s];
+  return cur ?? fallback;
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "secure-tennet-diferencial",
+  overlineKey = "solutions.secureTennet.diff.overline",
+  titleKey = "solutions.secureTennet.diff.heading",
+  leadKey = "solutions.secureTennet.diff.lead",
+  items, // si no viene por props, construimos desde i18n más abajo
+} = Astro.props as Props;
+
+// 1) Tomamos las líneas crudas del i18n: solutions.secureTennet.diff.items (array de strings)
+const rawDiffs = pick("solutions.secureTennet.diff.items", [], dict) as string[];
+
+// 2) Las mapeamos a nuestro tipo con un ciclo de íconos
+const iconCycle: DiffIcon[] = ["check", "shield", "puzzle"];
+const mappedFromI18n: DiffItem[] = rawDiffs.map((txt, i) => ({
+  icon: iconCycle[i % iconCycle.length],
+  textFallback: txt,
+}));
+
+// 3) Default items (usa i18n si existe; si no, fallbacks)
+const defaultItems: DiffItem[] =
+  mappedFromI18n.length
+    ? mappedFromI18n
+    : [
+        { icon: "check",  textFallback: "Gestión centralizada y adaptable a entornos regulados" },
+        { icon: "shield", textFallback: "Automatización integral: monitoreo → controles → reportes audit-ready" },
+        { icon: "puzzle", textFallback: "Soporte experto para todo el ciclo de compliance" },
+      ];
+
+const diffs = items ?? defaultItems;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="flex flex-col gap-2">
+      <p class="text-sm font-semibold text-neutral-500">
+        {t(overlineKey, "Diferencial")}
+      </p>
+      <h2 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight">
+        {t(titleKey, "Diferencial competitivo")}
+      </h2>
+      <p class="max-w-3xl text-neutral-600">
+        {t(
+          leadKey,
+          "Gestión centralizada para entornos regulados, automatización audit-ready y soporte experto en todo el ciclo de compliance."
+        )}
+      </p>
+    </div>
+
+    <ul class="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+      {diffs.map((d: DiffItem) => (
+        <li class="rounded-xl border p-4 text-sm text-neutral-700 flex items-start gap-3">
+          <span class="icon-box mt-0.5">
+            {d.icon === "check" && (
+              <svg viewBox="0 0 24 24" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M20 6 9 17l-5-5" stroke-linecap="round" stroke-linejoin="round"></path>
+              </svg>
+            )}
+            {d.icon === "shield" && (
+              <svg viewBox="0 0 24 24" class="h-10 w-10" fill="currentColor" aria-hidden="true">
+                <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"></path>
+              </svg>
+            )}
+            {d.icon === "puzzle" && (
+              <svg viewBox="0 0 24 24" class="h-10 w-10" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M9 3h3a2 2 0 0 1 2 2v1h1a2 2 0 1 1 0 4h-1v1a2 2 0 1 1-4 0V10H8a2 2 0 1 1 0-4h1V5a2 2 0 0 1 2-2z"></path>
+              </svg>
+            )}
+          </span>
+          <span>{t(d.textKey ?? "", d.textFallback)}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>

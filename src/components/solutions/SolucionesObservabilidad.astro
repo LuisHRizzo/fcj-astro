@@ -1,0 +1,173 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type FeatureKind = "ingest" | "dashboards" | "cloud" | "integrations" | "automation";
+type Feature = {
+  kind: FeatureKind;
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaExploreHref?: string;
+  ctaExploreKey?: string;
+  ctaConsultHref?: string;
+  ctaConsultKey?: string;
+  features?: Feature[];
+};
+
+// Utilidad para leer anidados desde dict con fallback
+const get = (path: string, fb: any) =>
+  path.split(".").reduce((acc: any, k: string) => (acc && acc[k] != null ? acc[k] : null), Astro.props.dict) ?? fb;
+
+// Tomamos los features crudos del i18n y los mapeamos a nuestro tipo
+const raw = get("solutions.observability.features.items", []) as Array<{icon: FeatureKind; title: string; desc: string}>;
+const mappedFromI18n: Feature[] = raw.map((f) => ({
+  kind: f.icon,
+  titleFallback: f.title,
+  descFallback: f.desc,
+}));
+
+const defaultFeatures: Feature[] = mappedFromI18n.length
+  ? mappedFromI18n
+  : [
+      {
+        kind: "ingest",
+        titleFallback: "Ingesta automatizada multifuente",
+        descFallback: "Documentos, emails, plataformas, sensores y redes; conectores listos.",
+      },
+      {
+        kind: "dashboards",
+        titleFallback: "Dashboards y analítica avanzada",
+        descFallback: "KPIs operativos y estratégicos, vistas ejecutivas y trazabilidad.",
+      },
+      {
+        kind: "cloud",
+        titleFallback: "Arquitectura cloud/híbrida y modular",
+        descFallback: "Escalable, segura y optimizada para costos y mantenimiento.",
+      },
+      {
+        kind: "integrations",
+        titleFallback: "Integraciones FIWARE / marcos locales",
+        descFallback: "Compatibilidad con GDPR/ENS/ISO/AI Act y normativas regionales.",
+      },
+      {
+        kind: "automation",
+        titleFallback: "Automatización y reporting",
+        descFallback: "Evidencia ‘audit-ready’, alertas y reportes exportables.",
+      },
+    ];
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "observabilidad-funcionalidades",
+  overlineKey = "solutions.observability.features.overline",
+  titleKey = "solutions.observability.features.heading",
+  leadKey = "solutions.observability.features.lead",
+  ctaExploreHref = `/${lang}/soluciones/observabilidad/`,
+  ctaExploreKey = "solutions.observability.features.ctaExplore",
+  ctaConsultHref = `/${lang}/contacto/`,
+  ctaConsultKey = "solutions.observability.features.ctaConsult",
+  features = defaultFeatures,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna izquierda: texto + CTAs -->
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Observabilidad")}
+        </p>
+        <h2 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-2xl">
+          {t(titleKey, "Solución y funcionalidades")}
+        </h2>
+        <p class="mt-5 max-w-xl text-neutral-600">
+          {t(
+            leadKey,
+            "Unificamos datos, trazabilidad y automatización para ofrecer visibilidad ejecutiva y cumplimiento ‘audit-ready’ en tiempo real."
+          )}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={ctaExploreHref} class="btn btn-outline">
+            {t(ctaExploreKey, "Explora")}
+          </a>
+          <a href={ctaConsultHref} class="link-arrow group">
+            {t(ctaConsultKey, "Consultar")}
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna derecha: features -->
+      <div class="grid gap-5">
+        {features.map((f: Feature) => (
+          <article
+            tabindex="0"
+            class="group card p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300"
+          >
+            <div class="flex items-start gap-4">
+              <div class="icon-box">
+                {f.kind === "ingest" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M3 7h18M3 12h12M3 17h8" />
+                  </svg>
+                )}
+                {f.kind === "dashboards" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <rect x="3" y="3" width="7" height="7" />
+                    <rect x="14" y="3" width="7" height="7" />
+                    <rect x="3" y="14" width="7" height="7" />
+                    <rect x="14" y="14" width="7" height="7" />
+                  </svg>
+                )}
+                {f.kind === "cloud" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                    <path d="M7 18h10a4 4 0 0 0 0-8 6 6 0 0 0-11.3-2A4.5 4.5 0 0 0 7 18z" />
+                  </svg>
+                )}
+                {f.kind === "integrations" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 7h6M4 12h16M9 17h6" />
+                    <circle cx="7" cy="7" r="2" />
+                    <circle cx="17" cy="17" r="2" />
+                  </svg>
+                )}
+                {f.kind === "automation" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M12 6v6l4 2" />
+                    <circle cx="12" cy="12" r="9" />
+                  </svg>
+                )}
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold">
+                  {t(f.titleKey ?? "", f.titleFallback)}
+                </h3>
+                <p class="mt-2 text-sm text-neutral-600">
+                  {t(f.descKey ?? "", f.descFallback)}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,122 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type Item = {
+  img: string;
+  alt?: string;
+  titleKey?: string;
+  titleFallback?: string;
+  descKey?: string;
+  descFallback?: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  items?: Item[];
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "secure-tennet-problems",
+  overlineKey = "solutions.secureTennet.problems.overline",
+  titleKey = "solutions.secureTennet.problems.heading",
+  leadKey = "solutions.secureTennet.problems.lead",
+  items,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Utilidad para leer anidado desde dict con fallback
+const pick = (path: string, fallback: any) => {
+  const segs = path.split(".");
+  let cur: any = dict;
+  for (const s of segs) cur = cur?.[s];
+  return cur ?? fallback;
+};
+
+// 1) Traemos problemas desde i18n (array de strings)
+const rawProblems = pick("solutions.secureTennet.problems.items", []) as string[];
+
+// 2) Los mapeamos a items con espacio para IMÁGENES (sin íconos).
+//    Colocá tus imágenes en /assets/ con estos nombres o sobreescribí via props.items
+const mappedFromI18n: Item[] = rawProblems.map((p, i) => ({
+  img: `/assets/secure-problem-${i + 1}.png`, // reemplazá con tus archivos reales
+  alt: p,
+  titleFallback: p,
+  descFallback: "", // si querés sumar una bajada por item, completá aquí o vía descKey
+}));
+
+// 3) Items por defecto (usa i18n si existe; si no, fallbacks)
+const defaultItems: Item[] =
+  mappedFromI18n.length
+    ? mappedFromI18n
+    : [
+        {
+          img: "/assets/secure-problem-1.png",
+          alt: "Amenazas crecientes y marcos regulatorios cambiantes",
+          titleFallback: "Amenazas crecientes y marcos regulatorios cambiantes",
+          descFallback: "",
+        },
+        {
+          img: "/assets/secure-problem-2.png",
+          alt: "Cumplimiento multinormativo con evidencia preparada para auditoría",
+          titleFallback: "Cumplimiento multinormativo con evidencia preparada para auditoría",
+          descFallback: "",
+        },
+        {
+          img: "/assets/secure-problem-3.png",
+          alt: "Necesidad de gestión centralizada y eficiente de riesgos y controles",
+          titleFallback: "Necesidad de gestión centralizada y eficiente de riesgos y controles",
+          descFallback: "",
+        },
+      ];
+
+const list = items ?? defaultItems;
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <p class="text-sm font-semibold text-neutral-500">
+      {t(overlineKey, "Problemas")}
+    </p>
+    <h2 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-4xl">
+      {t(titleKey, "Problemas y necesidades clave")}
+    </h2>
+    <p class="mt-5 max-w-3xl text-neutral-600">
+      {t(
+        leadKey,
+        "Riesgos crecientes, cambios regulatorios y demanda de evidencia ‘audit-ready’ requieren una gestión centralizada y eficiente."
+      )}
+    </p>
+
+    <div class="mt-12 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+      {list.map((it: Item) => (
+        <article class="group card p-5 text-center">
+          <div class="rounded-xl bg-transparent aspect-[16/10] flex items-center justify-center overflow-hidden">
+            <img
+              src={it.img}
+              alt={it.alt ?? ""}
+              class="h-full w-full object-contain"
+              loading="lazy"
+            />
+          </div>
+          <h3 class="mt-6 text-2xl font-bold leading-tight">
+            {t(it.titleKey ?? "", it.titleFallback ?? "")}
+          </h3>
+          {/* Render condicional de la descripción solo si existe */}
+          {((it.descKey && t(it.descKey, "")) || it.descFallback) && (
+            <p class="mt-3 text-sm text-neutral-600">
+              {t(it.descKey ?? "", it.descFallback ?? "")}
+            </p>
+          )}
+        </article>
+      ))}
+    </div>
+  </div>
+</section>

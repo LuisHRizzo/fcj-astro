@@ -1,0 +1,107 @@
+---
+export interface Props {
+title: string;
+subtitle?: string;
+summary?: string;
+bullets?: string[];
+casesTitle?: string;
+cases?: string[];
+benefitsTitle?: string;
+benefits?: string[];
+resourcesTitle?: string;
+resources?: string[];
+testimonialsTitle?: string;
+testimonials?: string[];
+faqTitle?: string;
+faq?: { q: string; a: string }[];
+ctaPrimary?: { label: string; href: string };
+ctaSecondary?: { label: string; href: string };
+}
+const {
+title,
+subtitle,
+summary,
+bullets = [],
+casesTitle,
+cases = [],
+benefitsTitle,
+benefits = [],
+resourcesTitle,
+resources = [],
+testimonialsTitle,
+testimonials = [],
+faqTitle,
+faq = [],
+ctaPrimary,
+ctaSecondary,
+} = Astro.props as Props;
+---
+
+<section class="w-full">
+</ul>
+</div>
+)}
+
+
+{benefits?.length > 0 && (
+<div class="mb-8">
+{benefitsTitle && <h3 class="text-xl font-medium mb-3">{benefitsTitle}</h3>}
+<ul class="grid md:grid-cols-2 gap-3 list-disc pl-5">
+{benefits.map((b) => (<li>{b}</li>))}
+</ul>
+</div>
+)}
+
+
+{resources?.length > 0 && (
+<div class="mb-8">
+{resourcesTitle && <h3 class="text-xl font-medium mb-3">{resourcesTitle}</h3>}
+<ul class="space-y-2 list-disc pl-5">
+{resources.map((r) => (<li>{r}</li>))}
+</ul>
+</div>
+)}
+
+
+{testimonials?.length > 0 && (
+<div class="mb-8">
+{testimonialsTitle && <h3 class="text-xl font-medium mb-3">{testimonialsTitle}</h3>}
+<ul class="space-y-3">
+{testimonials.map((t) => (
+<li class="border rounded-xl p-3 bg-gray-50">{t}</li>
+))}
+</ul>
+</div>
+)}
+
+
+{faq?.length > 0 && (
+<div class="mb-8">
+{faqTitle && <h3 class="text-xl font-medium mb-3">{faqTitle}</h3>}
+<div class="space-y-4">
+{faq.map(({ q, a }) => (
+<details class="group border rounded-xl">
+<summary class="cursor-pointer p-3 font-medium">{q}</summary>
+<div class="p-3 pt-0 text-sm text-gray-600">{a}</div>
+</details>
+))}
+</div>
+</div>
+)}
+
+
+{(ctaPrimary || ctaSecondary) && (
+<div class="mt-6 flex flex-wrap gap-3">
+{ctaPrimary && (
+<a href={ctaPrimary.href} class="inline-flex items-center px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition">
+{ctaPrimary.label}
+</a>
+)}
+{ctaSecondary && (
+<a href={ctaSecondary.href} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+{ctaSecondary.label}
+</a>
+)}
+</div>
+)}
+</section>  

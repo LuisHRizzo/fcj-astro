@@ -18,9 +18,9 @@
         "tech": "Soluciones tecnológicas",
         "consult": "Consultoría y Auditoría"
       },
-      "obs": "Plataforma de Observabilidad Inteligente",
-      "cyber": "Plataforma Integral de Gobernanza y Compliance en Ciberseguridad",
-      "rpa": "Plataforma de Auditoría Multinormativa",
+      "obs": "Observabilidad Inteligente",
+      "cyber": "Plataforma de Ciberseguridad",
+      "rpa": "Plataforma de Auditoría",
       "consult": {
         "ai": "Transformación digital potenciada por IA",
         "audit": "Auditoría Multinormativa",
@@ -45,8 +45,7 @@
       "blog": "Blog",
       "cursos": "Cursos"
     }
-  }
-  ,
+  },
   "org": {
     "email": "contacto@cienciayjusticia.org",
     "address": "Avenida Del Libertador 1000, Vicente López, Argentina"
@@ -229,7 +228,7 @@
       }
     }
   },
- "solutions": {
+  "solutions": {
     "ca": {
       "audit": {
         "title": "Auditoría Multinormativa",
@@ -250,9 +249,18 @@
           "lead": "Integración de plataforma de control, reporting y verificación automática, abarcando normativa local e internacional. Preparación ágil para auditorías internas y externas, con adaptación regional."
         },
         "benefits": {
-          "b1": { "title": "Reporting automatizado", "desc": "Informes periódicos, métricas y evidencias generadas sin fricción." },
-          "b2": { "title": "Interoperabilidad multinivel", "desc": "Integración con sistemas existentes y marcos regulatorios diversos." },
-          "b3": { "title": "Evidencias auditables y exportables", "desc": "Registro trazable y verificable, con exportación para auditorías formales." }
+          "b1": {
+            "title": "Reporting automatizado",
+            "desc": "Informes periódicos, métricas y evidencias generadas sin fricción."
+          },
+          "b2": {
+            "title": "Interoperabilidad multinivel",
+            "desc": "Integración con sistemas existentes y marcos regulatorios diversos."
+          },
+          "b3": {
+            "title": "Evidencias auditables y exportables",
+            "desc": "Registro trazable y verificable, con exportación para auditorías formales."
+          }
         },
         "audience": {
           "gov": {
@@ -287,8 +295,14 @@
           }
         },
         "testimonials": {
-          "t1": { "quote": "La automatización multinormativa nos dio tranquilidad frente a auditorías internacionales.", "author": "Agencia de Cooperación Europea" },
-          "t2": { "quote": "Centralizamos evidencias y aceleramos el reporting con total trazabilidad.", "author": "Dirección de Compliance, Ministerio" }
+          "t1": {
+            "quote": "La automatización multinormativa nos dio tranquilidad frente a auditorías internacionales.",
+            "author": "Agencia de Cooperación Europea"
+          },
+          "t2": {
+            "quote": "Centralizamos evidencias y aceleramos el reporting con total trazabilidad.",
+            "author": "Dirección de Compliance, Ministerio"
+          }
         },
         "resources": {
           "r1": "E-book: Auditoría multinormativa — guía práctica para el sector público",
@@ -335,27 +349,80 @@
           "lead": "Estrategia de resiliencia, anticipación de riesgos y adaptación regulatoria. Ofrecemos SOC-as-a-Service, MSSP y simulaciones avanzadas; evaluamos madurez con KPI/KRI y preparamos a tu organización para auditorías y exigencias internacionales. Dashboard en tiempo real por dominio funcional (anticipar, resistir, recuperar)."
         },
         "benefits": {
-          "b1": { "title": "Respuesta rápida a incidentes", "desc": "Detección y contención con trazabilidad y lecciones aprendidas." },
-          "b2": { "title": "Compliance integral", "desc": "Cumplimiento energético, ético y legal (ISO, CRA/UE, GDPR, ENS)." },
-          "b3": { "title": "Cultura y formación continua", "desc": "Capacitaciones, simulacros y concienciación multisectorial." },
-          "b4": { "title": "Dashboards y reporting", "desc": "Paneles en tiempo real y reporting automatizado por niveles." }
+          "b1": {
+            "title": "Respuesta rápida a incidentes",
+            "desc": "Detección y contención con trazabilidad y lecciones aprendidas."
+          },
+          "b2": {
+            "title": "Compliance integral",
+            "desc": "Cumplimiento energético, ético y legal (ISO, CRA/UE, GDPR, ENS)."
+          },
+          "b3": {
+            "title": "Cultura y formación continua",
+            "desc": "Capacitaciones, simulacros y concienciación multisectorial."
+          },
+          "b4": {
+            "title": "Dashboards y reporting",
+            "desc": "Paneles en tiempo real y reporting automatizado por niveles."
+          }
         },
         "soc": {
-          "s1": { "title": "SOC-as-a-Service", "desc": "Monitoreo, detección y respuesta (MDR/XDR) 24/7 con playbooks." },
-          "s2": { "title": "MSSP & simulaciones", "desc": "Simulación de amenazas por sector, ejercicios de mesa y Red/Blue." },
-          "s3": { "title": "Formación & compliance", "desc": "Programas de resiliencia, auditorías y preparación certificable." }
+          "s1": {
+            "title": "SOC-as-a-Service",
+            "desc": "Monitoreo, detección y respuesta (MDR/XDR) 24/7 con playbooks."
+          },
+          "s2": {
+            "title": "MSSP & simulaciones",
+            "desc": "Simulación de amenazas por sector, ejercicios de mesa y Red/Blue."
+          },
+          "s3": {
+            "title": "Formación & compliance",
+            "desc": "Programas de resiliencia, auditorías y preparación certificable."
+          }
         },
         "audience": {
-          "gov":  { "title": "Gobiernos y municipios",  "li1": "Diagnóstico sectorial", "li2": "Reporting regulatorio", "li3": "Preparación para incidentes híbridos" },
-          "min":  { "title": "Ministerios",             "li1": "Simulación de amenazas", "li2": "Compliance nacional/regional", "li3": "Resiliencia ante auditorías" },
-          "cent": { "title": "Centros tecnológicos",     "li1": "Laboratorio de pruebas", "li2": "SOC compartido", "li3": "Digital twins para simulación" },
-          "uni":  { "title": "Universidades",            "li1": "Formación sostenida", "li2": "Protección de datos", "li3": "Gestión ética de la información" },
-          "intl": { "title": "Agencias multilaterales",  "li1": "Gestión federada", "li2": "Interoperabilidad", "li3": "Monitoreo de riesgos globales" }
+          "gov": {
+            "title": "Gobiernos y municipios",
+            "li1": "Diagnóstico sectorial",
+            "li2": "Reporting regulatorio",
+            "li3": "Preparación para incidentes híbridos"
+          },
+          "min": {
+            "title": "Ministerios",
+            "li1": "Simulación de amenazas",
+            "li2": "Compliance nacional/regional",
+            "li3": "Resiliencia ante auditorías"
+          },
+          "cent": {
+            "title": "Centros tecnológicos",
+            "li1": "Laboratorio de pruebas",
+            "li2": "SOC compartido",
+            "li3": "Digital twins para simulación"
+          },
+          "uni": {
+            "title": "Universidades",
+            "li1": "Formación sostenida",
+            "li2": "Protección de datos",
+            "li3": "Gestión ética de la información"
+          },
+          "intl": {
+            "title": "Agencias multilaterales",
+            "li1": "Gestión federada",
+            "li2": "Interoperabilidad",
+            "li3": "Monitoreo de riesgos globales"
+          }
         },
         "testimonials": {
-          "t1": { "quote": "Logramos adaptar nuestra estrategia de ciberdefensa de forma eficiente y auditable.", "author": "Centro de Innovación Pública" }
+          "t1": {
+            "quote": "Logramos adaptar nuestra estrategia de ciberdefensa de forma eficiente y auditable.",
+            "author": "Centro de Innovación Pública"
+          }
         },
-        "badges": { "iso": "ISO", "cra": "Cyber Resilience Act", "gdpr": "GDPR" },
+        "badges": {
+          "iso": "ISO",
+          "cra": "Cyber Resilience Act",
+          "gdpr": "GDPR"
+        },
         "partners": { "greyhats": "GreyHats Labs" },
         "resources": {
           "r1": "Guía sectorizada de buenas prácticas",
@@ -416,22 +483,66 @@
           "k3": { "value": "+25%", "label": "ROI en 12 meses" }
         },
         "benefits": {
-          "b1": { "title": "Menos carga administrativa", "desc": "Reducción comprobable de tareas manuales y tiempos operativos." },
-          "b2": { "title": "Reporting y auditoría",     "desc": "Evidencias automáticas con trazabilidad integral del proceso." },
-          "b3": { "title": "Interoperabilidad",          "desc": "Escala e integra con tus sistemas actuales sin fricción." },
-          "b4": { "title": "Mejor experiencia",          "desc": "Satisfacción interna y UX institucional superiores." }
+          "b1": {
+            "title": "Menos carga administrativa",
+            "desc": "Reducción comprobable de tareas manuales y tiempos operativos."
+          },
+          "b2": {
+            "title": "Reporting y auditoría",
+            "desc": "Evidencias automáticas con trazabilidad integral del proceso."
+          },
+          "b3": {
+            "title": "Interoperabilidad",
+            "desc": "Escala e integra con tus sistemas actuales sin fricción."
+          },
+          "b4": {
+            "title": "Mejor experiencia",
+            "desc": "Satisfacción interna y UX institucional superiores."
+          }
         },
         "audience": {
-          "gov":  { "title": "Gobiernos y municipios",  "li1": "Automatización de trámites", "li2": "Interoperabilidad de registros", "li3": "Trazabilidad ciudadana" },
-          "min":  { "title": "Ministerios",             "li1": "Workflows inteligentes", "li2": "Cumplimiento regulatorio", "li3": "Eficiencia y reporting" },
-          "cent": { "title": "Centros tecnológicos",     "li1": "Orquestación de proyectos", "li2": "Integración de datos", "li3": "Aceleración de transferencia" },
-          "uni":  { "title": "Universidades",            "li1": "Gestión académica automatizada", "li2": "Procesos administrativos simples", "li3": "Mejor experiencia estudiantil" },
-          "intl": { "title": "Agencias multilaterales",  "li1": "Armonización entre jurisdicciones", "li2": "Reporting multinacional", "li3": "Adaptación normativa rápida" }
+          "gov": {
+            "title": "Gobiernos y municipios",
+            "li1": "Automatización de trámites",
+            "li2": "Interoperabilidad de registros",
+            "li3": "Trazabilidad ciudadana"
+          },
+          "min": {
+            "title": "Ministerios",
+            "li1": "Workflows inteligentes",
+            "li2": "Cumplimiento regulatorio",
+            "li3": "Eficiencia y reporting"
+          },
+          "cent": {
+            "title": "Centros tecnológicos",
+            "li1": "Orquestación de proyectos",
+            "li2": "Integración de datos",
+            "li3": "Aceleración de transferencia"
+          },
+          "uni": {
+            "title": "Universidades",
+            "li1": "Gestión académica automatizada",
+            "li2": "Procesos administrativos simples",
+            "li3": "Mejor experiencia estudiantil"
+          },
+          "intl": {
+            "title": "Agencias multilaterales",
+            "li1": "Armonización entre jurisdicciones",
+            "li2": "Reporting multinacional",
+            "li3": "Adaptación normativa rápida"
+          }
         },
         "testimonials": {
-          "t1": { "quote": "Automatizar procesos nos permitió reducir errores y acelerar la atención ciudadana.", "author": "Municipalidad UE" }
+          "t1": {
+            "quote": "Automatizar procesos nos permitió reducir errores y acelerar la atención ciudadana.",
+            "author": "Municipalidad UE"
+          }
         },
-        "badges": { "innovation": "Innovación", "efficiency": "Eficiencia", "quality": "Calidad" },
+        "badges": {
+          "innovation": "Innovación",
+          "efficiency": "Eficiencia",
+          "quality": "Calidad"
+        },
         "resources": {
           "r1": "Caso de éxito: automatización de trámites",
           "r2": "Infografía: mapa de procesos y orquestación",
@@ -489,25 +600,69 @@
           "title": "Impacto medible",
           "k1": { "value": "-50%", "label": "Tiempo de análisis" },
           "k2": { "value": "+30%", "label": "Precisión de previsiones" },
-          "k3": { "value": "3×",  "label": "Adopción de insights" }
+          "k3": { "value": "3×", "label": "Adopción de insights" }
         },
         "benefits": {
-          "b1": { "title": "Datos listos para decidir", "desc": "Menos errores y tiempos de preparación." },
-          "b2": { "title": "Insights accionables",       "desc": "Alertas automáticas y métricas clave al instante." },
-          "b3": { "title": "Monitoreo y auditoría",      "desc": "Transparencia, trazabilidad y control institucional." },
-          "b4": { "title": "Escalabilidad e integración", "desc": "Interoperabilidad para proyectos colaborativos." }
+          "b1": {
+            "title": "Datos listos para decidir",
+            "desc": "Menos errores y tiempos de preparación."
+          },
+          "b2": {
+            "title": "Insights accionables",
+            "desc": "Alertas automáticas y métricas clave al instante."
+          },
+          "b3": {
+            "title": "Monitoreo y auditoría",
+            "desc": "Transparencia, trazabilidad y control institucional."
+          },
+          "b4": {
+            "title": "Escalabilidad e integración",
+            "desc": "Interoperabilidad para proyectos colaborativos."
+          }
         },
         "audience": {
-          "gov":  { "title": "Gobiernos y municipios",  "li1": "KPIs de impacto social", "li2": "Visualización territorial", "li3": "Simulaciones ciudadanas" },
-          "min":  { "title": "Ministerios",             "li1": "Políticas basadas en evidencia", "li2": "Evaluación de impacto", "li3": "Reporting auditado" },
-          "cent": { "title": "Centros tecnológicos",     "li1": "Proyectos colaborativos", "li2": "Analítica avanzada", "li3": "Transferencia tecnológica" },
-          "uni":  { "title": "Universidades",            "li1": "Data science aplicada", "li2": "Gestión académica", "li3": "Monitoreo administrativo" },
-          "intl": { "title": "Agencias multilaterales",  "li1": "Medición de ODS", "li2": "Reporting comparativo", "li3": "Monitoreo internacional" }
+          "gov": {
+            "title": "Gobiernos y municipios",
+            "li1": "KPIs de impacto social",
+            "li2": "Visualización territorial",
+            "li3": "Simulaciones ciudadanas"
+          },
+          "min": {
+            "title": "Ministerios",
+            "li1": "Políticas basadas en evidencia",
+            "li2": "Evaluación de impacto",
+            "li3": "Reporting auditado"
+          },
+          "cent": {
+            "title": "Centros tecnológicos",
+            "li1": "Proyectos colaborativos",
+            "li2": "Analítica avanzada",
+            "li3": "Transferencia tecnológica"
+          },
+          "uni": {
+            "title": "Universidades",
+            "li1": "Data science aplicada",
+            "li2": "Gestión académica",
+            "li3": "Monitoreo administrativo"
+          },
+          "intl": {
+            "title": "Agencias multilaterales",
+            "li1": "Medición de ODS",
+            "li2": "Reporting comparativo",
+            "li3": "Monitoreo internacional"
+          }
         },
         "testimonials": {
-          "t1": { "quote": "Desplegamos dashboards predictivos que mejoraron nuestra planificación docente y presupuestaria.", "author": "Universidad LATAM" }
+          "t1": {
+            "quote": "Desplegamos dashboards predictivos que mejoraron nuestra planificación docente y presupuestaria.",
+            "author": "Universidad LATAM"
+          }
         },
-        "badges": { "gdpr": "GDPR", "iso": "ISO 27001/27701", "gov": "Data Governance" },
+        "badges": {
+          "gdpr": "GDPR",
+          "iso": "ISO 27001/27701",
+          "gov": "Data Governance"
+        },
         "partners": { "akurat": "Akurat Analytics" },
         "resources": {
           "r1": "Whitepaper: Data analytics en la gestión pública",
@@ -546,7 +701,11 @@
         "imgAlt": "Panel de ciberseguridad con equipo revisando incidentes y cumplimiento"
       },
       "segments": {
-        "tabs": ["Gobiernos y Ministerios", "Agencias de Seguridad y Cooperación", "Parques/Centros Tecnológicos"],
+        "tabs": [
+          "Gobiernos y Ministerios",
+          "Agencias de Seguridad y Cooperación",
+          "Parques/Centros Tecnológicos"
+        ],
         "items": [
           {
             "tagline1": "Protegé tus datos y cumplí con las normativas más exigentes, todo en un mismo lugar.",
@@ -574,7 +733,9 @@
         "p2": "Reporting automático, gestión unificada de compliance (GDPR, SOC2 y locales), y soporte experto para entornos federados y multipaís."
       },
       "problems": {
+        "overline": "Problemas",
         "heading": "Problemas y necesidades clave",
+        "lead": "Riesgos crecientes, cambios regulatorios y demanda de evidencia ‘audit-ready’ requieren una gestión centralizada y eficiente.",
         "items": [
           "Amenazas crecientes y marcos regulatorios cambiantes",
           "Cumplimiento multinormativo con evidencia preparada para auditoría",
@@ -582,28 +743,59 @@
         ]
       },
       "features": {
+        "overline": "Solución",
         "heading": "Funcionalidades principales",
+        "lead": "Gobernanza y compliance centralizados con monitoreo, automatización y evidencia audit-ready.",
+        "ctaExplore": "Explora",
+        "ctaConsult": "Consultar",
         "items": [
-          { "icon": "radar", "title": "Monitoreo continuo", "desc": "Supervisión activa e IA para detección de amenazas y reglas configurables." },
-          { "icon": "check", "title": "Compliance unificado", "desc": "Checklists y dashboards listos para GDPR, SOC2 y regulaciones locales." },
-          { "icon": "bolt", "title": "Automatización de controles", "desc": "Evidencia y reportes inmediatos, siempre audit-ready." },
-          { "icon": "hand", "title": "Acompañamiento consultivo", "desc": "Soporte experto para adaptación normativa y mejora continua." },
-          { "icon": "shield", "title": "Protección de infra", "desc": "Cobertura para infraestructuras críticas y entornos federados/multipaís." },
-          { "icon": "lab", "title": "Contexto I+D", "desc": "Certificación ágil para laboratorios y proyectos innovadores." }
+          { "icon": "radar",  "title": "Monitoreo continuo",        "desc": "Supervisión activa e IA para detección de amenazas y reglas configurables." },
+          { "icon": "check",  "title": "Compliance unificado",       "desc": "Checklists y dashboards listos para GDPR, SOC2 y regulaciones locales." },
+          { "icon": "bolt",   "title": "Automatización de controles","desc": "Evidencia y reportes inmediatos, siempre audit-ready." },
+          { "icon": "hand",   "title": "Acompañamiento consultivo",  "desc": "Soporte experto para adaptación normativa y mejora continua." },
+          { "icon": "shield", "title": "Protección de infra",        "desc": "Cobertura para infraestructuras críticas y entornos federados/multipaís." },
+          { "icon": "lab",    "title": "Contexto I+D",               "desc": "Certificación ágil para laboratorios y proyectos innovadores." }
         ]
       },
       "segmentsTable": {
         "heading": "Valor aportado por segmento",
-        "cols": ["Público objetivo", "Región", "Necesidad principal", "Valor aportado"],
+        "cols": [
+          "Público objetivo",
+          "Región",
+          "Necesidad principal",
+          "Valor aportado"
+        ],
         "rows": [
-          ["Gobiernos/municipios/autonómicos", "LATAM, UE", "Amenazas y nuevas exigencias", "Protección avanzada, reporting, compliance transparente"],
-          ["Ministerios nacionales/europeos", "LATAM, UE", "Cumplimiento multinormativo, reputación", "Plataformas audit-ready, automatización de controles"],
-          ["Agencias de seguridad/cooperación", "LATAM, UE", "Gestión federada de riesgos", "Ciberseguridad certificada y compliance multipaís"],
-          ["Centros y parques tecnológicos/científicos", "UE", "Reglamentación I+D, protección de datos", "Implementación ágil, evidencia y soporte para proyectos"]
+          [
+            "Gobiernos/municipios/autonómicos",
+            "LATAM, UE",
+            "Amenazas y nuevas exigencias",
+            "Protección avanzada, reporting, compliance transparente"
+          ],
+          [
+            "Ministerios nacionales/europeos",
+            "LATAM, UE",
+            "Cumplimiento multinormativo, reputación",
+            "Plataformas audit-ready, automatización de controles"
+          ],
+          [
+            "Agencias de seguridad/cooperación",
+            "LATAM, UE",
+            "Gestión federada de riesgos",
+            "Ciberseguridad certificada y compliance multipaís"
+          ],
+          [
+            "Centros y parques tecnológicos/científicos",
+            "UE",
+            "Reglamentación I+D, protección de datos",
+            "Implementación ágil, evidencia y soporte para proyectos"
+          ]
         ]
       },
       "diff": {
+        "overline": "Diferencial",
         "heading": "Diferencial competitivo",
+        "lead": "Gestión centralizada para entornos regulados, automatización audit-ready y soporte experto en todo el ciclo de compliance.",
         "items": [
           "Gestión centralizada y adaptable a entornos regulados",
           "Automatización integral: monitoreo → controles → reportes audit-ready",
@@ -642,7 +834,9 @@
         "p2": "La plataforma guía paso a paso, reduce errores y genera evidencia trazable para controles internos y auditorías externas."
       },
       "problems": {
+        "overline": "Problemas",
         "heading": "Problema central",
+        "lead": "Principales obstáculos que encarecen y complejizan la preparación y ejecución de auditorías.",
         "items": [
           "Procesos manuales y alta carga administrativa al preparar auditorías",
           "Cambios normativos frecuentes y escasez de expertise técnico",
@@ -650,30 +844,72 @@
         ]
       },
       "features": {
+        "overline": "Solución",
         "heading": "Solución y funcionalidades",
+        "lead": "Guía paso a paso para preparar, ejecutar y evidenciar auditorías con checklists, flujos y reportes 'audit-ready'.",
+        "ctaExplore": "Explora",
+        "ctaConsult": "Consultar",
         "items": [
-          { "icon": "list", "title": "Checklists adaptativos", "desc": "Listas de control que se actualizan según normativa vigente." },
-          { "icon": "flow", "title": "Workflows automatizados", "desc": "Preparación y seguimiento guiados, con tareas y alertas." },
-          { "icon": "report", "title": "Reportes y evidencia", "desc": "Generación automática de evidencias trazables y exportables." },
-          { "icon": "engine", "title": "Motor multinormativo", "desc": "GDPR, ENS, ISO, AI Act, marcos locales y más (actualización continua)." },
-          { "icon": "dashboard", "title": "Dashboards accesibles", "desc": "Vistas para perfiles técnicos y no técnicos, KPIs y estado." }
+          { "icon": "list",      "title": "Checklists adaptativos",   "desc": "Listas de control que se actualizan según normativa vigente." },
+          { "icon": "flow",      "title": "Workflows automatizados",  "desc": "Preparación y seguimiento guiados, con tareas y alertas." },
+          { "icon": "report",    "title": "Reportes y evidencia",     "desc": "Generación automática de evidencias trazables y exportables." },
+          { "icon": "engine",    "title": "Motor multinormativo",     "desc": "GDPR, ENS, ISO, AI Act, marcos locales y más (actualización continua)." },
+          { "icon": "dashboard", "title": "Dashboards accesibles",    "desc": "Vistas para perfiles técnicos y no técnicos, KPIs y estado." }
         ]
       },
       "segmentsTable": {
         "heading": "Valor por público objetivo",
         "cols": ["Público", "Región", "Necesidad", "Valor aportado"],
         "rows": [
-          ["Gobiernos provinciales/municipios", "LATAM", "Falta de expertise y sobrecarga", "Automatización y reducción de errores"],
-          ["Ministerios nacionales", "LATAM", "Cambios normativos y auditorías recurrentes", "Checklists automáticos y evidencias listas"],
-          ["Agencias multilaterales", "LATAM", "Requerimientos multinormativos", "Trazabilidad y reporting ágil"],
-          ["Ayuntamientos (p.ej. Barcelona)", "UE/EMEA", "Cumplimiento GDPR/ENS/ISO", "Automatización y alertas de desvíos"],
-          ["Ministerios europeos", "UE/EMEA", "Multiplicidad de marcos regulatorios", "Procesos normalizados y facilidad de auditoría"],
-          ["Agencias de seguridad/cooperación", "UE/EMEA", "Compliance exigente y reporting", "Automatización y compliance by design"],
-          ["Parques/centros tecnológicos", "UE/EMEA", "Proyectos internacionales", "Simplicidad y escalado para equipos diversos"]
+          [
+            "Gobiernos provinciales/municipios",
+            "LATAM",
+            "Falta de expertise y sobrecarga",
+            "Automatización y reducción de errores"
+          ],
+          [
+            "Ministerios nacionales",
+            "LATAM",
+            "Cambios normativos y auditorías recurrentes",
+            "Checklists automáticos y evidencias listas"
+          ],
+          [
+            "Agencias multilaterales",
+            "LATAM",
+            "Requerimientos multinormativos",
+            "Trazabilidad y reporting ágil"
+          ],
+          [
+            "Ayuntamientos (p.ej. Barcelona)",
+            "UE/EMEA",
+            "Cumplimiento GDPR/ENS/ISO",
+            "Automatización y alertas de desvíos"
+          ],
+          [
+            "Ministerios europeos",
+            "UE/EMEA",
+            "Multiplicidad de marcos regulatorios",
+            "Procesos normalizados y facilidad de auditoría"
+          ],
+          [
+            "Agencias de seguridad/cooperación",
+            "UE/EMEA",
+            "Compliance exigente y reporting",
+            "Automatización y compliance by design"
+          ],
+          [
+            "Parques/centros tecnológicos",
+            "UE/EMEA",
+            "Proyectos internacionales",
+            "Simplicidad y escalado para equipos diversos"
+          ]
         ]
       },
       "diff": {
+        "overline": "Diferencial",
         "heading": "Diferencial competitivo",
+        "lead": "Ventajas clave que aceleran el cumplimiento, reducen la carga operativa y facilitan la adopción.",
+        "cta": "Solicitar demo",
         "items": [
           "Orientación “for dummies” que democratiza el compliance",
           "Automatización de punta a punta que reduce sobrecarga",
@@ -722,28 +958,85 @@
       "features": {
         "heading": "Solución y funcionalidades",
         "items": [
-          { "icon": "ingest", "title": "Ingesta automatizada multifuente", "desc": "Documentos, emails, plataformas, sensores y redes; conectores listos." },
-          { "icon": "dashboards", "title": "Dashboards y analítica avanzada", "desc": "KPIs operativos y estratégicos, vistas ejecutivas y trazabilidad." },
-          { "icon": "cloud", "title": "Arquitectura cloud/híbrida y modular", "desc": "Escalable, segura y optimizada para costos y mantenimiento." },
-          { "icon": "integrations", "title": "Integraciones FIWARE / marcos locales", "desc": "Compatibilidad con GDPR/ENS/ISO/AI Act y normativas regionales." },
-          { "icon": "automation", "title": "Automatización y reporting", "desc": "Evidencia ‘audit-ready’, alertas y reportes exportables." }
+          {
+            "icon": "ingest",
+            "title": "Ingesta automatizada multifuente",
+            "desc": "Documentos, emails, plataformas, sensores y redes; conectores listos."
+          },
+          {
+            "icon": "dashboards",
+            "title": "Dashboards y analítica avanzada",
+            "desc": "KPIs operativos y estratégicos, vistas ejecutivas y trazabilidad."
+          },
+          {
+            "icon": "cloud",
+            "title": "Arquitectura cloud/híbrida y modular",
+            "desc": "Escalable, segura y optimizada para costos y mantenimiento."
+          },
+          {
+            "icon": "integrations",
+            "title": "Integraciones FIWARE / marcos locales",
+            "desc": "Compatibilidad con GDPR/ENS/ISO/AI Act y normativas regionales."
+          },
+          {
+            "icon": "automation",
+            "title": "Automatización y reporting",
+            "desc": "Evidencia ‘audit-ready’, alertas y reportes exportables."
+          }
         ]
       },
       "segmentsTable": {
         "heading": "Valor por público objetivo",
         "cols": ["Público", "Región", "Necesidad específica", "Valor brindado"],
         "rows": [
-          ["Gobiernos provinciales/municipales", "LATAM", "Datos fragmentados, presión política", "Tableros claros, integración fácil"],
-          ["Ministerios nacionales", "LATAM", "Auditorías y compliance complejos", "Reporting y trazabilidad verificable"],
-          ["Agencias multilaterales", "LATAM", "Monitoreo de impacto, evidencia", "Informes customizables y multifuente"],
-          ["Ayuntamientos / gobiernos autonómicos", "UE", "Transparencia, FIWARE/GDPR", "KPIs y conectores estandarizados"],
-          ["Ministerios UE", "UE", "Cumplimiento regulatorio exigente", "Dashboards normativos y ENS/ISO"],
-          ["Agencias de seguridad/cooperación", "UE", "Auditoría y federación de datos", "Simulación IA y auditoría automatizada"],
-          ["Tecnoparques / centros científicos", "UE", "Validación y sandboxing", "Medición de impacto e interoperabilidad"]
+          [
+            "Gobiernos provinciales/municipales",
+            "LATAM",
+            "Datos fragmentados, presión política",
+            "Tableros claros, integración fácil"
+          ],
+          [
+            "Ministerios nacionales",
+            "LATAM",
+            "Auditorías y compliance complejos",
+            "Reporting y trazabilidad verificable"
+          ],
+          [
+            "Agencias multilaterales",
+            "LATAM",
+            "Monitoreo de impacto, evidencia",
+            "Informes customizables y multifuente"
+          ],
+          [
+            "Ayuntamientos / gobiernos autonómicos",
+            "UE",
+            "Transparencia, FIWARE/GDPR",
+            "KPIs y conectores estandarizados"
+          ],
+          [
+            "Ministerios UE",
+            "UE",
+            "Cumplimiento regulatorio exigente",
+            "Dashboards normativos y ENS/ISO"
+          ],
+          [
+            "Agencias de seguridad/cooperación",
+            "UE",
+            "Auditoría y federación de datos",
+            "Simulación IA y auditoría automatizada"
+          ],
+          [
+            "Tecnoparques / centros científicos",
+            "UE",
+            "Validación y sandboxing",
+            "Medición de impacto e interoperabilidad"
+          ]
         ]
       },
       "diff": {
+        "overline": "Diferencial",
         "heading": "Diferencial competitivo",
+        "lead": "Por qué nuestra solución de observabilidad entrega valor sostenible y cumplimiento ‘audit-ready’ desde el primer día.",
         "items": [
           "Modular y adaptable a regulaciones y madurez digital",
           "Agnóstico en origen de datos: múltiples fuentes sin fricciones",
@@ -770,497 +1063,259 @@
     }
   },
   "hub": {
-    "labs": {
-      "title": "Labs I+D",
-      "desc": "Espacios vivos de prototipado, validación y cocreación multisectorial.",
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "Laboratorios de Innovación y Experimentación Tecnológica",
-        "subtitle": "Prototipa, valida y experimenta soluciones reales para el bien público",
-        "imgAlt": "Equipo multidisciplinario evaluando prototipos digitales en un entorno colaborativo"
-      },
-      "key": {
-        "title": "Innovación responsable y ágil con impacto real",
-        "p1": "Nuestros Labs I+D son espacios vivos para crear, probar y validar tecnología con impacto social en un marco seguro y regulatorio.",
-        "p2": "Facilitamos la innovación pública y social con validación temprana, sandbox regulatorios y cocreación sectorial."
-      },
-      "value": {
-        "heading": "Prototipado, validación y transferencia",
-        "lead": "Acceso a sandbox regulatorios, co-diseño con actores clave y altos estándares éticos y de compliance. Reducimos riesgos y aceleramos la adopción tecnológica."
-      },
-      "benefits": {
-        "b1": { "title": "Prueba antes de invertir", "desc": "Validación rápida de ideas y prototipos sin riesgos operativos." },
-        "b2": { "title": "Sandbox regulatorio", "desc": "Experimentación segura con marcos de cumplimiento claros." },
-        "b3": { "title": "Cocreación de IA", "desc": "Transferencia de conocimiento y pilotaje multisectorial." },
-        "b4": { "title": "Menos riesgo, más adopción", "desc": "Reducción de brechas tecnológicas y aceleración del despliegue." }
-      },
-      "audience": {
-        "ap":  { "title": "Administración Pública", "li1": "Pruebas en entornos controlados", "li2": "Sin interrupción de servicios", "li3": "Gobernanza y compliance" },
-        "tech":{ "title": "Empresas Tech",          "li1": "Cocreación y validación", "li2": "Estándares internacionales", "li3": "Escalabilidad y transferencia" },
-        "ct":  { "title": "Centros Tecnológicos",    "li1": "Proyectos Horizon Europa", "li2": "Transferencia de resultados", "li3": "Cooperación internacional" },
-        "res": { "title": "Investigadores",          "li1": "Acceso a datos y herramientas", "li2": "Metodologías compartidas", "li3": "Difusión y métricas de impacto" }
-      },
-      "testimonials": {
-        "t1": {
-          "quote": "El sandbox regulatorio nos permitió testar IA en contexto real, ajustando cumplimiento y acelerando la adopción.",
-          "author": "Ministerio de Modernización, Argentina"
-        }
-      },
-      "badges": { "iso56002": "ISO 56002 — Gestión de la innovación" },
-      "partners": { "universities": "Alianzas universitarias", "admins": "Administraciones públicas" },
-      "resources": {
-        "r1": "Guía: Cómo acelerar la innovación pública desde los Labs I+D",
-        "r2": "Infografía: Validación rápida — test before invest en entornos públicos"
-      },
-      "ctas": {
-        "primary": "Solicita acceso a un sandbox personalizado",
-        "secondary": "Agenda una reunión técnica con el equipo de innovación"
-      },
-      "form": {
-        "title": "Solicita acceso a un sandbox",
-        "lead": "Completa el formulario para evaluar tu caso y coordinar el acceso.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Institución",
-        "sector": "Sector",
-        "submit": "Solicitar acceso",
-        "opt": {
-          "public": "Sector público",
-          "ngo": "ONG / Social",
-          "edu": "Educación",
-          "health": "Salud",
-          "tech": "Tecnología / I+D",
-          "intl": "Multilateral / Internacional",
-          "other": "Otro"
-        }
-      }
+    "hero": {
+      "overline": "Nuestras capacidades",
+      "title": "Hub de Innovacion",
+      "lead": "Descubre nuestras capacidades de innovación y tecnología.",
+      "ctaVision": "Capacidades",
+      "ctaTeam": "Nuestro Equipo"
     },
-    "transfer": {
-      "title": "Transferencia Tecnológica",
-      "desc": "Red transatlántica que conecta universidades, centros, gobiernos y empresas.",
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "Transferencia tecnológica transatlántica para el desarrollo",
-        "subtitle": "Conecta personas, soluciones y conocimientos entre Europa y Latinoamérica",
-        "imgAlt": "Red global de universidades e instituciones intercambiando soluciones tecnológicas"
-      },
-      "key": {
-        "title": "Alianzas que multiplican el impacto",
-        "p1": "Nuestra plataforma conecta universidades, centros tecnológicos, gobiernos y empresas para facilitar la transferencia de tecnología, ciencia y buenas prácticas.",
-        "p2": "Aceleramos la formación de talento y la validación de soluciones con impacto territorial y social."
-      },
-      "value": {
-        "heading": "Puente entre regiones, sectores y conocimiento",
-        "lead": "Networking, internacionalización y circulación de conocimiento: co-creamos soluciones y resolvemos retos sociales, con foco en adopción real y resultados medibles."
-      },
-      "benefits": {
-        "b1": { "title": "Red transatlántica", "desc": "Acceso a redes de colaboración y recursos EU-LATAM." },
-        "b2": { "title": "Validación internacional", "desc": "Prueba de soluciones en contextos diversos y reales." },
-        "b3": { "title": "Networking institucional", "desc": "Proyectos conjuntos y acceso a fondos internacionales." },
-        "b4": { "title": "Formación para transferir", "desc": "Capacitación y metodologías de transferencia efectiva." },
-        "b5": { "title": "Expansión y posicionamiento", "desc": "Aceleración e internacionalización de soluciones." }
-      },
-      "audience": {
-        "uni":  { "title": "Universidades",          "li1": "Investigación aplicada", "li2": "Movilidad y formación", "li3": "Proyectos conjuntos" },
-        "ct":   { "title": "Centros tecnológicos",    "li1": "Validación de prototipos", "li2": "Pilotos internacionales", "li3": "Transferencia a mercado" },
-        "pub":  { "title": "Instituciones públicas",  "li1": "Buenas prácticas", "li2": "Modernización tecnológica", "li3": "Gestión basada en evidencia" },
-        "start":{ "title": "Startups y empresas",     "li1": "Entrada a nuevos mercados", "li2": "Programas de impacto", "li3": "Asociaciones estratégicas" }
-      },
-      "testimonials": {
-        "t1": {
-          "quote": "El intercambio con la red EU-LATAM nos permitió validar y escalar una solución en semanas.",
-          "author": "Universidad asociada, Mediterráneo"
+    "tabLabels": {
+      "gaming": "Gamificación Digital",
+      "vr": "Experiencias Inmersivas",
+      "mvp": "MVP Lab",
+      "sandbox": "Sandbox Regulatorio",
+      "ai": "IA & Machine Learning",
+      "transfer": "Transferencia Tecnológica"
+    },
+    "tabs": {
+      "gamificacion": {
+        "title": "Laboratorio de Gamificación Digital",
+        "subtitle": "Transformamos la educación mediante dinámicas de juego",
+        "summary": "Espacio para diseñar, prototipar y evaluar experiencias educativas gamificadas. Acompañamos a docentes y equipos para aumentar motivación, participación y resultados medibles con herramientas y estrategias de juego digital.",
+        "bullets": [
+          "Asesoría y acompañamiento en programas gamificados",
+          "Implementación de plataformas y dinámicas lúdicas",
+          "Medición de impacto con analíticas y tableros",
+          "Repositorio con plantillas, tutoriales y ejemplos"
+        ],
+        "casesTitle": "Casos de uso",
+        "cases": [
+          "Insignias, puntos y rankings para incentivar la participación",
+          "Retos por equipos y misiones en aulas virtuales",
+          "ABJ en STEAM, idiomas y soft skills",
+          "Microlearning gamificado en formación continua"
+        ],
+        "benefitsTitle": "Beneficios clave",
+        "benefits": [
+          "Aumento comprobable de motivación y retención",
+          "Feedback inmediato y autonomía del estudiante",
+          "Comunidades de aprendizaje colaborativo",
+          "Adaptable a todos los niveles educativos"
+        ],
+        "resourcesTitle": "Recursos y herramientas",
+        "resources": [
+          "Plataformas recomendadas (Kahoot!, Classcraft, Duolingo)",
+          "Plantillas de dinámicas y manual de diseño gamificado",
+          "Webinars, tutoriales y videos demostrativos"
+        ],
+        "testimonialsTitle": "Testimonios e impacto",
+        "testimonials": [
+          "“Incrementamos 32% la participación en clase tras 6 semanas”.",
+          "“Los tableros de logros mejoraron la asistencia y el clima de aula”."
+        ],
+        "ctaPrimary": {
+          "label": "Solicitar asesoría",
+          "href": "/contacto?tema=gamificacion"
+        },
+        "ctaSecondary": {
+          "label": "Descargar guía de dinámicas",
+          "href": "/recursos/guia-gamificacion.pdf"
         }
       },
-      "badges": { "network": "Red EU-LATAM", "iso56002": "ISO 56002 — Innovación" },
-      "partners": { "universities": "Universidades asociadas", "institutions": "Administraciones e instituciones" },
-      "resources": {
-        "r1": "Guía: Cómo acelerar la innovación pública desde la transferencia",
-        "r2": "Infografía: Test before invest en entornos públicos"
-      },
-      "ctas": {
-        "primary": "Agenda una reunión de networking sectorial"
-      },
-      "carousel": {
-        "title": "Alianzas Institucionales",
-        "imgAlt": "Logo de alianza institucional"
-      },
-      "form": {
-        "title": "Quiero conectarme con la red",
-        "lead": "Dejanos tus datos y coordinamos una reunión de networking.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Institución / Empresa",
-        "sector": "Sector",
-        "submit": "Agendar reunión",
-        "opt": {
-          "public": "Sector público",
-          "ngo": "ONG / Social",
-          "edu": "Educación",
-          "health": "Salud",
-          "tech": "Tecnología / I+D",
-          "intl": "Multilateral / Internacional",
-          "other": "Otro"
-        }
-      }
-    },
-    "aiml": {
-      "title": "Casos de Uso AI & Machine Learning",
-      "desc": "Ejemplos reales, testimonios y simuladores para instituciones públicas.",
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "Casos de Uso de IA & Machine Learning para el sector público",
-        "subtitle": "Convierte datos complejos en decisiones inteligentes y servicios ciudadanos excepcionales",
-        "imgAlt": "Equipo multidisciplinario usando dashboards y asistentes virtuales"
-      },
-      "key": {
-        "title": "IA responsable para decisiones y servicios de calidad",
-        "p1": "La IA cataliza la mejora de procesos, la transparencia y la experiencia ciudadana bajo marcos auditables y éticos.",
-        "p2": "Acompañamos identificación, desarrollo e implementación de casos reales en la administración pública y organizaciones afines."
-      },
-      "value": {
-        "heading": "Acompañamiento, personalización y ética",
-        "lead": "Trabajamos con equipos mixtos para priorizar casos, diseñar pilotos y escalar soluciones, con compliance y auditoría técnica."
-      },
-      "usecases": {
-        "heading": "Catálogo de casos de uso",
-        "items": {
-          "chatbots": { "title": "Chatbots de atención ciudadana", "desc": "Atención 24/7, derivación inteligente y trazabilidad de consultas.", "impact": "↓ tiempos de respuesta, ↑ satisfacción" },
-          "fraude": { "title": "Detección de fraude en subvenciones", "desc": "Modelos de riesgo, señales tempranas y auditoría explicable.", "impact": "↓ pérdidas, ↑ integridad" },
-          "recursos": { "title": "Gestión predictiva de recursos", "desc": "Forecast de demanda y asignación óptima en servicios públicos.", "impact": "↓ costos, ↑ disponibilidad" },
-          "personalizacion": { "title": "Personalización de servicios", "desc": "Recomendaciones y automatización administrativa para trámites.", "impact": "↑ uso digital, ↑ eficiencia" },
-          "traduccion": { "title": "Traducción y monitoreo", "desc": "Traducción automática y análisis de redes con alertas.", "impact": "↓ brechas idiomáticas, ↑ escucha activa" }
-        }
-      },
-      "kpi": {
-        "title": "Impacto medible",
-        "k1": { "value": "-40%", "label": "Tiempo medio de respuesta" },
-        "k2": { "value": "65%", "label": "Casos automatizados" },
-        "k3": { "value": "+25", "label": "NPS / satisfacción" }
-      },
-      "testimonials": {
-        "t1": { "quote": "Integramos IA con trazabilidad y mejoramos la experiencia ciudadana en semanas.", "author": "Dirección de Innovación, Municipio UE" }
-      },
-      "faq": {
-        "heading": "Preguntas frecuentes",
-        "q1": { "q": "¿Qué procesos se pueden automatizar?", "a": "Atención, clasificación, priorización, verificación, conciliación, reportes y más." },
-        "q2": { "q": "¿Qué requisitos técnicos se necesitan?", "a": "APIs de datos, permisos y un entorno seguro; nosotros guiamos la preparación." },
-        "q3": { "q": "¿Cuál es el ROI esperado?", "a": "Depende del caso; medimos ahorro de tiempo, reducción de errores y satisfacción." },
-        "q4": { "q": "¿Cómo empezar un piloto?", "a": "Hacemos evaluación breve, definimos KPIs y lanzamos un piloto controlado." }
-      },
-      "demo": {
-        "heading": "Prueba un demo interactivo",
-        "lead": "Ejemplo de chatbot ciudadano (sin backend). Escribe 'turno', 'pago', 'recolección', 'beca' o lo que quieras.",
-        "placeholder": "Escribe tu consulta…",
-        "send": "Enviar"
-      },
-      "ctas": {
-        "primary": "Solicita evaluación gratuita para tu institución",
-        "secondary": "Agenda una demo personalizada"
-      },
-      "form": {
-        "title": "Contacto para evaluación / demo",
-        "lead": "Dejanos tus datos y coordinamos una sesión enfocada en tus procesos.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Organización",
-        "sector": "Sector",
-        "submit": "Enviar consulta",
-        "opt": {
-          "public": "Sector público",
-          "ngo": "ONG / Social",
-          "edu": "Educación",
-          "health": "Salud",
-          "tech": "Tecnología / I+D",
-          "intl": "Multilateral / Internacional",
-          "other": "Otro"
-        }
-      },
-      "resources": {
-        "r1": "Whitepaper: IA responsable para la gestión pública",
-        "r2": "Guía práctica: 10 casos de IA listos para pilotar"
-      }
-    },
-    "sandbox": {
-      "title": "Sandbox Regulatorio",
-      "desc": "Entorno seguro para experimentar, validar y ajustar soluciones tecnológicas.",
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "Sandbox Regulatorio para Innovación Tecnológica",
-        "subtitle": "Experimenta, valida y ajusta tu solución en un entorno seguro y supervisado",
-        "imgAlt": "Equipos colaborando con autoridades regulatorias en un ambiente de pruebas"
-      },
-      "key": {
-        "title": "Innovación responsable bajo supervisión regulatoria",
-        "p1": "Probá tu tecnología sin riesgos legales, con trazabilidad, mentoría y acompañamiento de actores sectoriales.",
-        "p2": "Reducí incertidumbre regulatoria, acelerá adopción y escalabilidad con evidencia verificable."
-      },
-      "value": {
-        "heading": "Propuesta de valor",
-        "items": [
-          "Validación temprana y minimización de riesgos legales",
-          "Espacio controlado con alto estándar ético y de compliance",
-          "Co-diseño con reguladores, usuarios y expertos sectoriales",
-          "Aceleración de adopción y escalabilidad"
-        ]
-      },
-      "guide": {
-        "heading": "Guía de acceso y participación",
-        "steps": [
-          { "title": "Postulación", "desc": "Presentá tu proyecto y objetivo de validación." },
-          { "title": "Criterios y selección", "desc": "Evaluación técnica, impacto y encuadre regulatorio." },
-          { "title": "Plan de pruebas", "desc": "Definimos KPIs, riesgos y salvaguardas." },
-          { "title": "Ejecución en sandbox", "desc": "Pruebas controladas con monitoreo y reporting." },
-          { "title": "Salida y escalado", "desc": "Informe final, lecciones y ruta de despliegue." }
-        ]
-      },
-      "cases": {
-        "heading": "Casos de éxito",
-        "items": [
-          { "title": "IA en servicios ciudadanos", "metric": "Validación en 90 días", "desc": "Reducción de tiempos y mejora de trazabilidad." },
-          { "title": "Blockchain de transparencia", "metric": "Cumplimiento ENS/ISO", "desc": "Registro auditable y datos integrados." },
-          { "title": "Automatización administrativa", "metric": "-35% carga operativa", "desc": "Flujos estandarizados y reporting automático." }
-        ]
-      },
-      "support": {
-        "heading": "Soporte jurídico y mentoría",
-        "points": [
-          "Acompañamiento legal durante todo el ciclo",
-          "Matriz multinormativa (GDPR/AI Act/ENS/ISO/local)",
-          "Mentoría técnica y regulatoria por sector",
-          "Plantillas de riesgo, DPIA y reportes"
-        ]
-      },
-      "calendar": {
-        "heading": "Calendario de convocatorias",
-        "areasLabel": "Áreas prioritarias",
-        "apply": "Postular",
-        "pastToggle": "Ver convocatorias pasadas"
-      },
-      "resources": {
-        "guide": "Guía de participación en sandbox",
-        "infographic": "Infografía: pasos y criterios del sandbox"
-      },
-      "ctas": {
-        "primary": "Solicita el ingreso de tu proyecto",
-        "secondary": "Descarga guía de participación",
-        "quick_help": "Asesoría regulatoria rápida"
-      },
-      "form": {
-        "title": "Interés en el Sandbox Regulatorio",
-        "lead": "Completá el formulario y te contactamos para avanzar.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Organización",
-        "type": "Tipo de solución/proyecto",
-        "submit": "Enviar"
-      }
-    },
-    "mvp": {
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "MVP Lab: Validación Rápida de Prototipos y Procesos",
-        "subtitle": "Lanza, prueba y mejora tus ideas digitales con agilidad y mínimo riesgo",
-        "imgAlt": "Equipo testeando un prototipo digital en un entorno colaborativo"
-      },
-      "key": {
-        "title": "Validá con usuarios reales, aprendé sin invertir de más",
-        "p1": "Convertí ideas en prototipos funcionales y medí valor con evidencia, antes de escalar.",
-        "p2": "Reducí riesgos, costes y tiempos con iteraciones cortas, foco en problema real y métricas claras."
-      },
-      "value": {
-        "heading": "Propuesta de valor",
-        "items": [
-          "Desglose por etapas: ideación, prototipado, testeo, aprendizaje, iteración",
-          "Reducción de riesgos y costes antes de invertir a gran escala",
-          "Enfoque en necesidades reales de ciudadanía/usuarios",
-          "Evidencia validada para toma de decisión y escalamiento"
-        ]
-      },
-      "stages": {
-        "heading": "Etapas del MVP Lab",
-        "items": [
-          { "title": "Ideación", "desc": "Alineamos problema, objetivos y criterios de éxito." },
-          { "title": "Prototipado", "desc": "Construimos un prototipo funcional mínimo (MVP)." },
-          { "title": "Testeo", "desc": "Probamos con usuarios reales y medimos resultados." },
-          { "title": "Aprendizaje", "desc": "Analizamos métricas, hallazgos y riesgos." },
-          { "title": "Iteración", "desc": "Mejoramos la solución y definimos próximos pasos." }
-        ]
-      },
-      "cases": {
-        "heading": "Casos prácticos",
-        "items": [
-          { "title": "Turnos digitales municipales", "metric": "-40% tiempo de espera", "desc": "MVP en 3 semanas, adopción incremental y métricas de satisfacción." },
-          { "title": "Portal académico inteligente", "metric": "+25% finalización de trámites", "desc": "Flujos simplificados y guía predictiva de pasos." },
-          { "title": "Mesa de ayuda con IA", "metric": "-35% tickets repetitivos", "desc": "Asistente contextual y base de conocimiento viva." }
-        ]
-      },
-      "tools": {
-        "heading": "Herramientas de apoyo",
-        "items": [
-          "Design Sprint & Lean Canvas",
-          "Wireframes + kits UI",
-          "Checklist de validación de hipótesis",
-          "Framework de métricas (AARRR/KPIs)",
-          "Plantillas de entrevistas y test",
-          "Guía de accesibilidad y compliance"
-        ]
-      },
-      "resources": {
-        "manual": "Manual de Prototipado Rápido",
-        "templates": "Pack de plantillas y frameworks",
-        "demo": "Demo: tablero de seguimiento MVP"
-      },
-      "feedback": {
-        "heading": "Panel de feedback real",
-        "intro": "Publicá y reuní retroalimentación de usuarios y expertos invitados.",
-        "placeholder": "Escribí tu comentario o hallazgo...",
-        "name": "Tu nombre (opcional)",
-        "post": "Publicar",
-        "empty": "Aún no hay feedback. ¡Sé el primero!"
-      },
-      "ctas": {
-        "primary": "Solicita acompañamiento en tu MVP",
-        "secondary": "Descarga Manual de Prototipado"
-      },
-      "form": {
-        "title": "¿Tenés una idea o proyecto?",
-        "lead": "Completá el formulario y te contactamos para definir el MVP.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Organización",
-        "idea": "Descripción de la idea/proyecto",
-        "submit": "Enviar"
-      }
-    },
-    "immersive": {
-      "hero": {
-        "overline": "Hub de Innovación",
+      "inmersivas": {
         "title": "Laboratorio de Experiencias Inmersivas (VR/Metaverso)",
         "subtitle": "Explora, prototipa y mide el impacto de la realidad virtual en servicios públicos e institucionales",
-        "imgAlt": "Personas usando gafas VR en un entorno institucional moderno"
-      },
-      "key": {
-        "title": "Exploración y validación inmersiva con propósito público",
-        "p1": "El Lab de Experiencias Inmersivas facilita el diseño, prototipado y validación de soluciones VR/metaverso para transformar formación, comunicación y atención ciudadana.",
-        "p2": "Trabajamos con instituciones para medir impacto, asegurar adopción responsable y escalar experiencias en entornos seguros y accesibles."
-      },
-      "value": {
-        "heading": "Propuesta de valor",
-        "items": [
-          "Desarrollo, pilotaje y evaluación de experiencias VR/metaverso",
-          "Validación ágil para formación, difusión, participación y servicios remotos",
-          "Orientación ética, normativa y de accesibilidad para adopción responsable",
-          "Roadmap de escalamiento con métricas y evidencias"
-        ]
-      },
-      "usecases": {
-        "heading": "Ejemplos de casos de uso",
-        "items": [
-          { "icon": "headset", "title": "Simulaciones de atención ciudadana", "desc": "Entrenamiento inmersivo de equipos en flujos y protocolos reales." },
-          { "icon": "school", "title": "Capacitación inmersiva", "desc": "Programas para empleados y estudiantes con evaluación de desempeño." },
-          { "icon": "map", "title": "Visitas institucionales virtuales", "desc": "Recorridos 3D gamificados y accesibles para difusión y turismo cívico." },
-          { "icon": "people", "title": "Talleres participativos en metaverso", "desc": "Co-creación y consultas públicas con entornos colaborativos." }
-        ]
-      },
-      "benefits": {
-        "heading": "Beneficios clave",
-        "items": [
-          "Innovación en procesos de formación y comunicación institucional",
-          "Mayor motivación, engagement y accesibilidad para distintos públicos",
-          "Reducción de costes de formación, eventos y traslados",
-          "Métricas de interacción y evidencia de adopción tecnológica"
-        ]
-      },
-      "resources": {
-        "repo": "Repositorio de plataformas VR/metaverso recomendadas",
-        "videos": "Demostraciones y tutoriales de integración",
-        "docs": "Buenas prácticas, ética y estándares de accesibilidad"
-      },
-      "ctas": {
-        "primary": "Solicita demo inmersiva",
-        "secondary": "Agenda reunión para explorar tu caso"
-      },
-      "form": {
-        "title": "¿Querés explorar tu caso inmersivo?",
-        "lead": "Completá el formulario y coordinamos una demo o reunión.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Organización",
-        "interest": "Interés",
-        "interest_options": ["Capacitación", "Atención", "Difusión", "Simulación", "Otro"],
-        "submit": "Enviar"
-      }
-    },
-    "gamification": {
-      "hero": {
-        "overline": "Hub de Innovación",
-        "title": "Laboratorio de Gamificación Digital",
-        "subtitle": "Transformamos la educación mediante dinámicas de juego.",
-        "imgAlt": "Docentes y estudiantes participando en una actividad gamificada"
-      },
-      "key": {
-        "title": "Aprendizajes medibles con dinámicas de juego",
-        "p1": "Diseñamos, prototipamos y evaluamos experiencias educativas gamificadas que aumentan motivación y participación.",
-        "p2": "Acompañamos a instituciones y equipos docentes con herramientas, asesoría y métricas para evidenciar impacto real."
-      },
-      "value": {
-        "heading": "Propuesta de valor",
-        "items": [
-          "Asesoría y acompañamiento para distintos niveles y contextos educativos",
-          "Implementación ágil de plataformas y dinámicas gamificadas",
-          "Métricas de progreso y analíticas para evidenciar mejoras",
-          "Enfoque en accesibilidad, ética y diversidad de públicos"
-        ]
-      },
-      "usecases": {
-        "heading": "Casos de uso",
-        "items": [
-          { "title": "Insignias, puntos y rankings", "desc": "Sistemas de logros para incentivar participación y esfuerzo sostenido." },
-          { "title": "Retos por equipos y misiones", "desc": "Competencias digitales colaborativas en aulas virtuales y presenciales." },
-          { "title": "Juegos para STEAM, idiomas y soft skills", "desc": "Aprendizaje basado en juegos con feedback inmediato." },
-          { "title": "Microlearning gamificado", "desc": "Formación continua en instituciones públicas y privadas con módulos breves." }
-        ]
-      },
-      "benefits": {
-        "heading": "Beneficios clave",
-        "items": [
-          "Aumento de motivación, retención y participación",
-          "Autonomía y feedback inmediato para aprender mejor",
-          "Comunidades activas de aprendizaje colaborativo",
-          "Adaptable a todos los niveles educativos"
-        ]
-      },
-      "resources": {
-        "repo": "Plataformas y apps recomendadas",
-        "templates": "Plantillas y dinámicas listas para usar",
-        "videos": "Webinars y tutoriales de implementación"
-      },
-      "testimonials": {
-        "heading": "Testimonios e impacto",
-        "items": [
-          { "quote": "La gamificación elevó la participación y mejoró el clima de aula.", "who": "Coordinación Académica, Secundaria" },
-          { "quote": "Vimos +22% de finalización en módulos de capacitación pública.", "who": "Dirección de Formación, Gobierno local" }
+        "summary": "Diseñamos y validamos soluciones de VR y metaverso para formación, comunicación y atención ciudadana, priorizando accesibilidad, ética y adopción segura en contextos públicos y sociales.",
+        "bullets": [
+          "Pilotaje ágil y evaluación de experiencias inmersivas",
+          "Casos orientados a educación, atención y difusión",
+          "Métricas de interacción y evidencia de adopción",
+          "Buenas prácticas, accesibilidad y normativa"
         ],
-        "metrics": [
-          { "k": "+20%", "l": "participación" },
-          { "k": "-30%", "l": "deserción" },
-          { "k": "+18pts", "l": "satisfacción" }
-        ]
+        "casesTitle": "Casos de uso",
+        "cases": [
+          "Simulaciones de atención y trámites en entornos virtuales",
+          "Capacitación inmersiva para empleados y estudiantes",
+          "Visitas institucionales virtuales y recorridos gamificados",
+          "Eventos participativos y co-creación en metaverso"
+        ],
+        "benefitsTitle": "Beneficios clave",
+        "benefits": [
+          "Innovación en formación y comunicación",
+          "Mayor engagement y accesibilidad",
+          "Reducción de costos de eventos y traslados",
+          "Escalabilidad con datos de uso reales"
+        ],
+        "resourcesTitle": "Recursos y referencias",
+        "resources": [
+          "Repositorio de plataformas VR/metaverso",
+          "Demos en video e integraciones institucionales",
+          "Documentación ética y estándares de accesibilidad"
+        ],
+        "ctaPrimary": {
+          "label": "Solicitar demo inmersiva",
+          "href": "/contacto?tema=vr"
+        },
+        "ctaSecondary": { "label": "Agendar reunión", "href": "/agenda" }
       },
-      "ctas": {
-        "primary": "Solicita asesoría para gamificar tu aula o programa",
-        "secondary": "Descarga la guía de dinámicas digitales"
+
+      "mvp": {
+        "title": "MVP Lab: Validación Rápida de Prototipos y Procesos",
+        "subtitle": "Lanza, prueba y mejora tus ideas digitales con agilidad y mínimo riesgo",
+        "summary": "Convertimos ideas en prototipos funcionales con usuarios reales para aprender rápido y reducir riesgos antes de inversiones mayores. Incluye manual de prototipado, casos y panel de feedback.",
+        "bullets": [
+          "Ciclo: ideación → prototipado → testeo → aprendizaje",
+          "Validación con usuarios reales y métricas claras",
+          "Enfoque en problemas del usuario final",
+          "Iteración ágil y decisiones basadas en evidencia"
+        ],
+        "casesTitle": "Casos prácticos",
+        "cases": [
+          "Reducción de costos y tiempos de lanzamiento",
+          "Mejora en satisfacción y adopción de servicios",
+          "Aprendizajes validados antes de escalar"
+        ],
+        "benefitsTitle": "Beneficios clave",
+        "benefits": [
+          "Menor riesgo y mayor enfoque",
+          "Alineación con necesidades reales",
+          "Roadmap claro tras el piloto"
+        ],
+        "resourcesTitle": "Herramientas de apoyo",
+        "resources": [
+          "Design Sprint, Lean Canvas, wireframes",
+          "Checklist de validación y plantillas de pruebas",
+          "Manual de Prototipado Rápido (PDF)"
+        ],
+        "testimonialsTitle": "Resultados",
+        "testimonials": ["“Acortamos 40% el tiempo de salida a producción”."],
+        "ctaPrimary": {
+          "label": "Solicitar acompañamiento",
+          "href": "/contacto?tema=mvp"
+        },
+        "ctaSecondary": {
+          "label": "Descargar manual",
+          "href": "/recursos/manual-prototipado.pdf"
+        }
       },
-      "form": {
-        "title": "¿Querés gamificar tu curso o programa?",
-        "lead": "Completá el formulario y coordinamos una asesoría o acceso a recursos.",
-        "name": "Nombre",
-        "email": "Email",
-        "org": "Institución",
-        "interest": "Interés",
-        "interest_options": ["Primaria", "Secundaria", "Universidad", "Formación profesional", "Administración pública", "Otro"],
-        "submit": "Enviar"
+      "sandbox": {
+        "bullets": [
+          "Mentoría en cumplimiento y marco legal",
+          "Proceso claro de postulación y pruebas",
+          "Casos de éxito y beneficios regulatorios",
+          "Colaboración con actores sectoriales"
+        ],
+        "casesTitle": "Casos de éxito",
+        "cases": [
+          "Validación acelerada con supervisión",
+          "Escalabilidad tras la salida del sandbox"
+        ],
+        "benefitsTitle": "Beneficios clave",
+        "benefits": [
+          "Minimización de riesgos legales",
+          "Aceleración de proyectos innovadores",
+          "Confianza y colaboración intersectorial"
+        ],
+        "resourcesTitle": "Guía y calendario",
+        "resources": [
+          "Requisitos de ingreso y criterios de selección",
+          "Calendario de convocatorias y temáticas prioritarias",
+          "Soporte jurídico y contacto rápido"
+        ],
+        "ctaPrimary": {
+          "label": "Solicitar ingreso",
+          "href": "/contacto?tema=sandbox"
+        },
+        "ctaSecondary": {
+          "label": "Descargar guía",
+          "href": "/recursos/guia-sandbox.pdf"
+        }
+      },
+
+      "ia": {
+        "title": "Casos de Uso de IA & Machine Learning para el sector público",
+        "subtitle": "Convierte datos complejos en decisiones inteligentes y servicios ciudadanos excepcionales",
+        "summary": "Catálogo de casos reales de IA con testimonios, métricas y demo interactiva para inspirar, planificar pilotos y solicitar acompañamiento responsable.",
+        "bullets": [
+          "Acompañamiento en identificación y despliegue",
+          "Catálogo navegable por áreas y objetivos",
+          "Énfasis en ética, seguridad y auditoría",
+          "Demo/simulación para explorar casos"
+        ],
+        "casesTitle": "Casos de uso",
+        "cases": [
+          "Chatbots de atención ciudadana",
+          "Detección de fraude en pagos y subvenciones",
+          "Gestión predictiva de recursos públicos",
+          "Personalización de servicios y automatización"
+        ],
+        "benefitsTitle": "Resultados y métricas",
+        "benefits": [
+          "Reducción de tiempos de respuesta",
+          "Aumento de automatizaciones exitosas",
+          "Mejora de satisfacción ciudadana"
+        ],
+        "resourcesTitle": "Recursos y demo",
+        "resources": [
+          "Whitepapers y guías de buenas prácticas",
+          "Demo de chatbot / dashboard de ejemplo",
+          "FAQ sobre adopción y ROI"
+        ],
+        "faqTitle": "Preguntas frecuentes",
+        "faq": [
+          {
+            "q": "¿Qué procesos se pueden automatizar?",
+            "a": "Atención, clasificación, extracción de datos, predicción de demanda, entre otros."
+          },
+          {
+            "q": "¿Qué requisitos técnicos necesito?",
+            "a": "Fuentes de datos confiables, objetivos claros y responsables de proyecto."
+          },
+          {
+            "q": "¿Cuál es el ROI esperado?",
+            "a": "Depende del caso; se mide por ahorro de tiempo, reducción de errores y calidad del servicio."
+          }
+        ],
+        "ctaPrimary": {
+          "label": "Solicitar demo / evaluación",
+          "href": "/contacto?tema=ia"
+        },
+        "ctaSecondary": { "label": "Explorar casos", "href": "/casos-ia" }
+      },
+
+      "transferencia": {
+        "title": "Transferencia tecnológica transatlántica para el desarrollo",
+        "subtitle": "Conecta personas, soluciones y conocimientos entre Europa y Latinoamérica",
+        "summary": "Plataforma que enlaza universidades, centros tech, gobiernos y empresas para alianzas, validación internacional y formación de talento con impacto territorial.",
+        "bullets": [
+          "Networking y circulación de conocimiento",
+          "Internacionalización y validación en contextos reales",
+          "Programas de formación y proyectos conjuntos",
+          "Acceso a fondos y oportunidades de expansión"
+        ],
+        "casesTitle": "Alianzas y casos (próximamente)",
+        "cases": ["Carrusel de instituciones y pilotos internacionales"],
+        "benefitsTitle": "Beneficios por público",
+        "benefits": [
+          "Universidades: investigación aplicada y movilidad",
+          "Centros tech: validación de prototipos y soluciones",
+          "Instituciones públicas: modernización y buenas prácticas",
+          "Startups/empresas: entrada a nuevos mercados"
+        ],
+        "resourcesTitle": "Recursos de la red",
+        "resources": [
+          "Guía de participación y contacto sectorial",
+          "Material visual de la red y países involucrados"
+        ],
+        "ctaPrimary": {
+          "label": "Agendar reunión de networking",
+          "href": "/agenda"
+        },
+        "ctaSecondary": {
+          "label": "Contactar a la red",
+          "href": "/contacto?tema=transferencia"
+        }
       }
     }
   },
@@ -1272,7 +1327,13 @@
     "name": "Nombre",
     "org": "Organización",
     "sector": "Sector",
-    "s": { "public": "Sector público", "ngo": "ONG / Social", "edu": "Educación", "health": "Salud", "other": "Otro" },
+    "s": {
+      "public": "Sector público",
+      "ngo": "ONG / Social",
+      "edu": "Educación",
+      "health": "Salud",
+      "other": "Otro"
+    },
     "cta": "Contacta a nuestro equipo"
   },
   "cta": {

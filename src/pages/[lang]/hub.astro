@@ -1,5 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import InnovationTabs from "../../components/hub/InnovationTabs.astro";
+import AboutHero from "../../components/hub/AboutHero.astro";
 import { loadDict, getTrans } from "../../i18n/utils";
 import { getStaticLocalePaths } from "../../i18n/paths";
 export const getStaticPaths = getStaticLocalePaths;
@@ -10,12 +12,8 @@ const t = (k: string, fb?: string) => getTrans(dict, k, fb);
 ---
 
 <BaseLayout lang={lang} dict={dict}>
-  <section class="container max-w-7xl px-4 py-10">
-    <h1 class="text-3xl md:text-4xl font-heading font-bold mb-3">
-      {t('hub.title', 'Hub de Innovación')}
-    </h1>
-    <p class="text-slate-600">
-      {t('hub.lead', 'Proyectos I+D, alianzas y laboratorio de innovación.')}
-    </p>
-  </section>
+    <AboutHero lang={lang} dict={dict} />
+
+    <InnovationTabs {lang} {dict} defaultTab="gaming" />
+    
 </BaseLayout>

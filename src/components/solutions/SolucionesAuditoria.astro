@@ -1,0 +1,155 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type FeatureKind = "list" | "flow" | "report" | "engine" | "dashboard";
+type Feature = {
+  kind: FeatureKind;
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaExploreHref?: string;
+  ctaExploreKey?: string;
+  ctaConsultHref?: string;
+  ctaConsultKey?: string;
+  features?: Feature[];
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "audit-platform-soluciones",
+  overlineKey = "solutions.auditPlatform.features.overline",
+  titleKey = "solutions.auditPlatform.features.heading",
+  leadKey = "solutions.auditPlatform.features.lead",
+  ctaExploreHref = `/${lang}/soluciones/auditoria/`,
+  ctaExploreKey = "solutions.auditPlatform.features.ctaExplore",
+  ctaConsultHref = `/${lang}/contacto/`,
+  ctaConsultKey = "solutions.auditPlatform.features.ctaConsult",
+  features,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Utilidad para leer anidado desde dict con fallback
+const get = (path: string, fb: any) =>
+  path.split(".").reduce((acc: any, k: string) => (acc && acc[k] != null ? acc[k] : null), dict) ?? fb;
+
+// Tomamos features crudos del i18n y mapeamos a nuestro tipo
+const raw = get("solutions.auditPlatform.features.items", []) as Array<{
+  icon: FeatureKind;
+  title: string;
+  desc: string;
+}>;
+
+const mappedFromI18n: Feature[] = raw.map((f) => ({
+  kind: f.icon,
+  titleFallback: f.title,
+  descFallback: f.desc,
+}));
+
+const defaultFeatures: Feature[] = mappedFromI18n.length
+  ? mappedFromI18n
+  : [
+      { kind: "list",      titleFallback: "Checklists adaptativos",       descFallback: "Listas de control que se actualizan según normativa vigente." },
+      { kind: "flow",      titleFallback: "Workflows automatizados",      descFallback: "Preparación y seguimiento guiados, con tareas y alertas." },
+      { kind: "report",    titleFallback: "Reportes y evidencia",         descFallback: "Generación automática de evidencias trazables y exportables." },
+      { kind: "engine",    titleFallback: "Motor multinormativo",         descFallback: "GDPR, ENS, ISO, AI Act, marcos locales y más (actualización continua)." },
+      { kind: "dashboard", titleFallback: "Dashboards accesibles",        descFallback: "Vistas para perfiles técnicos y no técnicos, KPIs y estado." },
+    ];
+
+const finalFeatures = features ?? defaultFeatures;
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna izquierda: texto + CTAs -->
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Solución")}
+        </p>
+        <h2 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-2xl">
+          {t(titleKey, "Solución y funcionalidades")}
+        </h2>
+        <p class="mt-5 max-w-xl text-neutral-600">
+          {t(
+            leadKey,
+            "Guía paso a paso para preparar, ejecutar y evidenciar auditorías con checklists, flujos y reportes 'audit-ready'."
+          )}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={ctaExploreHref} class="btn btn-outline">
+            {t(ctaExploreKey, "Explora")}
+          </a>
+          <a href={ctaConsultHref} class="link-arrow group">
+            {t(ctaConsultKey, "Consultar")}
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna derecha: features -->
+      <div class="grid gap-5">
+        {finalFeatures.map((f: Feature) => (
+          <article
+            tabindex="0"
+            class="group card p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300"
+          >
+            <div class="flex items-start gap-4">
+              <div class="icon-box">
+                {f.kind === "list" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M8 6h13M3 6h.01M8 12h13M3 12h.01M8 18h13M3 18h.01"/>
+                  </svg>
+                )}
+                {f.kind === "flow" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M5 7h6a3 3 0 0 1 3 3v4M5 17h6a3 3 0 0 0 3-3v-4"/>
+                    <circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="14" cy="10" r="2"/>
+                  </svg>
+                )}
+                {f.kind === "report" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 15h8M8 11h5"/>
+                  </svg>
+                )}
+                {f.kind === "engine" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M10 2v4M14 2v4M4 10h16M4 14h16M4 18h16"/>
+                  </svg>
+                )}
+                {f.kind === "dashboard" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="13" r="7"/><path d="M12 13l4-4M12 2v3"/>
+                  </svg>
+                )}
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold">
+                  {t(f.titleKey ?? "", f.titleFallback)}
+                </h3>
+                <p class="mt-2 text-sm text-neutral-600">
+                  {t(f.descKey ?? "", f.descFallback)}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,200 @@
+---
+interface Props { lang?: string; dict?: any }
+const { lang = "es", dict = {} } = Astro.props as Props;
+
+// Prefija rutas internas con /{lang}
+const link = (h?: string) => (!h ? h : h.startsWith("/") ? `/${lang}${h}` : h);
+
+// Textos (pueden venir de dict o usan fallback)
+const T = {
+  title: dict?.title ?? "Sandbox Regulatorio para Innovación Tecnológica",
+  subtitle:
+    dict?.subtitle ??
+    "Experimentá y validá tu solución en un entorno seguro y supervisado",
+  summary:
+    dict?.summary ??
+    "Espacio para probar proyectos tecnológicos con acompañamiento jurídico y criterios claros de selección. Acelerá la validación, minimizá riesgos legales y construí confianza con reguladores y actores del sector.",
+  ctaPrimary: {
+    label: dict?.ctaPrimary?.label ?? "Solicitar ingreso",
+    href: link(dict?.ctaPrimary?.href ?? "/contacto?tema=sandbox"),
+  },
+  ctaSecondary: {
+    label: dict?.ctaSecondary?.label ?? "Descargar guía",
+    href: link(dict?.ctaSecondary?.href ?? "/recursos/guia-sandbox.pdf"),
+  },
+};
+---
+
+<section class="space-y-10">
+  <!-- Mini hero -->
+  <div class="rounded-2xl border p-6 bg-gradient-to-br from-indigo-50 to-white">
+    <div class="flex items-center gap-3">
+      <div class="text-3xl">⚖️</div>
+      <h2 class="text-2xl font-semibold">{T.title}</h2>
+    </div>
+
+    <p class="mt-3 text-neutral-700 max-w-3xl">{T.subtitle}</p>
+    <p class="mt-2 text-neutral-700 max-w-3xl">{T.summary}</p>
+
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a
+        href={T.ctaPrimary.href}
+        class="inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition"
+      >
+        {T.ctaPrimary.label}
+      </a>
+      <a
+        href={T.ctaSecondary.href}
+        class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+      >
+        {T.ctaSecondary.label}
+      </a>
+    </div>
+  </div>
+
+  <!-- ¿Qué es un sandbox? -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">¿Qué es un sandbox regulatorio?</h3>
+    <p class="mt-2 text-neutral-700">
+      Es un entorno controlado para testear innovaciones con usuarios reales bajo
+      reglas acotadas, plazos definidos y supervisión regulatoria. Permite aprender y ajustar
+      antes de una autorización plena.
+    </p>
+    <ul class="mt-4 grid md:grid-cols-2 gap-3 list-disc pl-5 text-neutral-700">
+      <li>Marco acordado con el regulador (objetivos, métricas, límites)</li>
+      <li>Alcance y población acotada para pruebas</li>
+      <li>Reporte de resultados y trazabilidad</li>
+      <li>Plan de salida o escalado tras la prueba</li>
+    </ul>
+  </div>
+
+  <!-- Criterios de postulación -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Requisitos y criterios de selección</h3>
+    <div class="mt-3 grid md:grid-cols-2 gap-4">
+      <ul class="space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Problema público/sectorial claramente definido</li>
+        <li>Propuesta de valor innovadora y factible</li>
+        <li>Evaluación de riesgos técnicos y legales</li>
+        <li>Plan de pruebas con métricas de éxito</li>
+      </ul>
+      <ul class="space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Equipo responsable y roles asignados</li>
+        <li>Gestión de datos y privacidad documentada</li>
+        <li>Estrategia de mitigación y contingencias</li>
+        <li>Impacto esperado y potencial de escalado</li>
+      </ul>
+    </div>
+    <div class="mt-4">
+      <a
+        href={link("/contacto?tema=sandbox&tipo=pre-evaluacion")}
+        class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+      >
+        Solicitar pre-evaluación
+      </a>
+    </div>
+  </div>
+
+  <!-- Proceso / timeline -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Proceso</h3>
+    <ol class="mt-4 grid md:grid-cols-5 gap-4">
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">1. Postulación</div>
+        <p class="mt-1 text-sm text-neutral-600">Ficha técnica y criterios mínimos.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">2. Diseño</div>
+        <p class="mt-1 text-sm text-neutral-600">Alcance, métricas, salvaguardas y datos.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">3. Aprobación</div>
+        <p class="mt-1 text-sm text-neutral-600">Autorización acotada y cronograma.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">4. Piloto</div>
+        <p class="mt-1 text-sm text-neutral-600">Ejecución supervisada y reportes parciales.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">5. Cierre</div>
+        <p class="mt-1 text-sm text-neutral-600">Informe final, lecciones y decisión de escalado.</p>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Beneficios y casos -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Beneficios clave</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Minimización de riesgos legales y reputacionales</li>
+        <li>Aceleración de la validación de proyectos</li>
+        <li>Colaboración con reguladores y actores sectoriales</li>
+        <li>Transparencia y confianza con evidencia de impacto</li>
+      </ul>
+    </div>
+
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Casos de éxito (ejemplos)</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Pagos digitales con límites y monitoreo en tiempo real</li>
+        <li>IA para clasificación de trámites con auditoría de sesgos</li>
+        <li>Automatización documental con control humano (HITL)</li>
+        <li>Interoperabilidad de datos entre organismos con DP</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Recursos -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Recursos y calendario</h3>
+    <div class="mt-3 grid md:grid-cols-3 gap-4 text-neutral-700">
+      <ul class="space-y-2 list-disc pl-5">
+        <li><a class="underline underline-offset-2" href={link("/recursos/guia-sandbox.pdf")}>Guía de ingreso y criterios</a></li>
+        <li><a class="underline underline-offset-2" href={link("/contacto?tema=sandbox&tipo=mentoria")}>Mentoría jurídica</a></li>
+      </ul>
+      <ul class="space-y-2 list-disc pl-5">
+        <li><a class="underline underline-offset-2" href={link("/agenda")}>Calendario de convocatorias</a></li>
+        <li>Plantillas: plan de pruebas, riesgos, datos</li>
+      </ul>
+      <ul class="space-y-2 list-disc pl-5">
+        <li>Buenas prácticas de privacidad y seguridad</li>
+        <li>Checklist de accesibilidad y ética</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Nota legal -->
+  <div class="rounded-2xl border p-6 bg-neutral-50">
+    <p class="text-sm text-neutral-600">
+      <strong>Aviso:</strong> La información aquí provista no constituye asesoramiento legal. Cada
+      piloto requiere evaluación jurídica específica y acuerdos con la autoridad competente.
+    </p>
+  </div>
+
+  <!-- CTA final -->
+  <div class="rounded-2xl border p-6 bg-indigo-50">
+    <div class="md:flex items-center justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-semibold">¿Listos para postular su proyecto?</h3>
+        <p class="text-neutral-700">
+          Te acompañamos en el diseño, la documentación y el diálogo con el regulador.
+        </p>
+      </div>
+      <div class="mt-4 md:mt-0 flex gap-3">
+        <a
+          href={T.ctaPrimary.href}
+          class="inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition"
+        >
+          {T.ctaPrimary.label}
+        </a>
+        <a
+          href={T.ctaSecondary.href}
+          class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+        >
+          {T.ctaSecondary.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

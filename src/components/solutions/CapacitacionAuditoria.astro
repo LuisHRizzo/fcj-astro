@@ -1,0 +1,135 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type Icon = "compass" | "bars" | "chain";
+type Item = {
+  icon: Icon;
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  items?: Item[];
+  ctaHref?: string;
+  ctaKey?: string;
+};
+
+// Util para leer desde dict sin romper si falta algo
+const get = (path: string, fb: any) =>
+  path.split(".").reduce((acc: any, k: string) => (acc && acc[k] != null ? acc[k] : null), Astro.props.dict) ?? fb;
+
+// 1) Tomo el array de diferenciales desde i18n
+const rawDiffs = get("solutions.auditPlatform.diff.items", []) as string[];
+
+// 2) Mapeo a items con íconos (ciclo)
+const iconCycle: Icon[] = ["compass", "bars", "chain"];
+const mappedFromI18n: Item[] = rawDiffs.map((txt, i) => ({
+  icon: iconCycle[i % iconCycle.length],
+  titleFallback: txt,
+  descFallback: "",
+}));
+
+// 3) Fallbacks si no hubiera i18n cargado
+const fallbackDiffs = [
+  "Orientación “for dummies” que democratiza el compliance",
+  "Automatización de punta a punta que reduce sobrecarga",
+  "Accesible para equipos técnicos y administrativos",
+];
+const fallbackItems: Item[] = fallbackDiffs.map((txt, i) => ({
+  icon: iconCycle[i % iconCycle.length],
+  titleFallback: txt,
+  descFallback: "",
+}));
+
+// 4) defaultItems = i18n (si hay) o fallbacks
+const defaultItems: Item[] = mappedFromI18n.length ? mappedFromI18n : fallbackItems;
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "audit-platform-diff",
+  overlineKey = "solutions.auditPlatform.diff.overline",
+  titleKey = "solutions.auditPlatform.diff.heading",
+  leadKey = "solutions.auditPlatform.diff.lead",
+  items = defaultItems,
+  ctaHref = `/${lang}/contacto/`,
+  ctaKey = "solutions.auditPlatform.diff.cta",
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-6 md:grid-cols-2 lg:gap-16">
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Diferencial")}
+        </p>
+        <h2 class="mt-2 max-w-2xl text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight tracking-tight">
+          {t(titleKey, "Diferencial competitivo")}
+        </h2>
+      </div>
+
+      <p class="text-neutral-600 max-w-xl">
+        {t(
+          leadKey,
+          "Ventajas clave que aceleran el cumplimiento, reducen la carga operativa y facilitan la adopción."
+        )}
+      </p>
+    </div>
+
+    <div class="mt-10 grid gap-10 md:grid-cols-3">
+      {items.map((it: Item) => (
+        <article>
+          <div class="icon-box">
+            {it.icon === "compass" && (
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="m14.5 9.5-3.8 1.5-1.2 3.8 3.8-1.5z"></path>
+              </svg>
+            )}
+            {it.icon === "bars" && (
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <rect x="4" y="10" width="3" height="8"></rect>
+                <rect x="10.5" y="6" width="3" height="12"></rect>
+                <rect x="17" y="12" width="3" height="6"></rect>
+                <rect x="3" y="4" width="6" height="3" rx="1"></rect>
+              </svg>
+            )}
+            {it.icon === "chain" && (
+              <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                <path d="M10.5 13.5 8 16a4 4 0 1 1-5.7-5.7l2.5-2.5a4 4 0 0 1 5.7 0"></path>
+                <path d="M13.5 10.5 16 8a4 4 0 0 1 5.7 5.7l-2.5 2.5a4 4 0 0 1-5.7 0"></path>
+              </svg>
+            )}
+          </div>
+
+          <h3 class="mt-5 text-2xl font-extrabold leading-tight">
+            {t(it.titleKey ?? "", it.titleFallback)}
+          </h3>
+          <p class="mt-2 text-sm text-neutral-600">
+            {t(it.descKey ?? "", it.descFallback)}
+          </p>
+        </article>
+      ))}
+    </div>
+
+    <div class="mt-10 flex flex-wrap gap-3">
+      <a href={ctaHref} class="link-arrow group">
+        {t(ctaKey, "Solicitar demo")}
+        <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>

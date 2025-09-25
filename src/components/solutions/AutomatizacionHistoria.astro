@@ -1,0 +1,79 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type Props = {
+  lang?: string;
+  dict: any;
+
+  // a) Título como líneas separadas (para insertar <br> responsivo)
+  titleLines?: string[];
+  // b) O un único título (si no querés cortes manuales)
+  titleKey?: string;
+  titleFallback?: string;
+
+  // Párrafos del cuerpo
+  paragraphs?: string[];
+  paragraphKeys?: string[];
+
+  sectionId?: string;
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "secure-tennet-clave",
+
+  // Si preferís líneas manuales para cortes responsivos:
+  titleLines = [
+    "Gobernanza y compliance de ciberseguridad,",
+    "listos para auditoría"
+  ],
+  // Por defecto usamos el título desde i18n
+  titleKey = "solutions.secureTennet.key.title",
+  titleFallback = "Gobernanza y compliance de ciberseguridad, listos para auditoría",
+
+  // Párrafos (i18n con fallbacks)
+  paragraphKeys = ["solutions.secureTennet.key.p1", "solutions.secureTennet.key.p2"],
+  paragraphs = [
+    "Cumple y audita en múltiples marcos normativos con trazabilidad garantizada. Secure Tennet centraliza monitoreo, controles y evidencia audit-ready.",
+    "Reporting automático, gestión unificada de compliance (GDPR, SOC2 y locales), y soporte experto para entornos federados y multipaís."
+  ],
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Resuelve título: si viene titleKey, prioriza i18n; si no, usa titleLines con <br> responsivo.
+const resolvedTitle = titleKey ? t(titleKey, titleFallback ?? "") : null;
+
+// Resuelve párrafos por i18n si hay keys; si no, usa fallbacks
+const resolvedParagraphs =
+  paragraphKeys?.length
+    ? paragraphKeys.map((k, i) => t(k, paragraphs[i] ?? ""))
+    : paragraphs;
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:grid-20">
+      <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight leading-tight">
+        {resolvedTitle ? (
+          resolvedTitle
+        ) : (
+          <>
+            {titleLines.map((line: string, i: number) => (
+              <>
+                {line}{i < titleLines.length - 1 && <br class="hidden sm:block" />}
+              </>
+            ))}
+          </>
+        )}
+      </h2>
+
+      <div class="text-neutral-700 text-base sm:text-lg leading-relaxed">
+        {resolvedParagraphs.map((p: string, i: number) => (
+          <p class={i > 0 ? "mt-4" : ""}>{p}</p>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

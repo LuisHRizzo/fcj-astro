@@ -1,0 +1,132 @@
+---
+interface Props { lang?: string; dict?: any }
+const { lang = "es", dict = {} } = Astro.props as Props;
+
+// Prefija rutas internas con /{lang}
+const link = (h?: string) => (!h ? h : h.startsWith("/") ? `/${lang}${h}` : h);
+---
+
+<section class="space-y-10">
+  <!-- Mini hero -->
+  <div class="rounded-2xl border p-6 bg-gradient-to-br from-indigo-50 to-white">
+    <div class="flex items-center gap-3">
+      <div class="text-3xl">🥽</div>
+      <h2 class="text-2xl font-semibold">Experiencias Inmersivas (VR / Metaverso)</h2>
+    </div>
+
+    <p class="mt-3 text-neutral-700 max-w-2xl">
+      Diseñamos y validamos soluciones de realidad virtual y metaverso para formación, comunicación y
+      atención ciudadana. Priorizamos accesibilidad, ética y adopción segura con métricas de impacto reales.
+    </p>
+
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a
+        href={link("/contacto?tema=vr")}
+        class="inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition"
+      >
+        Solicitar demo inmersiva
+      </a>
+      <a
+        href={link("/agenda")}
+        class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+      >
+        Agendar reunión
+      </a>
+    </div>
+  </div>
+
+  <!-- Beneficios / Casos -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Beneficios clave</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Mayor engagement y retención de contenidos</li>
+        <li>Entrenamientos repetibles con menor costo logístico</li>
+        <li>Datos de uso para decisiones (tiempo, errores, rutas)</li>
+        <li>Escenarios seguros para practicar procedimientos críticos</li>
+      </ul>
+    </div>
+
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Casos de uso</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Simulaciones de atención y trámites en entornos virtuales</li>
+        <li>Capacitaciones operativas y de soft skills</li>
+        <li>Visitas institucionales y recorridos gamificados</li>
+        <li>Eventos participativos y co-creación en metaverso</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Buenas prácticas / Accesibilidad -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Buenas prácticas, accesibilidad y ética</h3>
+    <div class="mt-3 grid md:grid-cols-2 gap-4 text-neutral-700">
+      <ul class="space-y-2 list-disc pl-5">
+        <li>Lineamientos de confort (FPS, latencia, tiempos de sesión)</li>
+        <li>Contenidos con alternativas no-VR y subtitulado</li>
+        <li>Diseño inclusivo: controles, alturas, contraste</li>
+      </ul>
+      <ul class="space-y-2 list-disc pl-5">
+        <li>Privacidad y tratamiento responsable de datos</li>
+        <li>Métricas de seguridad y reporte de incidencias</li>
+        <li>Evaluaciones de riesgo y consentimiento informado</li>
+      </ul>
+    </div>
+    <div class="mt-4">
+      <a
+        href={link("/recursos/guia-accesibilidad-vr.pdf")}
+        class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+      >
+        Guía de accesibilidad (PDF)
+      </a>
+    </div>
+  </div>
+
+  <!-- Métricas e impacto -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Métricas e impacto</h3>
+    <div class="mt-4 grid sm:grid-cols-3 gap-4">
+      <div class="rounded-xl border p-4 text-center">
+        <div class="text-3xl font-semibold">+35%</div>
+        <div class="text-sm text-neutral-600 mt-1">Mejora en retención</div>
+      </div>
+      <div class="rounded-xl border p-4 text-center">
+        <div class="text-3xl font-semibold">-40%</div>
+        <div class="text-sm text-neutral-600 mt-1">Reducción de costos</div>
+      </div>
+      <div class="rounded-xl border p-4 text-center">
+        <div class="text-3xl font-semibold">2×</div>
+        <div class="text-sm text-neutral-600 mt-1">Prácticas por sesión</div>
+      </div>
+    </div>
+    <p class="mt-3 text-sm text-neutral-500">
+      *Valores de referencia en pilotos; se recalibran en cada institución.
+    </p>
+  </div>
+
+  <!-- Recursos / Demos -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Recursos y demos</h3>
+    <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+      <li>Comparativa de plataformas VR / Metaverso</li>
+      <li>Demos en video e integraciones institucionales</li>
+      <li>Checklist de despliegue y adopción segura</li>
+    </ul>
+
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a
+        href={link("/recursos/comparativa-plataformas-vr.pdf")}
+        class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition"
+      >
+        Descargar comparativa
+      </a>
+      <a
+        href={link("/contacto?tema=vr")}
+        class="inline-flex items-center px-4 py-2 rounded-xl bg-indigo-600 text-white hover:bg-indigo-700 transition"
+      >
+        Solicitar demo
+      </a>
+    </div>
+  </div>
+</section>

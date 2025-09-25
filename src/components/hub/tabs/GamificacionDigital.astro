@@ -1,0 +1,65 @@
+---
+interface Props { lang?: string; dict?: any }
+const { lang = "es", dict = {} } = Astro.props as Props;
+
+// helper por si querés prefijar rutas con el idioma
+const link = (h?: string) => (!h ? h : h.startsWith("/") ? `/${lang}${h}` : h);
+
+// Si querés i18n, podés leer algo como:
+// const t = dict?.hub?.content?.gamificacion ?? {};
+// y usar t.title / t.summary / etc. Como ejemplo, dejo textos inline.
+---
+
+<section class="space-y-10">
+  <!-- Mini hero -->
+  <div class="rounded-2xl border p-6 bg-gradient-to-br from-blue-50 to-white">
+    <div class="flex items-center gap-3">
+      <div class="text-3xl">🎮</div>
+      <h2 class="text-2xl font-semibold">Laboratorio de Gamificación Digital</h2>
+    </div>
+    <p class="mt-3 text-neutral-700 max-w-2xl">
+      Diseñamos, prototipamos y evaluamos experiencias educativas gamificadas con docentes y equipos formativos.
+    </p>
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a href={link("/contacto?tema=gamificacion")} class="inline-flex items-center px-4 py-2 rounded-xl bg-blue-600 text-white hover:bg-blue-700 transition">
+        Solicitar asesoría
+      </a>
+      <a href={link("/recursos/guia-gamificacion.pdf")} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+        Descargar guía
+      </a>
+    </div>
+  </div>
+
+  <!-- Beneficios / casos -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Beneficios</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Más motivación y participación sostenida</li>
+        <li>Feedback inmediato y progreso visible</li>
+        <li>Resultados medibles con analíticas</li>
+      </ul>
+    </div>
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">Casos de uso</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        <li>Retos por equipos y misiones en LMS</li>
+        <li>Insignias, puntos y rankings</li>
+        <li>Microlearning gamificado</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Testimonios -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Testimonios</h3>
+    <div class="mt-3 grid md:grid-cols-2 gap-4">
+      <blockquote class="rounded-xl border p-4 bg-gray-50">
+        “Incrementamos 32% la participación en clase en 6 semanas.”
+      </blockquote>
+      <blockquote class="rounded-xl border p-4 bg-gray-50">
+        “Los tableros de logros mejoraron asistencia y clima de aula.”
+      </blockquote>
+    </div>
+  </div>
+</section>

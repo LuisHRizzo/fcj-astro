@@ -1,0 +1,167 @@
+---
+import { getTrans } from "../../i18n/utils";
+
+type FeatureKind = "radar" | "check" | "bolt" | "hand" | "shield" | "lab";
+type Feature = {
+  kind: FeatureKind;
+  titleKey?: string;
+  titleFallback: string;
+  descKey?: string;
+  descFallback: string;
+};
+
+type Props = {
+  lang?: string;
+  dict: any;
+  sectionId?: string;
+  overlineKey?: string;
+  titleKey?: string;
+  leadKey?: string;
+  ctaExploreHref?: string;
+  ctaExploreKey?: string;
+  ctaConsultHref?: string;
+  ctaConsultKey?: string;
+  features?: Feature[];
+};
+
+const {
+  lang = "es",
+  dict,
+  sectionId = "secure-tennet-soluciones",
+  overlineKey = "solutions.secureTennet.features.overline",
+  titleKey = "solutions.secureTennet.features.heading",
+  leadKey = "solutions.secureTennet.features.lead",
+  ctaExploreHref = `/${lang}/soluciones/secure-tennet/`,
+  ctaExploreKey = "solutions.secureTennet.features.ctaExplore",
+  ctaConsultHref = `/${lang}/contacto/`,
+  ctaConsultKey = "solutions.secureTennet.features.ctaConsult",
+  features,
+} = Astro.props as Props;
+
+const t = (k: string, fb?: string) => getTrans(dict, k, fb);
+
+// Utilidad para leer anidado desde dict con fallback
+const pick = (path: string, fallback: any) => {
+  const segs = path.split(".");
+  let cur: any = dict;
+  for (const s of segs) cur = cur?.[s];
+  return cur ?? fallback;
+};
+
+// Tomamos features crudos del i18n y mapeamos a nuestro tipo
+const raw = pick("solutions.secureTennet.features.items", []) as Array<{
+  icon: FeatureKind;
+  title: string;
+  desc: string;
+}>;
+
+const mappedFromI18n: Feature[] = raw.map((f) => ({
+  kind: f.icon,
+  titleFallback: f.title,
+  descFallback: f.desc,
+}));
+
+const defaultFeatures: Feature[] = mappedFromI18n.length
+  ? mappedFromI18n
+  : [
+      { kind: "radar",  titleFallback: "Monitoreo continuo",        descFallback: "Supervisión activa e IA para detección de amenazas y reglas configurables." },
+      { kind: "check",  titleFallback: "Compliance unificado",       descFallback: "Checklists y dashboards listos para GDPR, SOC2 y regulaciones locales." },
+      { kind: "bolt",   titleFallback: "Automatización de controles",descFallback: "Evidencia y reportes inmediatos, siempre audit-ready." },
+      { kind: "hand",   titleFallback: "Acompañamiento consultivo",  descFallback: "Soporte experto para adaptación normativa y mejora continua." },
+      { kind: "shield", titleFallback: "Protección de infra",        descFallback: "Cobertura para infraestructuras críticas y entornos federados/multipaís." },
+      { kind: "lab",    titleFallback: "Contexto I+D",               descFallback: "Certificación ágil para laboratorios y proyectos innovadores." },
+    ];
+
+const finalFeatures = features ?? defaultFeatures;
+---
+
+<section id={sectionId} class="py-12 md:py-16">
+  <div class="container mx-auto max-w-7xl px-4">
+    <div class="grid gap-10 md:grid-cols-2 lg:gap-16">
+      <!-- Columna izquierda: texto + CTAs -->
+      <div>
+        <p class="text-sm font-semibold text-neutral-500">
+          {t(overlineKey, "Solución")}
+        </p>
+        <h2 class="mt-2 text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight leading-tight max-w-2xl">
+          {t(titleKey, "Funcionalidades principales")}
+        </h2>
+        <p class="mt-5 max-w-xl text-neutral-600">
+          {t(
+            leadKey,
+            "Gobernanza y compliance centralizados con monitoreo, automatización y evidencia audit-ready."
+          )}
+        </p>
+
+        <div class="mt-8 flex flex-wrap gap-3">
+          <a href={ctaExploreHref} class="btn btn-outline">
+            {t(ctaExploreKey, "Explora")}
+          </a>
+          <a href={ctaConsultHref} class="link-arrow group">
+            {t(ctaConsultKey, "Consultar")}
+            <svg class="h-4 w-4 transition-transform group-hover:translate-x-0.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
+        </div>
+      </div>
+
+      <!-- Columna derecha: features -->
+      <div class="grid gap-5">
+        {finalFeatures.map((f: Feature) => (
+          <article
+            tabindex="0"
+            class="group card p-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-300"
+          >
+            <div class="flex items-start gap-4">
+              <div class="icon-box">
+                {f.kind === "radar" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"/><path d="M12 12l6-6M12 3v3M21 12h-3M12 21v-3M3 12h3"/>
+                  </svg>
+                )}
+                {f.kind === "check" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M20 6 9 17l-5-5"/>
+                  </svg>
+                )}
+                {f.kind === "bolt" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                    <path d="M13 2 3 14h7l-1 8 10-12h-7z"/>
+                  </svg>
+                )}
+                {f.kind === "hand" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M8 13V6a2 2 0 1 1 4 0v6"/>
+                    <path d="M12 12V6a2 2 0 1 1 4 0v6"/>
+                    <path d="M16 12V7a2 2 0 1 1 4 0v7a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5v-2"/>
+                  </svg>
+                )}
+                {f.kind === "shield" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="currentColor" aria-hidden="true">
+                    <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3z"/>
+                  </svg>
+                )}
+                {f.kind === "lab" && (
+                  <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                    <path d="M9 3v6l-5 9h16l-5-9V3"/>
+                    <path d="M7 13h10"/>
+                  </svg>
+                )}
+              </div>
+
+              <div>
+                <h3 class="text-xl font-bold">
+                  {t(f.titleKey ?? "", f.titleFallback)}
+                </h3>
+                <p class="mt-2 text-sm text-neutral-600">
+                  {t(f.descKey ?? "", f.descFallback)}
+                </p>
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

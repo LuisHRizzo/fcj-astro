@@ -1,9 +1,12 @@
 ---
 import BaseLayout from "../../../layouts/BaseLayout.astro";
+import AuditoriaHistoria from "../../../components/solutions/AuditoriaHistoria.astro";
+import ServiciosAuditoria from "../../../components/solutions/ServiciosAuditoria.astro";
+import SolucionesAuditoria from "../../../components/solutions/SolucionesAuditoria.astro";
+import CapacitacionAuditoria from "../../../components/solutions/CapacitacionAuditoria.astro";
+import Involucrate from "../../../components/Involucrate.astro";
 import { loadDict, getTrans } from "../../../i18n/utils";
 import { getStaticLocalePaths } from "../../../i18n/paths";
-import CTASection from "../../../components/solutions/CTASection.astro";
-import ResourcesList from "../../../components/solutions/ResourcesList.astro";
 
 export const getStaticPaths = getStaticLocalePaths;
 
@@ -11,16 +14,8 @@ const { lang = "es" } = Astro.params;
 const dict = await loadDict(lang);
 const t = (k: string, fb?: string) => getTrans(dict, k, fb);
 
-// helpers
-const get = (path, fb) => path.split('.').reduce((acc, k) => (acc && acc[k] != null ? acc[k] : null), dict) ?? fb;
-
-const problems  = get("solutions.auditPlatform.problems.items", []);
-const features  = get("solutions.auditPlatform.features.items", []);
-const tableCols = get("solutions.auditPlatform.segmentsTable.cols", []);
-const tableRows = get("solutions.auditPlatform.segmentsTable.rows", []);
-const diffs     = get("solutions.auditPlatform.diff.items", []);
-
 const heroImg = "/assets/auditoria-hero.png";
+
 ---
 <BaseLayout lang={lang} dict={dict}>
   <!-- HERO -->
@@ -53,173 +48,29 @@ const heroImg = "/assets/auditoria-hero.png";
   </section>
 
   <!-- MENSAJE CLAVE -->
-  <section class="py-10 md:py-12 bg-white">
-    <div class="container mx-auto max-w-7xl px-4">
-      <h2 class="text-2xl sm:text-3xl font-extrabold tracking-tight">
-        {t("solutions.auditPlatform.key.title")}
-      </h2>
-      <div class="mt-4 max-w-3xl space-y-4 text-neutral-700">
-        <p>{t("solutions.auditPlatform.key.p1")}</p>
-        <p>{t("solutions.auditPlatform.key.p2")}</p>
-      </div>
-    </div>
-  </section>
+  <AuditoriaHistoria lang={lang} dict={dict} />
+
 
   <!-- PROBLEMA CENTRAL -->
-  <section class="py-6 bg-white">
-    <div class="container mx-auto max-w-7xl px-4">
-      <h3 class="text-xl font-extrabold tracking-tight">{t("solutions.auditPlatform.problems.heading")}</h3>
-      <ul class="mt-3 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {problems.map((p) => (
-          <li class="rounded-xl border p-4 text-sm text-neutral-700">{p}</li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <ServiciosAuditoria lang={lang} dict={dict}/>
 
+ 
   <!-- SOLUCIÓN / FUNCIONALIDADES -->
-  <section class="py-10 md:py-12 bg-white">
-    <div class="container mx-auto max-w-7xl px-4">
-      <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight">
-        {t("solutions.auditPlatform.features.heading")}
-      </h3>
-      <div class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {features.map((f) => (
-          <article class="card p-6">
-            <div class="flex items-start gap-4">
-              <div class="icon-box">
-                {f.icon === "list"      && <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6h13M3 6h.01M8 12h13M3 12h.01M8 18h13M3 18h.01"/></svg>}
-                {f.icon === "flow"      && <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 7h6a3 3 0 0 1 3 3v4M5 17h6a3 3 0 0 0 3-3v-4"/><circle cx="5" cy="7" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="14" cy="10" r="2"/></svg>}
-                {f.icon === "report"    && <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h12l4 4v12H4z"/><path d="M16 4v4h4"/><path d="M8 15h8M8 11h5"/></svg>}
-                {f.icon === "engine"    && <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 2v4M14 2v4M4 10h16M4 14h16M4 18h16"/></svg>}
-                {f.icon === "dashboard" && <svg viewBox="0 0 24 24" class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="13" r="7"/><path d="M12 13l4-4M12 2v3"/></svg>}
-              </div>
-              <div>
-                <h4 class="text-lg font-bold leading-tight">{f.title}</h4>
-                <p class="mt-1 text-sm text-neutral-600">{f.desc}</p>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <!-- TABLA POR PÚBLICO -->
-  <section class="py-10 md:py-12 bg-white">
-    <div class="container mx-auto max-w-7xl px-4">
-      <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight">
-        {t("solutions.auditPlatform.segmentsTable.heading")}
-      </h3>
-      <div class="mt-4 overflow-x-auto rounded-2xl border">
-        <table class="min-w-full text-sm">
-          <thead class="bg-neutral-50 text-neutral-700">
-            <tr>
-              {tableCols.map((c) => (<th class="px-4 py-3 text-left font-semibold">{c}</th>))}
-            </tr>
-          </thead>
-          <tbody class="divide-y">
-            {tableRows.map((r) => (
-              <tr class="hover:bg-neutral-50">
-                {r.map((cell) => (<td class="px-4 py-3 align-top">{cell}</td>))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </section>
+  <SolucionesAuditoria lang={lang} dict={dict} />
 
   <!-- DIFERENCIAL -->
-  <section class="py-10 md:py-12 bg-white">
-    <div class="container mx-auto max-w-7xl px-4">
-      <h3 class="text-xl sm:text-2xl font-extrabold tracking-tight">
-        {t("solutions.auditPlatform.diff.heading")}
-      </h3>
-      <ul class="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-        {diffs.map((d) => (<li class="rounded-xl border p-4 text-sm text-neutral-700">{d}</li>))}
-      </ul>
-    </div>
-  </section>
+   <CapacitacionAuditoria lang={lang} dict={dict} />
 
   <!-- RECURSOS -->
-  <ResourcesList
+  <!-- <ResourcesList
     {lang} {dict}
     items={[
       { title: t("solutions.auditPlatform.resources.brief"),    href:`/${lang}/recursos/auditoria-resumen.pdf` },
       { title: t("solutions.auditPlatform.resources.ebook"),    href:`/${lang}/recursos/ebook-auditoria.pdf` },
       { title: t("solutions.auditPlatform.resources.checklist"),href:`/${lang}/recursos/checklist-auditoria.docx` }
     ]}
-  />
+  /> -->
 
-  <!-- FORM -->
-  <section class="py-12 md:py-16">
-    <div class="container mx-auto max-w-7xl px-4">
-      <div class="rounded-3xl border p-6 sm:p-8">
-        <h3 class="text-2xl font-extrabold tracking-tight">{t("solutions.auditPlatform.form.title")}</h3>
-        <p class="mt-2 text-neutral-600">{t("solutions.auditPlatform.form.lead")}</p>
+  <Involucrate {lang} {dict} />
 
-        <form class="mt-6 grid gap-4 md:grid-cols-2" data-audit-form data-mailto="info@cienciayjusticia.org" novalidate>
-          <div>
-            <label class="text-sm font-medium">{t("solutions.auditPlatform.form.name")}</label>
-            <input name="name" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label class="text-sm font-medium">{t("solutions.auditPlatform.form.email")}</label>
-            <input type="email" name="email" required class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label class="text-sm font-medium">{t("solutions.auditPlatform.form.org")}</label>
-            <input name="org" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" />
-          </div>
-          <div>
-            <label class="text-sm font-medium">{t("solutions.auditPlatform.form.type")}</label>
-            <input name="type" class="mt-1 w-full rounded-lg border px-3 py-2 text-sm" placeholder="GDPR / ENS / ISO / AI Act / Otro" />
-          </div>
-
-          <div class="md:col-span-2">
-            <button type="submit" data-submit class="btn btn-primary">{t("solutions.auditPlatform.form.submit")}</button>
-            <p class="mt-2 text-xs text-neutral-500" data-msg aria-live="polite"></p>
-          </div>
-
-          <!-- honeypot -->
-          <input type="text" name="company" tabindex="-1" autocomplete="off" class="hidden" />
-        </form>
-      </div>
-    </div>
-
-    <script is:inline>
-      (() => {
-        const section = document.currentScript && document.currentScript.closest('section');
-        const form = section && section.querySelector('[data-audit-form]');
-        if (!form) return;
-        const mailto = form.getAttribute('data-mailto') || 'info@cienciayjusticia.org';
-        const btn = form.querySelector('[data-submit]');
-        const msg = form.querySelector('[data-msg]');
-        const hp = form.querySelector('input[name="company"]');
-
-        form.addEventListener('submit', (e) => {
-          e.preventDefault();
-          if (hp && hp.value) return; // bot
-          const data = Object.fromEntries(new FormData(form).entries());
-          const subject = "Plataforma de Auditoría — Demo/Info";
-          const plain =
-            `Nombre: ${data.name || ''}\n` +
-            `Email: ${data.email || ''}\n` +
-            `Organización: ${data.org || ''}\n` +
-            `Tipo de auditoría: ${data.type || ''}`;
-          const body = encodeURIComponent(plain);
-          window.location.href = `mailto:${mailto}?subject=${encodeURIComponent(subject)}&body=${body}`;
-        });
-      })();
-    </script>
-  </section>
-
-  <!-- CTA FINAL -->
-  <CTASection
-    primaryLabel={t("solutions.auditPlatform.ctas.primary")}
-    primaryHref={`/${lang}/contacto/`}
-    secondaryLabel={t("solutions.auditPlatform.ctas.secondary")}
-    secondaryHref={`/${lang}/recursos/auditoria-resumen.pdf`}
-  />
 </BaseLayout>

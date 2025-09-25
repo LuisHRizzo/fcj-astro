@@ -1,0 +1,167 @@
+---
+interface Props { lang?: string; dict?: any }
+const { lang = "es", dict = {} } = Astro.props as Props;
+
+// Prefija rutas internas con /{lang}
+const link = (h?: string) => (!h ? h : h.startsWith("/") ? `/${lang}${h}` : h);
+
+// Textos (pueden venir de dict o usan fallback)
+const T = {
+  title:     dict?.title     ?? "Casos de Uso de IA & Machine Learning para el sector público",
+  subtitle:  dict?.subtitle  ?? "Convierte datos en decisiones inteligentes y mejores servicios ciudadanos",
+  summary:   dict?.summary   ?? "Mostramos casos reales de IA con métricas, testimonios y una demo interactiva para planificar pilotos de forma responsable (con privacidad, seguridad y auditoría).",
+  casesTitle:     dict?.casesTitle     ?? "Casos de uso",
+  cases:          dict?.cases ?? [
+    "Chatbots de atención ciudadana 24/7",
+    "Detección de fraude en pagos y subvenciones",
+    "Gestión predictiva de recursos y mantenimiento",
+    "Personalización de servicios y automatización documental",
+  ],
+  benefitsTitle:  dict?.benefitsTitle  ?? "Resultados y métricas",
+  benefits:       dict?.benefits ?? [
+    "Reducción de tiempos de respuesta",
+    "Aumento de automatizaciones exitosas",
+    "Mejora de satisfacción ciudadana",
+  ],
+  resourcesTitle: dict?.resourcesTitle ?? "Recursos y demo",
+  resources:      dict?.resources ?? [
+    "Whitepapers y guías de buenas prácticas",
+    "Demo de chatbot / dashboard de ejemplo",
+    "FAQ sobre adopción y ROI",
+  ],
+  faqTitle: dict?.faqTitle ?? "Preguntas frecuentes",
+  faq: dict?.faq ?? [
+    { q: "¿Qué procesos se pueden automatizar?", a: "Atención, clasificación, extracción de datos, predicción de demanda, entre otros." },
+    { q: "¿Qué requisitos técnicos necesito?",   a: "Fuentes de datos confiables, objetivos claros y responsables de proyecto." },
+    { q: "¿Cuál es el ROI esperado?",           a: "Se mide por ahorro de tiempo, reducción de errores y calidad del servicio." },
+  ],
+  ctaPrimary: {
+    label: dict?.ctaPrimary?.label ?? "Solicitar demo / evaluación",
+    href:  link(dict?.ctaPrimary?.href ?? "/contacto?tema=ia"),
+  },
+  ctaSecondary: {
+    label: dict?.ctaSecondary?.label ?? "Explorar casos",
+    href:  link(dict?.ctaSecondary?.href ?? "/casos-ia"),
+  },
+};
+---
+
+<section class="space-y-10">
+  <!-- Mini hero -->
+  <div class="rounded-2xl border p-6 bg-gradient-to-br from-sky-50 to-white">
+    <div class="flex items-center gap-3">
+      <div class="text-3xl">🧠</div>
+      <h2 class="text-2xl font-semibold">{T.title}</h2>
+    </div>
+
+    <p class="mt-3 text-neutral-700 max-w-3xl">{T.subtitle}</p>
+    <p class="mt-2 text-neutral-700 max-w-3xl">{T.summary}</p>
+
+    <div class="mt-4 flex flex-wrap gap-3">
+      <a href={T.ctaPrimary.href} class="inline-flex items-center px-4 py-2 rounded-xl bg-sky-600 text-white hover:bg-sky-700 transition">
+        {T.ctaPrimary.label}
+      </a>
+      <a href={T.ctaSecondary.href} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+        {T.ctaSecondary.label}
+      </a>
+    </div>
+  </div>
+
+  <!-- Casos y beneficios -->
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">{T.casesTitle}</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        {T.cases.map((c: string) => (<li>{c}</li>))}
+      </ul>
+    </div>
+
+    <div class="rounded-2xl border p-6">
+      <h3 class="text-xl font-medium">{T.benefitsTitle}</h3>
+      <ul class="mt-3 space-y-2 list-disc pl-5 text-neutral-700">
+        {T.benefits.map((b: string) => (<li>{b}</li>))}
+      </ul>
+    </div>
+  </div>
+
+  <!-- Cómo trabajamos -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">Cómo trabajamos</h3>
+    <ol class="mt-4 grid md:grid-cols-4 gap-4">
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">1. Descubrimiento</div>
+        <p class="mt-1 text-sm text-neutral-600">Identificación de procesos y KPIs.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">2. Datos & Ética</div>
+        <p class="mt-1 text-sm text-neutral-600">Calidad, privacidad y sesgos.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">3. Piloto</div>
+        <p class="mt-1 text-sm text-neutral-600">MVP medible con control humano.</p>
+      </li>
+      <li class="rounded-xl border p-4">
+        <div class="text-sm font-semibold text-neutral-700">4. Escalado</div>
+        <p class="mt-1 text-sm text-neutral-600">Monitoreo, auditoría y soporte.</p>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Demo / simulador -->
+  <div class="rounded-2xl border p-6 bg-sky-50">
+    <div class="md:flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="text-2xl">🤖</div>
+        <div>
+          <h3 class="text-xl font-semibold">Demo / simulador</h3>
+          <p class="text-neutral-700">Explorá un chatbot o un dashboard de ejemplo con datos ficticios.</p>
+        </div>
+      </div>
+      <div class="mt-4 md:mt-0">
+        <a href={link("/casos-ia")} class="inline-flex items-center px-4 py-2 rounded-xl bg-sky-600 text-white hover:bg-sky-700 transition">
+          Ver demo
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recursos -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">{T.resourcesTitle}</h3>
+    <ul class="mt-3 grid md:grid-cols-3 gap-4 text-neutral-700 list-disc pl-5">
+      {T.resources.map((r: string) => (<li>{r}</li>))}
+    </ul>
+  </div>
+
+  <!-- FAQ -->
+  <div class="rounded-2xl border p-6">
+    <h3 class="text-xl font-medium">{T.faqTitle}</h3>
+    <div class="mt-3 space-y-3">
+      {T.faq.map(({ q, a }: { q: string; a: string }) => (
+        <details class="group border rounded-xl">
+          <summary class="cursor-pointer p-3 font-medium">{q}</summary>
+          <div class="p-3 pt-0 text-sm text-neutral-600">{a}</div>
+        </details>
+      ))}
+    </div>
+  </div>
+
+  <!-- CTA final -->
+  <div class="rounded-2xl border p-6 bg-sky-50">
+    <div class="md:flex items-center justify-between gap-4">
+      <div>
+        <h3 class="text-xl font-semibold">¿Listos para evaluar un piloto de IA?</h3>
+        <p class="text-neutral-700">Te ayudamos a priorizar casos, estimar ROI y preparar datos de forma responsable.</p>
+      </div>
+      <div class="mt-4 md:mt-0 flex gap-3">
+        <a href={T.ctaPrimary.href} class="inline-flex items-center px-4 py-2 rounded-xl bg-sky-600 text-white hover:bg-sky-700 transition">
+          {T.ctaPrimary.label}
+        </a>
+        <a href={T.ctaSecondary.href} class="inline-flex items-center px-4 py-2 rounded-xl border border-gray-300 hover:bg-gray-50 transition">
+          {T.ctaSecondary.label}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+

@@ -1,0 +1,136 @@
+---
+import { getTrans } from "../../i18n/utils";
+import GamificacionDigital from "./tabs/GamificacionDigital.astro";
+import ExperienciasInmersivas from "./tabs/ExperienciasInmersivas.astro";
+import MVPLab from "./tabs/MVPLab.astro";
+import SandboxRegulatorio from "./tabs/SandboxRegulatorio.astro";
+import IAyML from "./tabs/IAyML.astro";
+import TransferenciaTecnologica from "./tabs/TransferenciaTecnologica.astro";
+
+// Props
+const { lang = "es", dict = {}, defaultTab = "gaming" } = Astro.props as any;
+const t = (k: string, fb?: any) => getTrans(dict, k, fb);
+
+// Para obtener un subárbol del JSON (no usar getTrans, que espera string):
+const getSection = (obj: any, path: string, fallback: any = {}) =>
+  path.split(".").reduce((o, k) => (o && k in o ? o[k] : undefined), obj) ?? fallback;
+
+type TabId = "gaming" | "vr" | "mvp" | "sandbox" | "ai" | "transfer";
+type TabCfg = { id: TabId; icon: string; label: string; component: any; dictKey: string };
+
+const L = (dict?.hub?.tabLabels ?? {}) as Record<string, string>;
+const tabs = [
+  { id: "gaming",   icon: "🎮", label: L.gaming   ?? "Gamificación Digital",       Comp: GamificacionDigital },
+  { id: "vr",       icon: "🥽", label: L.vr       ?? "Experiencias Inmersivas",     Comp: ExperienciasInmersivas },
+  { id: "mvp",      icon: "⚙️", label: L.mvp      ?? "MVP Lab",                     Comp: MVPLab },
+  { id: "sandbox",  icon: "⚖️", label: L.sandbox  ?? "Sandbox Regulatorio",         Comp: SandboxRegulatorio },
+  { id: "ai",       icon: "🧠", label: L.ai       ?? "IA & Machine Learning",       Comp: IAyML },
+  { id: "transfer", icon: "🌐", label: L.transfer ?? "Transferencia Tecnológica",   Comp: TransferenciaTecnologica },
+] as const;
+
+const order = tabs.map(t => t.id) as TabId[];
+const initial = order.includes(defaultTab) ? defaultTab : order[0];
+---
+
+<section id="hub"class="py-10 md:py-12 bg-white" data-tabs data-initial={initial}>
+  <div class="container mx-auto max-w-7xl px-4">
+    <!-- Cabecera de tabs -->
+    <div class="border-b">
+      <div role="tablist" aria-label="Hub de Innovación" class="flex gap-2 overflow-x-auto no-scrollbar">
+        {tabs.map((t) => {
+          const isActive = t.id === initial;
+          return (
+            <button
+              id={`tab-${t.id}`}
+              role="tab"
+              aria-selected={isActive ? "true" : "false"}
+              aria-controls={`panel-${t.id}`}
+              data-id={t.id}
+              type="button"
+              class={`relative px-4 py-3 text-sm whitespace-nowrap rounded-t-md focus:outline-none focus-visible:ring
+                      ${isActive ? "text-neutral-900" : "text-neutral-600 hover:text-neutral-900"}`}>
+              <span class="mr-2">{t.icon}</span>{t.label}
+              <span class={`absolute inset-x-2 -bottom-px h-[2px] transition
+                            ${isActive ? "bg-neutral-900" : "bg-transparent"}`} />
+            </button>
+          );
+        })}
+      </div>
+    </div>
+
+       <!-- Paneles -->
+    <div class="pt-6">
+      {tabs.map((t) => {
+        const isActive = t.id === initial;
+        const C = t.Comp;
+        return (
+          <div
+            id={`panel-${t.id}`}
+            role="tabpanel"
+            aria-labelledby={`tab-${t.id}`}
+            data-id={t.id}
+            data-open={isActive ? "true" : "false"}
+            class={`${isActive ? "" : "hidden"} transition`}>
+            <C {lang} {dict} />
+          </div>
+        );
+      })}
+    </div>
+  </div>
+
+  <style>
+    [data-tabs] [role="tabpanel"]{opacity:0;transform:translateY(4px);transition:opacity .18s ease,transform .18s ease}
+    [data-tabs] [role="tabpanel"][data-open="true"]{opacity:1;transform:none}
+    .no-scrollbar::-webkit-scrollbar{display:none}
+    .no-scrollbar{-ms-overflow-style:none;scrollbar-width:none}
+    .tab-underline{position:absolute;left:8px;right:8px;bottom:-1px;height:2px;background:transparent;transition:background-color .18s ease}
+    .tab-underline.on{background:currentColor}
+  </style>
+
+  <!-- JS inline para tabs (sin archivo externo ni rutas) -->
+  <script is:inline>
+    (() => {
+      const roots = document.querySelectorAll("[data-tabs]");
+      roots.forEach((root) => {
+        const initial = (root.getAttribute("data-initial") || "").trim();
+        const tabs = Array.from(root.querySelectorAll('[role="tab"]'));
+        const panels = Array.from(root.querySelectorAll('[role="tabpanel"]'));
+
+        function openTab(id) {
+          tabs.forEach((btn) => {
+            const on = btn.dataset.id === id;
+            btn.setAttribute("aria-selected", on ? "true" : "false");
+            btn.classList.toggle("text-neutral-900", on);
+            btn.classList.toggle("text-neutral-600", !on);
+            const u = btn.querySelector(".tab-underline");
+            if (u) u.classList.toggle("on", on);
+          });
+          panels.forEach((p) => {
+            const on = p.dataset.id === id;
+            p.dataset.open = on ? "true" : "false";
+            p.classList.toggle("hidden", !on);
+          });
+        }
+
+        tabs.forEach((btn, i) => {
+          btn.addEventListener("click", () => openTab(btn.dataset.id));
+          btn.addEventListener("keydown", (e) => {
+            if (!["ArrowRight","ArrowLeft","ArrowDown","ArrowUp","Home","End"].includes(e.key)) return;
+            e.preventDefault();
+            let n = i;
+            if (e.key === "ArrowRight" || e.key === "ArrowDown") n = (i + 1) % tabs.length;
+            if (e.key === "ArrowLeft"  || e.key === "ArrowUp")   n = (i - 1 + tabs.length) % tabs.length;
+            if (e.key === "Home") n = 0;
+            if (e.key === "End")  n = tabs.length - 1;
+            tabs[n].focus();
+            openTab(tabs[n].dataset.id);
+          });
+        });
+
+        // abrir la inicial
+        const first = initial || (tabs[0] && tabs[0].dataset.id);
+        if (first) openTab(first);
+      });
+    })();
+  </script>
+</section>
